@@ -978,7 +978,7 @@
         <div class="premium-card-body" style="padding: 20px;">
             <div class="table-container">
                 <div class="table-responsive">
-                    <table class="table table-striped mb-0 datatable" id="lastLoginTable">
+                    <table class="table table-striped mb-0 datatable " id="lastLoginTable">
                         <thead>
                             <tr>
                                 <th>

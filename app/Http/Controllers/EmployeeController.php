@@ -12,7 +12,7 @@ use App\Models\EmployeeDocument;
 use App\Mail\UserCreate;
 use App\Models\Plan;
 use App\Models\User;
-use App\Models\Office;
+use App\Models\Office;  
 use App\Models\Utility;
 use Carbon\Carbon;
 use File;

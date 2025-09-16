@@ -72,6 +72,11 @@
     .header-left {
         display: flex;
         align-items: center;
+        flex: 1;
+    }
+
+    .header-text {
+        flex: 1;
     }
 
     .header-icon {
@@ -111,6 +116,7 @@
         display: flex;
         align-items: center;
         gap: 30px;
+        flex-shrink: 0;
     }
 
     .stat-item {
@@ -823,14 +829,32 @@
         }
     }
 
+    @media (max-width: 992px) {
+        .header-content {
+            flex-direction: column;
+            gap: 25px;
+            text-align: center;
+        }
+
+        .header-left {
+            justify-content: center;
+        }
+
+        .header-stats {
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+    }
+
     @media (max-width: 768px) {
         .container-fluid {
             padding: 15px;
         }
 
         .page-header-premium {
-            padding: 25px;
+            padding: 20px;
             margin-bottom: 25px;
+            border-radius: 16px;
         }
 
         .header-content {
@@ -839,13 +863,60 @@
             text-align: center;
         }
 
+        .header-left {
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-icon {
+            width: 60px;
+            height: 60px;
+            margin-right: 0;
+            margin-bottom: 10px;
+        }
+
+        .header-icon i {
+            font-size: 28px;
+        }
+
+        .header-text {
+            text-align: center;
+        }
+
         .header-stats {
             flex-direction: row;
             gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            min-width: 100px;
         }
 
         .page-title-compact {
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle-compact {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .stat-number {
             font-size: 24px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+        }
+
+        .premium-btn {
+            padding: 10px 20px;
+            font-size: 13px;
+            border-radius: 10px;
         }
 
         .row-equal-height {
@@ -864,18 +935,90 @@
     }
 
     @media (max-width: 576px) {
+        .page-header-premium {
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .header-icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 8px;
+        }
+
+        .header-icon i {
+            font-size: 24px;
+        }
+
+        .page-title-compact {
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+
+        .page-subtitle-compact {
+            font-size: 13px;
+            padding: 0 10px;
+        }
+
         .header-stats {
             flex-direction: column;
             gap: 15px;
+            align-items: center;
         }
 
         .stat-item {
             min-width: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-number {
+            font-size: 22px;
+        }
+
+        .stat-label {
+            font-size: 11px;
         }
 
         .premium-btn {
-            padding: 10px 20px;
-            font-size: 14px;
+            padding: 8px 16px;
+            font-size: 12px;
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .premium-btn i {
+            font-size: 12px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-header-premium {
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .page-title-compact {
+            font-size: 20px;
+        }
+
+        .page-subtitle-compact {
+            font-size: 12px;
+        }
+
+        .header-icon {
+            width: 45px;
+            height: 45px;
+        }
+
+        .header-icon i {
+            font-size: 20px;
         }
     }
 
@@ -939,7 +1082,7 @@
                         <h1 class="page-title-compact">{{ __('Manage Companies') }}</h1>
                         <p class="page-subtitle-compact">{{ __('Manage and monitor company accounts and permissions') }}</p>
                     @else
-                        <h1 class="page-title-compact">{{ __('Manage Users') }}</h1>
+                        <h1 class="page-title-compact">{{ __('Manage Users') }} </h1>
                         <p class="page-subtitle-compact">{{ __('Manage and monitor user accounts and permissions') }}</p>
                     @endif
                 </div>

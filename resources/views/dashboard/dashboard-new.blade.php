@@ -9,10 +9,129 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
-       
+        /* CSS Custom Properties for Responsive Design */
+        :root {
+            /* Responsive Breakpoints */
+            --breakpoint-xs: 0px;
+            --breakpoint-sm: 576px;
+            --breakpoint-md: 768px;
+            --breakpoint-lg: 1024px;
+            --breakpoint-xl: 1400px;
+            
+            /* Responsive Spacing Scale */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            
+            /* Responsive Font Sizes */
+            --font-xs: 0.75rem;
+            --font-sm: 0.875rem;
+            --font-base: 1rem;
+            --font-lg: 1.125rem;
+            --font-xl: 1.25rem;
+            --font-2xl: 1.5rem;
+            --font-3xl: 1.875rem;
+            --font-4xl: 2.25rem;
+            
+            /* Container Widths */
+            --container-sm: 540px;
+            --container-md: 720px;
+            --container-lg: 960px;
+            --container-xl: 1140px;
+            --container-2xl: 1320px;
+            
+            /* Grid Gaps */
+            --grid-gap-xs: 12px;
+            --grid-gap-sm: 16px;
+            --grid-gap-md: 20px;
+            --grid-gap-lg: 24px;
+            --grid-gap-xl: 30px;
+            
+            /* Border Radius Scale */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-2xl: 24px;
+        }
+
+        /* Responsive Container Utilities */
+        .container-fluid {
+            width: 100%;
+            padding-left: var(--spacing-md);
+            padding-right: var(--spacing-md);
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (min-width: 576px) {
+            .container-fluid {
+                padding-left: var(--spacing-lg);
+                padding-right: var(--spacing-lg);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container-fluid {
+                padding-left: var(--spacing-xl);
+                padding-right: var(--spacing-xl);
+            }
+        }
+
+        /* Responsive Utility Classes */
+        .d-block { display: block; }
+        .d-flex { display: flex; }
+        .d-grid { display: grid; }
+        .d-none { display: none; }
+
+        @media (max-width: 575.98px) {
+            .d-xs-none { display: none !important; }
+            .d-xs-block { display: block !important; }
+            .d-xs-flex { display: flex !important; }
+        }
+
+        @media (min-width: 576px) and (max-width: 767.98px) {
+            .d-sm-none { display: none !important; }
+            .d-sm-block { display: block !important; }
+            .d-sm-flex { display: flex !important; }
+        }
+
+        @media (min-width: 768px) and (max-width: 1023.98px) {
+            .d-md-none { display: none !important; }
+            .d-md-block { display: block !important; }
+            .d-md-flex { display: flex !important; }
+        }
+
+        /* Responsive Spacing Utilities */
+        .p-responsive { padding: var(--spacing-md); }
+        .m-responsive { margin: var(--spacing-md); }
+        .gap-responsive { gap: var(--grid-gap-md); }
+
+        @media (max-width: 575.98px) {
+            .p-responsive { padding: var(--spacing-sm); }
+            .m-responsive { margin: var(--spacing-sm); }
+            .gap-responsive { gap: var(--grid-gap-xs); }
+        }
+
+        @media (min-width: 768px) {
+            .p-responsive { padding: var(--spacing-lg); }
+            .m-responsive { margin: var(--spacing-lg); }
+            .gap-responsive { gap: var(--grid-gap-lg); }
+        }
+
         .modern-dashboard {
             min-height: 100vh;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: var(--spacing-md);
+        }
+
+        @media (max-width: 575.98px) {
+            .modern-dashboard {
+                padding: var(--spacing-sm);
+            }
         }
 
         .page-header-compact {
@@ -22,9 +141,9 @@
                 rgba(96, 165, 250, 0.95) 100%);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 24px;
-            padding: 32px 40px;
-            margin-bottom: 32px;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg) var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
             box-shadow: 
                 0 32px 64px rgba(37, 99, 235, 0.3),
                 0 8px 32px rgba(0, 0, 0, 0.1),
@@ -33,6 +152,20 @@
             overflow: hidden;
             transform-style: preserve-3d;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @media (min-width: 576px) {
+            .page-header-compact {
+                padding: var(--spacing-xl) var(--spacing-lg);
+                border-radius: var(--radius-xl);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .page-header-compact {
+                padding: var(--spacing-xl) var(--spacing-2xl);
+                border-radius: var(--radius-2xl);
+            }
         }
 
         .page-header-compact::before {
@@ -83,10 +216,39 @@
         .page-header-compact .header-content {
             position: relative;
             z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: var(--spacing-md);
+        }
+
+        @media (min-width: 768px) {
+            .page-header-compact .header-content {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                text-align: left;
+            }
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            flex-direction: column;
+            text-align: center;
+        }
+
+        @media (min-width: 576px) {
+            .header-left {
+                flex-direction: row;
+                text-align: left;
+            }
         }
 
         .page-title-compact {
-            font-size: 2rem;
+            font-size: var(--font-xl);
             font-weight: 800;
             color: #fff;
             margin: 0;
@@ -95,24 +257,48 @@
             letter-spacing: -0.025em;
         }
 
+        @media (min-width: 576px) {
+            .page-title-compact {
+                font-size: var(--font-2xl);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .page-title-compact {
+                font-size: var(--font-3xl);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .page-title-compact {
+                font-size: var(--font-4xl);
+            }
+        }
+
         .page-subtitle-compact {
             color: rgba(255, 255, 255, 0.9);
-            margin: 6px 0 0 0;
-            font-size: 1rem;
+            margin: var(--spacing-xs) 0 0 0;
+            font-size: var(--font-sm);
             font-weight: 500;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
+        @media (min-width: 576px) {
+            .page-subtitle-compact {
+                font-size: var(--font-base);
+            }
+        }
+
         .header-icon {
-            width: 72px;
-            height: 72px;
+            width: 48px;
+            height: 48px;
             background: rgba(255, 255, 255, 0.15);
             border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
+            border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: var(--font-lg);
             color: white;
             backdrop-filter: blur(20px);
             box-shadow: 
@@ -121,6 +307,33 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 576px) {
+            .header-icon {
+                width: 56px;
+                height: 56px;
+                font-size: var(--font-xl);
+                border-radius: var(--radius-lg);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .header-icon {
+                width: 64px;
+                height: 64px;
+                font-size: var(--font-2xl);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .header-icon {
+                width: 72px;
+                height: 72px;
+                font-size: 1.8rem;
+                border-radius: var(--radius-xl);
+            }
         }
 
         .header-icon::before {
@@ -194,16 +407,33 @@
         .office-select {
             background: rgba(255,255,255,0.2);
             border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 12px;
-            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-sm) var(--spacing-md);
             color: white;
-            font-size: 14px;
+            font-size: var(--font-sm);
             font-weight: 500;
-            min-width: 180px;
+            min-width: 140px;
+            width: 100%;
+            max-width: 200px;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             position: relative;
             z-index: 2;
+        }
+
+        @media (min-width: 576px) {
+            .office-select {
+                width: auto;
+                min-width: 160px;
+                font-size: var(--font-base);
+                padding: var(--spacing-md) var(--spacing-lg);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .office-select {
+                min-width: 180px;
+            }
         }
 
         .office-select:hover {
@@ -218,25 +448,70 @@
             padding: 10px;
         }
 
-        /* HRMS Metrics Grid - Exact Match */
+        /* HRMS Metrics Grid - Enhanced Responsive */
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: 1fr;
+            gap: var(--grid-gap-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        @media (min-width: 576px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--grid-gap-lg);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .metrics-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .metrics-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: var(--grid-gap-xl);
+            }
         }
 
         .metric-card-modern {
             background: white;
-            border-radius: 12px;
-            padding: 16px 20px; /* Reduced from 20px */
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md) var(--spacing-lg);
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             border-left: 4px solid;
             position: relative;
             display: flex;
             align-items: center;
-            min-height: 80px; /* Reduced from 100px */
+            min-height: 70px;
             transition: all 0.3s ease;
+        }
+
+        @media (min-width: 576px) {
+            .metric-card-modern {
+                min-height: 80px;
+                padding: var(--spacing-lg) var(--spacing-xl);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .metric-card-modern {
+                min-height: 90px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .metric-card-modern {
+                min-height: 100px;
+            }
         }
 
         .metric-card-modern:hover {
@@ -261,15 +536,43 @@
         }
 
         .metric-icon {
-            width: 45px; /* Reduced from 50px */
-            height: 45px; /* Reduced from 50px */
-            border-radius: 10px; /* Reduced from 12px */
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px; /* Reduced from 20px */
+            font-size: var(--font-base);
             color: white;
-            margin-right: 12px; /* Reduced from 15px */
+            margin-right: var(--spacing-sm);
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 576px) {
+            .metric-icon {
+                width: 40px;
+                height: 40px;
+                font-size: var(--font-lg);
+                margin-right: var(--spacing-md);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .metric-icon {
+                width: 45px;
+                height: 45px;
+                font-size: var(--font-xl);
+                border-radius: var(--radius-md);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .metric-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.25rem;
+                margin-right: var(--spacing-lg);
+            }
         }
 
         .present-icon { 
@@ -293,81 +596,213 @@
         }
 
         .metric-label {
-            font-size: 10px; /* Reduced from 11px */
+            font-size: var(--font-xs);
             font-weight: 600;
             color: #8b9dc3;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 3px; /* Reduced from 5px */
+            margin-bottom: var(--spacing-xs);
+        }
+
+        @media (min-width: 576px) {
+            .metric-label {
+                font-size: 10px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .metric-label {
+                font-size: 11px;
+            }
         }
 
         .metric-number {
-            font-size: 28px; /* Reduced from 32px */
+            font-size: var(--font-2xl);
             font-weight: 700;
             color: #2d3748;
-            margin-bottom: 4px; /* Reduced from 5px */
+            margin-bottom: var(--spacing-xs);
             line-height: 1;
         }
 
+        @media (min-width: 576px) {
+            .metric-number {
+                font-size: 1.75rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .metric-number {
+                font-size: 2rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .metric-number {
+                font-size: 2.25rem;
+            }
+        }
+
         .metric-growth {
-            font-size: 12px;
+            font-size: var(--font-xs);
             font-weight: 500;
             color: #10b981;
         }
 
-        /* Leave Breakdown Styles */
+        @media (min-width: 576px) {
+            .metric-growth {
+                font-size: var(--font-sm);
+            }
+        }
+
+        /* Leave Breakdown Styles - Enhanced Responsive */
         .leave-breakdown {
             display: flex;
-            flex-direction: row-reverse;
-            gap: 4px;
-            margin-top: 8px;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            margin-top: var(--spacing-sm);
+        }
+
+        @media (min-width: 576px) {
+            .leave-breakdown {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: var(--spacing-sm);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .leave-breakdown {
+                flex-direction: row-reverse;
+                gap: var(--spacing-xs);
+            }
         }
 
         .leave-type-item {
             display: flex;
             align-items: center;
-            font-size: 10px; /* Reduced from 11px */
+            justify-content: space-between;
+            font-size: var(--font-xs);
             font-weight: 600;
-            gap: 4px; /* Space between label and count */
+            gap: var(--spacing-xs);
+            padding: var(--spacing-xs) 0;
+        }
+
+        @media (min-width: 576px) {
+            .leave-type-item {
+                justify-content: flex-start;
+                padding: 0;
+                flex: 1;
+                min-width: 0;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .leave-type-item {
+                flex: none;
+                font-size: 10px;
+            }
         }
 
         .leave-type-label {
             color: #8b9dc3;
             text-transform: uppercase;
             letter-spacing: 0.3px;
-            white-space: nowrap; /* Prevent text wrapping */
+            white-space: nowrap;
+            font-size: inherit;
         }
 
         .leave-type-count {
             color: #26c6da;
             font-weight: 700;
             background: rgba(38, 198, 218, 0.1);
-            padding: 1px 4px; /* Reduced padding */
-            border-radius: 6px; /* Reduced from 8px */
-            min-width: 16px; /* Reduced from 20px */
+            padding: 2px var(--spacing-xs);
+            border-radius: var(--radius-sm);
+            min-width: 18px;
             text-align: center;
-            font-size: 9px; /* Slightly smaller font */
+            font-size: var(--font-xs);
+            flex-shrink: 0;
         }
 
-        /* Enhanced Dashboard Content */
+        @media (min-width: 768px) {
+            .leave-type-count {
+                min-width: 16px;
+                padding: 1px var(--spacing-xs);
+                font-size: 9px;
+            }
+        }
+
+        /* Enhanced Dashboard Content - Responsive */
         .dashboard-content {
             display: grid;
-            gap: 35px;
+            gap: var(--spacing-lg);
+        }
+
+        @media (min-width: 768px) {
+            .dashboard-content {
+                gap: var(--spacing-xl);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .dashboard-content {
+                gap: 35px;
+            }
         }
 
         .dashboard-row {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 30px;
+            grid-template-columns: 1fr;
+            gap: var(--grid-gap-lg);
+        }
+
+        @media (min-width: 768px) {
+            .dashboard-row {
+                grid-template-columns: 1fr;
+                gap: var(--grid-gap-xl);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .dashboard-row {
+                grid-template-columns: 1fr 1fr;
+                gap: var(--spacing-xl);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .dashboard-row {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 30px;
+            }
         }
 
         .dashboard-widget {
             background: white;
-            border-radius: 20px;
+            border-radius: var(--radius-lg);
             box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             border: 1px solid rgba(255,255,255,0.2);
             overflow: hidden;
             transition: all 0.3s ease;
+            min-height: 300px;
+        }
+
+        @media (min-width: 576px) {
+            .dashboard-widget {
+                min-height: 350px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .dashboard-widget {
+                min-height: 400px;
+                border-radius: var(--radius-xl);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .dashboard-widget {
+                min-height: 450px;
+            }
         }
 
         .dashboard-widget:hover {
@@ -376,19 +811,54 @@
         }
 
         .widget-header {
-            padding: 25px 30px;
+            padding: var(--spacing-lg) var(--spacing-lg);
             border-bottom: 1px solid #f1f5f9;
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+
+        @media (min-width: 576px) {
+            .widget-header {
+                padding: var(--spacing-xl) var(--spacing-xl);
+                flex-wrap: nowrap;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .widget-header {
+                padding: 25px 30px;
+            }
         }
 
         .widget-header h2 {
-            font-size: 20px;
+            font-size: var(--font-lg);
             font-weight: 700;
             color: #2d3748;
             margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+            min-width: 0;
+        }
+
+        @media (min-width: 576px) {
+            .widget-header h2 {
+                font-size: var(--font-xl);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .widget-header h2 {
+                font-size: 20px;
+                white-space: normal;
+                overflow: visible;
+                text-overflow: unset;
+            }
         }
 
         .small-text {
@@ -400,55 +870,210 @@
         }
 
         .widget-body {
-            /* min-height: 450px; */
             display: flex;
             flex-direction: column;
+            padding: var(--spacing-md);
+            flex: 1;
+        }
+
+        @media (min-width: 576px) {
+            .widget-body {
+                padding: var(--spacing-lg);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .widget-body {
+                padding: var(--spacing-xl);
+            }
         }
 
         /* Specific height for Employee Attendance Status */
         .employee-attendance-widget .widget-body {
-            /* height: 424px;
-            min-height: 424px;
-            max-height: 424px; */
+            padding: var(--spacing-md);
+        }
+
+        @media (min-width: 576px) {
+            .employee-attendance-widget .widget-body {
+                padding: var(--spacing-lg);
+            }
         }
 
         .employee-attendance-widget .table-container {
-            max-height: 300px;
+            max-height: 200px;
             flex: 1;
         }
 
-        /* Enhanced Table Styling */
-        .table-container {
-            max-height: 350px;
-            overflow-y: auto;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            background: white;
+        @media (min-width: 576px) {
+            .employee-attendance-widget .table-container {
+                max-height: 250px;
+            }
         }
 
+        @media (min-width: 768px) {
+            .employee-attendance-widget .table-container {
+                max-height: 300px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .employee-attendance-widget .table-container {
+                max-height: 350px;
+            }
+        }
+
+        /* Enhanced Table Styling - Mobile Optimized */
+        .table-container {
+            max-height: 250px;
+            overflow-y: auto;
+            overflow-x: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-lg);
+            background: white;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            position: relative;
+            /* Enhanced touch scrolling momentum */
+            overscroll-behavior: contain;
+            scroll-snap-type: y proximity;
+        }
+
+        @media (min-width: 576px) {
+            .table-container {
+                max-height: 300px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .table-container {
+                max-height: 350px;
+                overflow-x: visible;
+            }
+        }
+
+        /* Enhanced scrollbar for touch devices */
         .table-container::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
+            height: 8px;
+        }
+
+        @media (max-width: 767.98px) {
+            .table-container::-webkit-scrollbar {
+                width: 6px;
+                height: 6px;
+            }
         }
 
         .table-container::-webkit-scrollbar-track {
             background: #f1f5f9;
-            border-radius: 3px;
+            border-radius: var(--radius-sm);
         }
 
         .table-container::-webkit-scrollbar-thumb {
             background: #cbd5e0;
-            border-radius: 3px;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            border: 1px solid #e2e8f0;
         }
 
         .table-container::-webkit-scrollbar-thumb:hover {
             background: #a0aec0;
+            border-color: #cbd5e0;
+        }
+
+        .table-container::-webkit-scrollbar-thumb:active {
+            background: #718096;
+            border-color: #a0aec0;
+        }
+
+        /* Touch-friendly scroll indicators with improved visibility */
+        .table-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(to left, rgba(255,255,255,0.9), transparent);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+        .table-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(to top, rgba(255,255,255,0.9), transparent);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+        @media (max-width: 767.98px) {
+            .table-container.scrollable-horizontal::before {
+                opacity: 1;
+            }
+            
+            .table-container.scrollable-vertical::after {
+                opacity: 1;
+            }
+        }
+
+        /* Scroll momentum enhancement for mobile */
+        @media (max-width: 767.98px) {
+            .table-container {
+                scroll-snap-type: none;
+                -webkit-overflow-scrolling: touch;
+                /* Enhanced momentum scrolling */
+                scroll-behavior: auto;
+                /* Improve scroll performance */
+                will-change: scroll-position;
+                transform: translateZ(0);
+            }
+            
+            /* Visual feedback during scroll */
+            .table-container.is-scrolling {
+                border-color: #3b82f6;
+                transition: border-color 0.2s ease;
+            }
+        }
+
+        /* Scroll momentum visual indicators */
+        .table-container::before {
+            transition: opacity 0.3s ease, background 0.2s ease;
+        }
+
+        .table-container::after {
+            transition: opacity 0.3s ease, background 0.2s ease;
+        }
+
+        /* Enhanced scroll indicators during active scrolling */
+        .table-container.is-scrolling.scrollable-horizontal::before {
+            background: linear-gradient(to left, rgba(59, 130, 246, 0.1), transparent);
+        }
+
+        .table-container.is-scrolling.scrollable-vertical::after {
+            background: linear-gradient(to top, rgba(59, 130, 246, 0.1), transparent);
         }
 
         .table {
             margin-bottom: 0;
             width: 100%;
+            min-width: 300px;
             border-collapse: collapse;
+        }
+
+        @media (min-width: 768px) {
+            .table {
+                min-width: 100%;
+            }
         }
 
         .table thead th {
@@ -456,21 +1081,84 @@
             color: white;
             border: none;
             font-weight: 700;
-            padding: 18px 20px;
-            font-size: 14px;
+            padding: var(--spacing-md) var(--spacing-xs);
+            font-size: var(--font-xs);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             position: sticky;
             top: 0;
             z-index: 10;
+            white-space: nowrap;
+            /* Enhanced sticky behavior */
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+        }
+
+        @media (min-width: 576px) {
+            .table thead th {
+                padding: var(--spacing-md) var(--spacing-sm);
+                font-size: 10px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .table thead th {
+                padding: var(--spacing-lg) var(--spacing-lg);
+                font-size: var(--font-sm);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .table thead th {
+                padding: 18px 20px;
+                font-size: 14px;
+            }
+        }
+
+        /* Enhanced sticky header behavior for orientation changes */
+        @media screen and (orientation: landscape) and (max-width: 1024px) {
+            .table thead th {
+                padding: var(--spacing-sm) var(--spacing-xs);
+                font-size: var(--font-xs);
+            }
         }
 
         .table tbody td {
-            padding: 10px 20px;
+            padding: var(--spacing-sm) var(--spacing-xs);
             vertical-align: middle;
             border-bottom: 1px solid #f1f5f9;
-            font-size: 15px;
+            font-size: var(--font-xs);
             font-weight: 500;
+            white-space: nowrap;
+            line-height: 1.4;
+            color: #4a5568;
+            /* Enhanced touch target for mobile */
+            min-height: 44px;
+        }
+
+        @media (min-width: 576px) {
+            .table tbody td {
+                padding: var(--spacing-sm) var(--spacing-sm);
+                font-size: var(--font-sm);
+                min-height: 48px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .table tbody td {
+                padding: var(--spacing-md) var(--spacing-lg);
+                font-size: var(--font-base);
+                white-space: normal;
+                min-height: 52px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .table tbody td {
+                padding: 15px 20px;
+                font-size: 15px;
+                min-height: 56px;
+            }
         }
 
         .table tbody tr {
@@ -479,20 +1167,138 @@
 
         .table tbody tr:hover {
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            transform: scale(1.01);
         }
 
-        /* HRMS Status Badges - Exact Match */
+        @media (min-width: 768px) {
+            .table tbody tr:hover {
+                transform: scale(1.01);
+            }
+        }
+
+        /* Enhanced touch-friendly row highlighting and feedback */
+        @media (max-width: 767.98px) {
+            .table tbody tr:active,
+            .table tbody tr.touch-active {
+                background: #f1f5f9;
+                transform: scale(0.98);
+            }
+            
+            .table tbody tr.touch-feedback {
+                background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+                transform: scale(1.01);
+                transition: all 0.2s ease;
+            }
+        }
+
+        /* Scrolling state indicators */
+        .table-container.is-scrolling {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .table-container.is-scrolling::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+        }
+
+        /* Enhanced scroll indicators visibility during scrolling */
+        .table-container.is-scrolling::before,
+        .table-container.is-scrolling::after {
+            opacity: 1 !important;
+        }
+
+        /* Improved touch target sizing for mobile */
+        @media (max-width: 767.98px) {
+            .table tbody tr {
+                min-height: 44px;
+            }
+            
+            .table tbody td {
+                position: relative;
+            }
+            
+            /* Ensure touch targets meet accessibility guidelines */
+            .table tbody td .status-badge {
+                margin: 2px 0;
+            }
+        }
+
+        /* Landscape orientation optimizations */
+        @media screen and (orientation: landscape) and (max-height: 600px) {
+            .table-container {
+                max-height: 200px;
+            }
+            
+            .employee-attendance-widget .table-container {
+                max-height: 180px;
+            }
+            
+            .table thead th {
+                padding: var(--spacing-xs) var(--spacing-xs);
+                font-size: 9px;
+            }
+            
+            .table tbody td {
+                padding: var(--spacing-xs) var(--spacing-xs);
+                font-size: 10px;
+                min-height: 36px;
+            }
+        }
+
+        /* HRMS Status Badges - Mobile Optimized */
         .status-badge {
-            padding: 6px 12px;
-            font-size: 11px;
+            padding: 4px var(--spacing-xs);
+            font-size: 9px;
             font-weight: 600;
-            border-radius: 15px;
+            border-radius: var(--radius-sm);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.2px;
             display: inline-block;
-            min-width: 70px;
+            min-width: 40px;
             text-align: center;
+            white-space: nowrap;
+            /* Enhanced touch target */
+            min-height: 24px;
+            line-height: 1.2;
+            transition: all 0.2s ease;
+        }
+
+        @media (min-width: 576px) {
+            .status-badge {
+                padding: var(--spacing-xs) var(--spacing-sm);
+                font-size: var(--font-xs);
+                min-width: 50px;
+                min-height: 28px;
+                letter-spacing: 0.3px;
+                border-radius: var(--radius-md);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .status-badge {
+                padding: var(--spacing-xs) var(--spacing-md);
+                font-size: 10px;
+                min-width: 60px;
+                min-height: 32px;
+                letter-spacing: 0.4px;
+                border-radius: var(--radius-lg);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .status-badge {
+                padding: 6px 12px;
+                font-size: 11px;
+                min-width: 70px;
+                min-height: 36px;
+                letter-spacing: 0.5px;
+                border-radius: 15px;
+            }
+        }
+
+        /* Enhanced mobile touch feedback */
+        @media (max-width: 767.98px) {
+            .status-badge:active {
+                transform: scale(0.95);
+            }
         }
 
         .status-badge.present {
@@ -971,25 +1777,23 @@
     
     <div class="modern-dashboard">
         <div class="page-header-compact">
-            <div class="header-content d-flex justify-content-between align-items-center">
-                <div class="col-md-6 d-flex">
+            <div class="header-content">
+                <div class="header-left">
                     <div class="header-icon">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
-                    <div class="ml-3">
+                    <div class="header-text">
                         <h1 class="page-title-compact">Welcome back, {{ Auth::user()->name ?? 'Administrator' }}</h1>
                         <p class="page-subtitle-compact">{{ __('Monitor your HRMS platform performance and growth metrics') }}</p>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="premium-actions float-right">
-                        <select class="office-select" id="office-filter" name="office">
-                            <option value="all" selected>All Offices</option>
-                            @foreach($offices as $office)
-                                <option value="{{ $office->id }}">{{ $office->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                <div class="header-right">
+                    <select class="office-select" id="office-filter" name="office">
+                        <option value="all" selected>All Offices</option>
+                        @foreach($offices as $office)
+                            <option value="{{ $office->id }}">{{ $office->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
         </div>
@@ -1900,6 +2704,190 @@
                 if (dashboardCharts.attendanceBreakdown) dashboardCharts.attendanceBreakdown.resize();
                 if (dashboardCharts.employeeStatus) dashboardCharts.employeeStatus.resize();
             }, 100);
+        });
+
+        // Enhanced Table Touch and Scroll Experience
+        function initializeTableTouchExperience() {
+            const tableContainers = document.querySelectorAll('.table-container');
+            
+            tableContainers.forEach(container => {
+                let isScrolling = false;
+                let scrollTimeout;
+                
+                // Add scroll indicators based on content overflow
+                function updateScrollIndicators() {
+                    const hasHorizontalScroll = container.scrollWidth > container.clientWidth;
+                    const hasVerticalScroll = container.scrollHeight > container.clientHeight;
+                    
+                    if (hasHorizontalScroll) {
+                        container.classList.add('scrollable-horizontal');
+                    } else {
+                        container.classList.remove('scrollable-horizontal');
+                    }
+                    
+                    if (hasVerticalScroll) {
+                        container.classList.add('scrollable-vertical');
+                    } else {
+                        container.classList.remove('scrollable-vertical');
+                    }
+                }
+                
+                // Enhanced momentum scrolling for touch devices
+                let touchStartY = 0;
+                let touchStartX = 0;
+                let velocityY = 0;
+                let velocityX = 0;
+                let lastTouchY = 0;
+                let lastTouchX = 0;
+                let lastTouchTime = 0;
+                
+                container.addEventListener('touchstart', function(e) {
+                    touchStartY = e.touches[0].clientY;
+                    touchStartX = e.touches[0].clientX;
+                    lastTouchY = touchStartY;
+                    lastTouchX = touchStartX;
+                    lastTouchTime = Date.now();
+                    velocityY = 0;
+                    velocityX = 0;
+                    
+                    // Stop any ongoing momentum
+                    container.style.scrollBehavior = 'auto';
+                }, { passive: true });
+                
+                container.addEventListener('touchmove', function(e) {
+                    const currentTime = Date.now();
+                    const currentY = e.touches[0].clientY;
+                    const currentX = e.touches[0].clientX;
+                    const deltaTime = currentTime - lastTouchTime;
+                    
+                    if (deltaTime > 0) {
+                        velocityY = (currentY - lastTouchY) / deltaTime;
+                        velocityX = (currentX - lastTouchX) / deltaTime;
+                    }
+                    
+                    lastTouchY = currentY;
+                    lastTouchX = currentX;
+                    lastTouchTime = currentTime;
+                }, { passive: true });
+                
+                container.addEventListener('touchend', function(e) {
+                    // Apply momentum scrolling
+                    const momentumY = velocityY * 100;
+                    const momentumX = velocityX * 100;
+                    
+                    if (Math.abs(momentumY) > 10 || Math.abs(momentumX) > 10) {
+                        container.style.scrollBehavior = 'smooth';
+                        
+                        // Apply momentum with easing
+                        const targetScrollTop = Math.max(0, Math.min(
+                            container.scrollHeight - container.clientHeight,
+                            container.scrollTop - momentumY
+                        ));
+                        
+                        const targetScrollLeft = Math.max(0, Math.min(
+                            container.scrollWidth - container.clientWidth,
+                            container.scrollLeft - momentumX
+                        ));
+                        
+                        container.scrollTo({
+                            top: targetScrollTop,
+                            left: targetScrollLeft,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, { passive: true });
+                
+                // Scroll event handling
+                container.addEventListener('scroll', function() {
+                    isScrolling = true;
+                    
+                    // Clear existing timeout
+                    clearTimeout(scrollTimeout);
+                    
+                    // Add scrolling class for visual feedback
+                    container.classList.add('is-scrolling');
+                    
+                    // Remove scrolling class after scroll ends
+                    scrollTimeout = setTimeout(() => {
+                        isScrolling = false;
+                        container.classList.remove('is-scrolling');
+                    }, 150);
+                    
+                    updateScrollIndicators();
+                }, { passive: true });
+                
+                // Initialize scroll indicators
+                updateScrollIndicators();
+                
+                // Update on window resize
+                window.addEventListener('resize', updateScrollIndicators);
+                
+                // Enhanced table row touch feedback
+                const tableRows = container.querySelectorAll('tbody tr');
+                tableRows.forEach(row => {
+                    let touchStartTime = 0;
+                    
+                    row.addEventListener('touchstart', function() {
+                        touchStartTime = Date.now();
+                        this.classList.add('touch-active');
+                    }, { passive: true });
+                    
+                    row.addEventListener('touchend', function() {
+                        const touchDuration = Date.now() - touchStartTime;
+                        
+                        // Only apply touch feedback for quick taps
+                        if (touchDuration < 200) {
+                            this.classList.add('touch-feedback');
+                            setTimeout(() => {
+                                this.classList.remove('touch-feedback');
+                            }, 200);
+                        }
+                        
+                        this.classList.remove('touch-active');
+                    }, { passive: true });
+                    
+                    row.addEventListener('touchcancel', function() {
+                        this.classList.remove('touch-active');
+                    }, { passive: true });
+                });
+            });
+        }
+        
+        // Orientation change handling for better table layout
+        function handleOrientationChange() {
+            const tableContainers = document.querySelectorAll('.table-container');
+            
+            tableContainers.forEach(container => {
+                // Force reflow to handle orientation changes
+                container.style.display = 'none';
+                container.offsetHeight; // Trigger reflow
+                container.style.display = '';
+                
+                // Update scroll indicators after orientation change
+                setTimeout(() => {
+                    const hasHorizontalScroll = container.scrollWidth > container.clientWidth;
+                    const hasVerticalScroll = container.scrollHeight > container.clientHeight;
+                    
+                    container.classList.toggle('scrollable-horizontal', hasHorizontalScroll);
+                    container.classList.toggle('scrollable-vertical', hasVerticalScroll);
+                }, 100);
+            });
+        }
+        
+        // Initialize table touch experience when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTableTouchExperience();
+        });
+        
+        // Handle orientation changes
+        window.addEventListener('orientationchange', function() {
+            setTimeout(handleOrientationChange, 100);
+        });
+        
+        // Handle window resize for responsive table behavior
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(handleOrientationChange, 100);
         });
     </script>
 @endsection
