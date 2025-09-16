@@ -2,11 +2,14 @@
 node_modules/
 npm-debug.log
 yarn-error.log
+<<<<<<< HEAD
 /public/build
 /nova
 /.nova
 
 
+=======
+>>>>>>> af5ca5a8ee995c3d6ee23bc0e5051dec269204d7
 
 # Laravel 4 specific
 bootstrap/compiled.php
@@ -29,16 +32,20 @@ Homestead.json
 
 /public/build
 /storage/pail
+<<<<<<< HEAD
 /storage/framework/cache/*
 /storage/framework/sessions/*
 /storage/framework/views/*
 /storage/logs/*.log
 /storage/temp/
 /storage/public/*
+=======
+>>>>>>> af5ca5a8ee995c3d6ee23bc0e5051dec269204d7
 .env.backup
 .env.production
 .phpactor.json
 auth.json
+<<<<<<< HEAD
 
 # IDE files
 .kiro/
@@ -76,3 +83,5 @@ _ide_helper_models.php
 *.bak
 *.tmp
 *.orig
+=======
+>>>>>>> af5ca5a8ee995c3d6ee23bc0e5051dec269204d7
