@@ -1,0 +1,264 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Branch;
+use App\Models\Employee;
+use App\Models\CompanyPolicy;
+use App\Models\Acknowledge;
+use Illuminate\Http\Request;
+use App\Models\Utility;
+use Illuminate\Support\Facades\Validator;
+
+class CompanyPolicyController extends Controller
+{
+
+    public function index()
+    {
+        if (\Auth::user()->can('Manage Company Policy') || \Auth::user()->type == 'employee') {
+            $companyPolicy = CompanyPolicy::where('created_by', '=', \Auth::user()->creatorId())->get();
+            return view('companyPolicy.index', compact('companyPolicy'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+
+    public function create()
+    {
+        if (\Auth::user()->can('Create Company Policy')) {
+            $branches = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            // $branches->prepend('Select Branch', '');
+
+            return view('companyPolicy.create', compact('branches'));
+        } else {
+            return response()->json(['error' => __('Permission denied.')], 401);
+        }
+    }
+
+
+    public function store(Request $request)
+    {
+
+        if (\Auth::user()->can('Create Company Policy')) {
+            $validator = \Validator::make(
+                $request->all(),
+                [
+                    'branch' => 'required',
+                    'title' => 'required',
+                    'attachment' => 'mimes:jpeg,png,jpg,gif,pdf,doc,zip|max:20480',
+                ]
+            );
+            if ($validator->fails()) {
+                $messages = $validator->getMessageBag();
+
+                return redirect()->back()->with('error', $messages->first());
+            }
+
+            // if (!empty($request->attachment)) {
+            //     $filenameWithExt = $request->file('attachment')->getClientOriginalName();
+            //     $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            //     $extension       = $request->file('attachment')->getClientOriginalExtension();
+            //     $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+            //     $dir             = storage_path('app/public/uploads/companyPolicy/');
+
+            //     if (!file_exists($dir)) {
+            //         mkdir($dir, 0777, true);
+            //     }
+            //     $path = $request->file('attachment')->storeAs('app/public/uploads/companyPolicy/', $fileNameToStore);
+            // }
+
+                    if (!empty($request->attachment)) {
+                        $filenameWithExt = $request->file('attachment')->getClientOriginalName();
+                        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                        $extension = $request->file('attachment')->getClientOriginalExtension();
+                        $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+                        
+                        // Change directory to public/companyPolicy
+                        $dir = public_path('companyPolicy/');
+
+                        // Create directory if it doesn't exist
+                        if (!file_exists($dir)) {
+                            mkdir($dir, 0777, true);
+                        }
+
+                        // Move uploaded file to public directory
+                        $request->file('attachment')->move($dir, $fileNameToStore);
+                    }
+
+       
+
+            $policy              = new CompanyPolicy();
+            $policy->branch      = $request->branch;
+            $policy->title       = $request->title;
+            $policy->description = $request->description;
+            $policy->attachment  = !empty($request->attachment) ? $fileNameToStore : '';
+            $policy->created_by  = \Auth::user()->creatorId();
+            $policy->save();
+
+            // slack 
+            $setting = Utility::settings(\Auth::user()->creatorId());
+            $branch = Branch::find($request->branch);
+            if (isset($setting['company_policy_notification']) && $setting['company_policy_notification'] == 1) {
+                $msg = $request->title . ' ' . __("for") . ' ' . $branch->name . ' ' . __("created") . '.';
+                Utility::send_slack_msg($msg);
+            }
+
+            // telegram 
+            $setting = Utility::settings(\Auth::user()->creatorId());
+            $branch = Branch::find($request->branch);
+            if (isset($setting['telegram_company_policy_notification']) && $setting['telegram_company_policy_notification'] == 1) {
+                $msg = $request->title . ' ' . __("for") . ' ' . $branch->name . ' ' . __("created") . '.';
+                Utility::send_telegram_msg($msg);
+            }
+
+            return redirect()->route('company-policy.index')->with('success', __('Company policy successfully created.'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+
+    public function show(CompanyPolicy $companyPolicy)
+    {
+        $branches = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $authEmpId = \Auth::user()->employee->id;
+        $isAcknowledged = Acknowledge::where('emp_id', $authEmpId)
+        ->where('company_policy_id', $companyPolicy->id)
+        ->exists();
+        return view('companyPolicy.show', compact('branches', 'companyPolicy', 'isAcknowledged'));
+    }
+
+
+    public function edit(CompanyPolicy $companyPolicy)
+    {
+
+        if (\Auth::user()->can('Edit Company Policy')) {
+            $branches = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            // $branches->prepend('Select Branch', '');
+
+            return view('companyPolicy.edit', compact('branches', 'companyPolicy'));
+        } else {
+            return response()->json(['error' => __('Permission denied.')], 401);
+        }
+    }
+
+
+    public function update(Request $request, CompanyPolicy $companyPolicy)
+    {
+        if (\Auth::user()->can('Create Company Policy')) {
+            $validator = \Validator::make(
+                $request->all(),
+                [
+                    'branch' => 'required',
+                    'title' => 'required',
+                    'attachment' => 'mimes:jpeg,png,jpg,gif,pdf,doc,zip|max:20480',
+                ]
+            );
+            if ($validator->fails()) {
+                $messages = $validator->getMessageBag();
+
+                return redirect()->back()->with('error', $messages->first());
+            }
+
+            // if (isset($request->attachment)) {
+            //     $filenameWithExt = $request->file('attachment')->getClientOriginalName();
+            //     $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            //     $extension       = $request->file('attachment')->getClientOriginalExtension();
+            //     $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+            //     $dir             = storage_path('app/public/uploads/companyPolicy/');
+
+            //     if (!file_exists($dir)) {
+            //         mkdir($dir, 0777, true);
+            //     }
+            //     $path = $request->file('attachment')->storeAs('app/public/uploads/companyPolicy/', $fileNameToStore);
+            // }
+
+            if (isset($request->attachment)) {
+                $filenameWithExt = $request->file('attachment')->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $request->file('attachment')->getClientOriginalExtension();
+                $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+                
+                // Change directory to public/companyPolicy
+                $dir = public_path('companyPolicy/');
+
+                // Delete old file if exists
+                if ($companyPolicy->attachment && file_exists($dir . $companyPolicy->attachment)) {
+                    unlink($dir . $companyPolicy->attachment);
+                }
+
+                // Create directory if it doesn't exist
+                if (!file_exists($dir)) {
+                    mkdir($dir, 0777, true);
+                }
+
+                // Move uploaded file to public directory
+                $request->file('attachment')->move($dir, $fileNameToStore);
+                
+                $companyPolicy->attachment = $fileNameToStore;
+            }
+            $companyPolicy->branch      = $request->branch;
+            $companyPolicy->title       = $request->title;
+            $companyPolicy->description = $request->description;
+            if (isset($request->attachment)) {
+                $companyPolicy->attachment = $fileNameToStore;
+            }
+            $companyPolicy->created_by = \Auth::user()->creatorId();
+            $companyPolicy->save();
+
+            return redirect()->route('company-policy.index')->with('success', __('Company policy successfully updated.'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+
+public function destroy(CompanyPolicy $companyPolicy)
+{
+    if (\Auth::user()->can('Delete Company Policy')) {
+        if ($companyPolicy->created_by == \Auth::user()->creatorId()) {
+            // Delete file if exists
+            if (!empty($companyPolicy->attachment)) {
+                $dir = public_path('companyPolicy/');
+                if (file_exists($dir . $companyPolicy->attachment)) {
+                    unlink($dir . $companyPolicy->attachment);
+                }
+            }
+
+            $companyPolicy->delete();
+            return redirect()->route('company-policy.index')->with('success', __('Company policy successfully deleted.'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    } else {
+        return redirect()->back()->with('error', __('Permission denied.'));
+    }
+}
+    
+    public function acknowledge(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'acknowledgeCheck' => 'required|accepted',
+            'emp_id' => 'required|exists:employees,id',
+            'company_policy_id' => 'required|exists:company_policies,id',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', $validator->errors()->first());
+        }
+    
+        Acknowledge::create([
+            'emp_id' => $request->emp_id,
+            'company_policy_id' => $request->company_policy_id,
+        ]);
+    
+        return redirect()->back()->with('success', 'Policy acknowledged successfully.');
+    }
+    
+    public function showAcknowledge($id){
+        $employees = Employee::where('is_active', 1)->get();
+        $acknowledges = Acknowledge::where('company_policy_id', $id)->pluck('emp_id')->toArray();
+        
+        return view('companyPolicy.show-acknowledge', compact('employees', 'acknowledges', 'id'));
+    }
+}

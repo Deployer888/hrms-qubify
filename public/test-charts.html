@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Charts Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f8f9fa; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+        .chart-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .chart-container { position: relative; height: 300px; }
+        .gauge-container { display: flex; flex-direction: column; align-items: center; }
+        .gauge-svg { width: 320px; height: 230px; }
+        h2 { margin-top: 0; color: #2d3748; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 8px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Dashboard Charts Test</h1>
+        <div id="status"></div>
+        
+        <div class="chart-grid">
+            <!-- Pie Chart -->
+            <div class="chart-card">
+                <h2>Attendance Breakdown (Pie Chart)</h2>
+                <div class="chart-container">
+                    <canvas id="pie-chart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Line Chart -->
+            <div class="chart-card">
+                <h2>Weekly Trend (Line Chart)</h2>
+                <div class="chart-container">
+                    <canvas id="line-chart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Bar Chart -->
+            <div class="chart-card">
+                <h2>Status Comparison (Bar Chart)</h2>
+                <div class="chart-container">
+                    <canvas id="bar-chart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Gauge -->
+            <div class="chart-card">
+                <h2>Overall Attendance (Gauge)</h2>
+                <div class="gauge-container">
+                    <svg class="gauge-svg" viewBox="0 0 320 230" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Background arc -->
+                        <path d="M 50 170 A 110 110 0 0 1 270 170" stroke="#f1f5f9" stroke-width="25" fill="none" stroke-linecap="round" />
+                        <!-- Progress arc -->
+                        <path id="gauge-progress" d="M 50 170 A 110 110 0 0 1 270 170" stroke="#10b981" stroke-width="25" fill="none" stroke-linecap="round" stroke-dasharray="0 346" />
+                        <!-- Needle -->
+                        <line id="gauge-needle" x1="160" y1="170" x2="160" y2="80" stroke="#374151" stroke-width="3" stroke-linecap="round" transform="rotate(-90 160 170)" />
+                        <!-- Center circle -->
+                        <circle cx="160" cy="170" r="8" fill="#374151" />
+                        <!-- Percentage text -->
+                        <text id="gauge-percentage" x="160" y="205" text-anchor="middle" font-size="24" font-weight="bold" fill="#2d3748">0%</text>
+                        <text x="160" y="225" text-anchor="middle" font-size="12" fill="#718096">Attendance Rate</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('🚀 Starting Chart Test...');
+        
+        function updateStatus(message, isError = false) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = `<div class="status ${isError ? 'error' : 'success'}">${message}</div>`;
+        }
+        
+        // Test Chart.js availability
+        if (typeof Chart === 'undefined') {
+            updateStatus('❌ Chart.js failed to load!', true);
+        } else {
+            updateStatus('✅ Chart.js loaded successfully');
+            createAllCharts();
+        }
+        
+        function createAllCharts() {
+            const data = {
+                present: 14,
+                absent: 2,
+                late: 1,
+                leave: 3
+            };
+            
+            try {
+                // 1. PIE CHART
+                const pieCanvas = document.getElementById('pie-chart');
+                if (pieCanvas) {
+                    new Chart(pieCanvas.getContext('2d'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Present', 'Absent', 'Late', 'On Leave'],
+                            datasets: [{
+                                data: [data.present, data.absent, data.late, data.leave],
+                                backgroundColor: ['#4facfe', '#fa709a', '#fcb69f', '#a8edea'],
+                                borderWidth: 3,
+                                borderColor: '#fff',
+                                cutout: '60%'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: { padding: 15, usePointStyle: true }
+                                }
+                            }
+                        }
+                    });
+                    console.log('✅ Pie chart created');
+                }
+                
+                // 2. LINE CHART
+                const lineCanvas = document.getElementById('line-chart');
+                if (lineCanvas) {
+                    new Chart(lineCanvas.getContext('2d'), {
+                        type: 'line',
+                        data: {
+                            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sun'],
+                            datasets: [{
+                                label: 'Attendance %',
+                                data: [88, 92, 85, 90, 94, 70],
+                                borderColor: '#4facfe',
+                                backgroundColor: 'rgba(79, 172, 254, 0.1)',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.4,
+                                pointBackgroundColor: '#4facfe',
+                                pointBorderColor: '#fff',
+                                pointBorderWidth: 2,
+                                pointRadius: 6
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } },
+                            scales: {
+                                x: { grid: { display: false } },
+                                y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } }
+                            }
+                        }
+                    });
+                    console.log('✅ Line chart created');
+                }
+                
+                // 3. BAR CHART
+                const barCanvas = document.getElementById('bar-chart');
+                if (barCanvas) {
+                    new Chart(barCanvas.getContext('2d'), {
+                        type: 'bar',
+                        data: {
+                            labels: ['Present', 'Absent', 'Late', 'On Leave'],
+                            datasets: [{
+                                data: [data.present, data.absent, data.late, data.leave],
+                                backgroundColor: ['#4facfe', '#fa709a', '#fcb69f', '#a8edea'],
+                                borderRadius: 8
+                            }]
+                        },
+                        options: {
+                            indexAxis: 'y',
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } },
+                            scales: { x: { beginAtZero: true }, y: { grid: { display: false } } }
+                        }
+                    });
+                    console.log('✅ Bar chart created');
+                }
+                
+                // 4. GAUGE
+                updateGauge(88);
+                
+                updateStatus('🎉 All charts created successfully!');
+                
+            } catch (error) {
+                console.error('Chart creation error:', error);
+                updateStatus('❌ Error creating charts: ' + error.message, true);
+            }
+        }
+        
+        function updateGauge(percentage) {
+            const needle = document.getElementById('gauge-needle');
+            const progress = document.getElementById('gauge-progress');
+            const percentageText = document.getElementById('gauge-percentage');
+            
+            if (needle && progress && percentageText) {
+                // Update needle
+                const angle = -90 + (percentage * 1.8);
+                needle.setAttribute('transform', `rotate(${angle} 160 170)`);
+                
+                // Update progress arc
+                const circumference = 346;
+                const progressValue = (percentage / 100) * circumference;
+                progress.setAttribute('stroke-dasharray', `${progressValue} ${circumference}`);
+                
+                // Update text
+                percentageText.textContent = `${percentage}%`;
+                
+                console.log('✅ Gauge updated to', percentage + '%');
+            }
+        }
+    </script>
+</body>
+</html>

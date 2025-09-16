@@ -1,0 +1,13 @@
+# START YOAST BLOCK
+# ---------------------------
+#User-agent: *
+#Disallow: /*?w=
+#Disallow: /video/?index=
+#Disallow: /?w=
+
+#Sitemap: https://www.growzify.net/sitemap_index.xml
+# ---------------------------
+# END YOAST BLOCK
+
+User-agent: *
+Disallow: /

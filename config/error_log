@@ -1,0 +1,12 @@
+[03-May-2024 10:14:11 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/qubifytech/hrm.qubifytech.com/config/database.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/qubifytech/hrm.qubifytech.com/config/database.php on line 18
+[03-Jul-2024 17:16:58 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/qubifytech/hrm.qubifytech.com/config/database.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/qubifytech/hrm.qubifytech.com/config/database.php on line 18
+[01-Oct-2024 07:41:49 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/qubifytech/hrm.qubifytech.com/config/database.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/qubifytech/hrm.qubifytech.com/config/database.php on line 18

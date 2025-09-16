@@ -1,0 +1,617 @@
+/* Main Dashboard Styles */
+:root {
+  --primary-gradient: linear-gradient(135deg, #3a8ef6, #6259ca);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+  --border-color: #e2e8f0;
+  --text-primary: #344767;
+  --text-secondary: #718096;
+  --blue-gradient: linear-gradient(120deg, #4299e1, #3182ce);
+  --red-gradient: linear-gradient(120deg, #f56565, #e53e3e);
+  --orange-gradient: linear-gradient(120deg, #ed8936, #dd6b20);
+  --green-gradient: linear-gradient(120deg, #48bb78, #38a169);
+}
+
+/* Base styles */
+canvas {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  transform: translateZ(0) !important;
+  backface-visibility: hidden !important;
+  will-change: transform !important;
+  contain: strict !important;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.attendance-dashboard {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Dashboard Header */
+.dashboard-header {
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.dashboard-header .row {
+  align-items: center !important;
+}
+
+.dashboard-title {
+  color: var(--text-primary);
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* Card Components */
+.card-header {
+  background: var(--primary-gradient) !important;
+  color: #fff !important;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 25px !important;
+  overflow: hidden !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  contain: layout style !important;
+}
+
+.dashboard-card .card-body {
+  padding: 20px !important;
+  position: relative !important;
+  height: auto !important;
+  overflow: hidden !important;
+}
+
+.dashboard-card .card-header h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Chart Containers */
+.chart-container,
+.office-chart-container,
+.office-chart-summary {
+  position: relative !important;
+  overflow: hidden !important;
+  contain: strict !important;
+  will-change: transform !important;
+  transform: translateZ(0) !important;
+  backface-visibility: hidden !important;
+  width: 100% !important;
+}
+
+.chart-container {
+  height: 300px !important;
+  min-height: 300px !important;
+  max-height: 300px !important;
+}
+
+.office-chart-container {
+  height: 180px !important;
+  min-height: 180px !important;
+  max-height: 180px !important;
+  margin-top: 15px;
+}
+
+.office-chart-summary {
+  height: 120px !important;
+  min-height: 120px !important;
+  max-height: 120px !important;
+  margin-bottom: 10px;
+}
+
+/* Specific chart fixes */
+#attendance-breakdown-chart-container {
+  height: 300px !important;
+  min-height: 300px !important;
+  max-height: 300px !important;
+  width: 100% !important;
+  position: relative !important;
+  contain: strict !important;
+  overflow: hidden !important;
+}
+
+#attendance-breakdown-chart {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Summary Cards */
+.summary-section {
+  margin-bottom: 25px;
+}
+
+.summary-card {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  color: white;
+  height: 100%;
+}
+
+.summary-card:hover {
+  transform: none !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.present-card {
+  background: var(--blue-gradient);
+}
+.absent-card {
+  background: var(--red-gradient);
+}
+.late-card {
+  background: var(--orange-gradient);
+}
+.leave-card {
+  background: var(--green-gradient);
+}
+
+.summary-icon {
+  font-size: 2.5rem;
+  margin-right: 15px;
+  opacity: 0.8;
+}
+
+.summary-title {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 5px;
+  opacity: 0.9;
+}
+
+.summary-value {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Office Cards */
+.office-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  gap: 20px;
+  contain: layout style;
+}
+
+.office-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden !important;
+  margin-bottom: 20px !important;
+  height: auto !important;
+  contain: layout style !important;
+  transform: translateZ(0) !important;
+  border: 1px solid var(--border-color);
+}
+
+.office-card:hover {
+  transform: none !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.office-card .card-header {
+  padding: 15px 20px;
+  background: linear-gradient(to right, #f7fafc, #edf2f7);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.office-card .card-header h3 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.office-card .card-body {
+  padding: 20px !important;
+  position: relative !important;
+  height: auto !important;
+  overflow: hidden !important;
+}
+
+/* Stats and Metrics */
+.office-stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.stat-item:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.stat-value {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.attendance-percentage {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.attendance-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* Gauge Styles */
+/*.gauge-container {
+  width: 100% !important;
+  margin: 0 auto !important;
+  transform: translateZ(0) !important;
+}*/
+
+.gauge-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.gauge-image {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+}
+
+.needle-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/*.needle {
+  position: absolute !important;
+  bottom: 5px !important;
+  left: 50% !important;
+  width: 4px;
+  height: calc(100% - 10px);
+  background-color: #e74c3c;
+  transform: translateX(-50%) rotate(-90deg) !important;
+  transform-origin: bottom center !important;
+  z-index: 10 !important;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.needle-center {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: #333;
+  border-radius: 50%;
+  transform: translate(-50%, 50%);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  z-index: 11;
+}*/
+
+.gauge-info {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.gauge-percentage {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d3748;
+  line-height: 1;
+}
+
+.gauge-details {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 5px;
+}
+
+/* Form Elements */
+.custom-select {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 15px;
+  height: auto;
+  color: #2d3748;
+  font-size: 0.95rem;
+  background-color: #f9fafc;
+  box-shadow: none;
+  transition: all 0.3s ease;
+}
+
+.custom-select:focus {
+  border-color: #4299e1;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+  color: #4299e1;
+}
+
+/* Table Styles */
+.attendance-list {
+  min-height: 260px;
+  max-height: 300px;
+  overflow: auto;
+  margin: 0 !important;
+}
+
+.table-responsive {
+  position: relative;
+  overflow: hidden;
+}
+
+.scrollable-tbody {
+  display: block;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+thead,
+tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #fff;
+}
+
+.table thead th {
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  background-color: white;
+}
+
+/* Legend Styling */
+.chartjs-legend {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  margin-top: 10px !important;
+  width: 100% !important;
+  position: relative !important;
+}
+
+.chartjs-legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+.chartjs-legend-item-color {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1199.98px) {
+  .chart-container {
+    height: 280px !important;
+    min-height: 280px !important;
+    max-height: 280px !important;
+  }
+
+  .office-chart-container {
+    height: 160px !important;
+    min-height: 160px !important;
+    max-height: 160px !important;
+  }
+
+  .office-chart-summary {
+    height: 110px !important;
+    min-height: 110px !important;
+    max-height: 110px !important;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .chart-container {
+    height: 260px !important;
+    min-height: 260px !important;
+    max-height: 260px !important;
+  }
+
+  .office-chart-container {
+    height: 150px !important;
+    min-height: 150px !important;
+    max-height: 150px !important;
+  }
+
+  .office-chart-summary {
+    height: 100px !important;
+    min-height: 100px !important;
+    max-height: 100px !important;
+  }
+
+  .office-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .chart-container {
+    height: 240px !important;
+    min-height: 240px !important;
+    max-height: 240px !important;
+  }
+
+  .office-chart-container {
+    height: 140px !important;
+    min-height: 140px !important;
+    max-height: 140px !important;
+  }
+
+  .office-chart-summary {
+    height: 90px !important;
+    min-height: 90px !important;
+    max-height: 90px !important;
+  }
+
+  .dashboard-title {
+    font-size: 1.5rem;
+  }
+
+  .card-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .gauge-percentage {
+    font-size: 1.8rem;
+  }
+
+  .attendance-percentage {
+    font-size: 1.3rem;
+  }
+
+  .office-card .card-body .row {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .office-card .card-body .col-md-6 {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+  }
+
+  .office-card .card-body .col-md-6:first-child {
+    margin-bottom: 15px !important;
+  }
+
+  .summary-card {
+    margin-bottom: 15px;
+  }
+
+  .dashboard-header .row {
+    flex-wrap: wrap;
+  }
+
+  .dashboard-header .col-md-6,
+  .dashboard-header .col-md-2 {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
+    margin-bottom: 15px !important;
+  }
+
+  .custom-select {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .chart-container {
+    height: 220px !important;
+    min-height: 220px !important;
+    max-height: 220px !important;
+  }
+
+  .office-chart-container {
+    height: 130px !important;
+    min-height: 130px !important;
+    max-height: 130px !important;
+  }
+
+  .office-chart-summary {
+    height: 80px !important;
+    min-height: 80px !important;
+    max-height: 80px !important;
+  }
+
+  .summary-card {
+    padding: 15px;
+  }
+
+  .summary-icon {
+    font-size: 2rem;
+  }
+
+  .summary-value {
+    font-size: 1.7rem;
+  }
+
+  .dashboard-title {
+    font-size: 1.3rem;
+  }
+
+  .col-6 {
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 15px !important;
+  }
+
+  .office-cards {
+    display: block !important;
+  }
+
+  .office-card {
+    width: 100% !important;
+    margin-bottom: 20px !important;
+  }
+
+  .gauge-container {
+    max-width: 250px;
+    padding: 10px 5px;
+  }
+
+  .needle {
+    width: 2px;
+    height: calc(100% - 5px);
+  }
+
+  .needle-center {
+    width: 14px;
+    height: 14px;
+  }
+}

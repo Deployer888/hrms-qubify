@@ -1,0 +1,552 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Api\BaseController;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use App\Models\AadhaarDetail;
+use App\Services\UIDAIService;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use App\Models\Employee;
+use App\Models\AttendanceEmployee;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
+use Exception;
+
+class KioskController extends BaseController
+{
+    protected $uidaiService;
+    
+    private $compareUrl = 'https://api-us.faceplusplus.com/facepp/v3/compare';
+    private $apiKey;
+    private $apiSecret;
+    
+    public function __construct()
+    {
+        $this->apiKey = env('FACEPP_API_KEY', '');
+        $this->apiSecret = env('FACEPP_API_SECRET', '');
+    }
+    
+    public function markAttendanceFromKiosk(Request $request)
+{
+    try {
+        // Start timing for performance measurement
+        $startTime = microtime(true);
+        
+        // Validate request
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation Error.',
+                'data' => $validator->errors()
+            ], 422);
+        }
+
+        // Process the captured image
+        try {
+            $base64Image = $this->getBase64($request->image);
+            $capturedImage = $this->processBase64Image($base64Image);
+            $capturedBase64Jpeg = base64_encode($capturedImage->toJpeg()->toString());
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid image format',
+                'data' => ['message' => $e->getMessage()]
+            ], 400);
+        }
+
+        // Initialize variables to track best match
+        $highestConfidence = 0;
+        $bestMatchEmployeeId = null;
+        $confidenceThreshold = 90; // Set threshold to 90% as requested
+
+        // Get total count for logging
+        $totalEmployees = AadhaarDetail::whereNotNull('photo_encoded')->count();
+        \Log::info("Starting face comparison for {$totalEmployees} employees");
+        
+        // Process in chunks of 10 employees at a time to avoid memory issues
+        AadhaarDetail::whereNotNull('photo_encoded')
+            ->select('id', 'employee_id', 'photo_encoded')
+            ->orderBy('id')
+            ->chunk(10, function($aadhaarDetails) use (&$highestConfidence, &$bestMatchEmployeeId, $capturedBase64Jpeg, $confidenceThreshold) {
+                foreach ($aadhaarDetails as $aadhaar) {
+                    try {
+                        // Process employee photo
+                        $employeePhotoEncoded = $aadhaar->photo_encoded;
+                        $employeePhotoEncodedBase64 = $this->processBase64Image($employeePhotoEncoded);
+                        $employeePhotoEncodedBase64Jpeg = base64_encode($employeePhotoEncodedBase64->toJpeg()->toString());
+                        
+                        // Compare faces
+                        $result = $this->compareFaces($capturedBase64Jpeg, $employeePhotoEncodedBase64Jpeg);
+                        
+                        // Log the result
+                        \Log::info("Face comparison for employee ID {$aadhaar->employee_id}: {$result['confidence']}%");
+                        
+                        // If we find a match above threshold, we can break early
+                        if ($result['success'] && $result['confidence'] >= $confidenceThreshold) {
+                            $highestConfidence = $result['confidence'];
+                            $bestMatchEmployeeId = $aadhaar->employee_id;
+                            \Log::info("Found match above threshold ({$result['confidence']}%) for employee ID {$aadhaar->employee_id}");
+                            return false; // Break the chunk loop early
+                        }
+                        
+                        // Update best match if confidence is higher
+                        if ($result['success'] && $result['confidence'] > $highestConfidence) {
+                            $highestConfidence = $result['confidence'];
+                            $bestMatchEmployeeId = $aadhaar->employee_id;
+                        }
+                    } catch (\Exception $e) {
+                        // Log error but continue with next employee
+                        \Log::warning('Error comparing with employee ID ' . $aadhaar->employee_id . ': ' . $e->getMessage());
+                        continue;
+                    }
+                }
+            });
+
+        // Log total processing time so far
+        $processingTime = (microtime(true) - $startTime) * 1000; // convert to milliseconds
+        \Log::info("Face comparison completed in {$processingTime}ms");
+
+        // Check if we found a match with sufficient confidence (using 90% threshold)
+        if ($bestMatchEmployeeId && $highestConfidence >= $confidenceThreshold) {
+            // Get employee details using the employee_id from the best match
+            $emp = Employee::select('id', 'name')
+                ->where('id', $bestMatchEmployeeId)
+                ->first();
+                
+            if (!$emp) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Employee not found in database',
+                    'data' => []
+                ], 404);
+            }
+            
+            // Get current date and time
+            $date = Carbon::now()->format('Y-m-d');
+            $time = Carbon::now()->format('H:i:s');
+            
+            // Check if employee already clocked in - use indexed columns for faster query
+            $empAttendance = AttendanceEmployee::select('id', 'clock_in', 'clock_out')
+                ->where('employee_id', $emp->id)
+                ->where('date', $date)
+                ->whereNotNull('clock_in')
+                ->where(function ($query) {
+                    $query->whereNull('clock_out')
+                        ->orWhere('clock_out', '00:00:00');
+                })
+                ->first();
+            
+            if ($empAttendance) {
+                // Clock out
+                $empAttendance->clock_out = $time;
+                $empAttendance->save();
+                
+                $totalTime = (microtime(true) - $startTime) * 1000; // convert to milliseconds
+                \Log::info("Total processing time: {$totalTime}ms");
+                
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Clock out successful',
+                    'data' => [
+                        'status' => true,
+                        'message' => 'Clock out successfully',
+                        'time' => date("h:i:s A", strtotime($time)),
+                        'attendance_id' => $empAttendance->id,
+                        'confidence' => $highestConfidence,
+                        'employee_name' => $emp->name,
+                        'employee_id' => $emp->id,
+                        'processing_time_ms' => $totalTime
+                    ]
+                ], 200);
+            } else {
+                // Clock in
+                $attendance = new AttendanceEmployee();
+                $attendance->employee_name = $emp->name;
+                $attendance->employee_id = $emp->id;
+                $attendance->date = $date;
+                $attendance->status = "Present";
+                $attendance->clock_in = $time;
+                $attendance->save();
+                
+                $totalTime = (microtime(true) - $startTime) * 1000; // convert to milliseconds
+                \Log::info("Total processing time: {$totalTime}ms");
+                
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Clock in successful',
+                    'data' => [
+                        'status' => true,
+                        'message' => 'Clock in successfully',
+                        'time' => date("h:i:s A", strtotime($time)),
+                        'attendance_id' => $attendance->id,
+                        'confidence' => $highestConfidence,
+                        'employee_name' => $emp->name,
+                        'employee_id' => $emp->id,
+                        'processing_time_ms' => $totalTime
+                    ]
+                ], 200);
+            }
+        } else {
+            $totalTime = (microtime(true) - $startTime) * 1000; // convert to milliseconds
+            return response()->json([
+                'success' => false,
+                'message' => 'No matching employee found',
+                'data' => [
+                    'highest_confidence' => $highestConfidence,
+                    'threshold' => $confidenceThreshold,
+                    'message' => 'Face verification failed!',
+                    'processing_time_ms' => $totalTime
+                ]
+            ], 401);
+        }
+    } catch (\Exception $e) {
+        \Log::error('Face authentication error: ' . $e->getMessage());
+        return response()->json([
+            'success' => false,
+            'message' => 'Authentication error',
+            'data' => ['message' => $e->getMessage()]
+        ], 500);
+    }
+}
+    
+    /*public function attendanceAadhaarVerification(Request $request)
+    {
+        try {
+            $request->validate([
+                'image' => 'required|string'
+            ]);
+
+            $base64Image = $this->getBase64($request->image);
+            $capturedImage = $this->processBase64Image($base64Image);
+
+            $imageName = 'captured_' . time() . '.jpg';
+            $imagePath = 'public/captured/' . $imageName; // Save in storage/app/public/captured/
+
+            Storage::put($imagePath, $capturedImage->toJpeg()->toString());
+
+            $publicPath = '/storage/captured/' . $imageName;
+
+            $capturedBase64Jpeg = base64_encode($capturedImage->toJpeg()->toString());
+
+            $highestConfidence = 0;
+            $bestMatch = null;
+
+            // Get the authenticated user's photo encoding if available
+            // $userPhotoEncoded = Auth::user()->base64_image ?? null;
+            // if (!$userPhotoEncoded) {
+            //     return false;
+            // }
+            $aadhaar_detail = AadhaarDetail::where('employee_id',Auth::user()->employee->id)->first();
+
+            $userPhotoEncoded = $aadhaar_detail->photo_encoded;
+            if (!$userPhotoEncoded) {
+                return false;
+            }
+
+            $userPhotoEncodedBase64 = $this->processBase64Image($userPhotoEncoded);
+            $userPhotoEncodedBase64Jpeg = base64_encode($userPhotoEncodedBase64->toJpeg()->toString());
+
+            $result = $this->compareFaces($capturedBase64Jpeg, $userPhotoEncodedBase64Jpeg);
+            try {
+                if ($result['success'] && $result['confidence']>80) {
+                    $emp = Employee::where('user_id',Auth::user()->id)->first();
+                    $date = Carbon::now()->format('Y-m-d');    // e.g. "2025-04-14"
+                    $time = Carbon::now()->format('H:i:s');    // e.g. "13:45:22"
+                    if (!$emp) {
+                        return false;
+                    }
+                    $att = $this->updateAttendance($emp->name, $emp->id, $date, $time);
+                    if (!$att) {
+                        return response()->json([
+                            'status' => false,
+                        ]);
+                    }
+                    return response()->json([
+                        'status' => true,
+                        'data' => $att,
+                    ]);
+                }
+                else {
+                    return response()->json([
+                        'success' => false,
+                        'flag' => 1,
+                        'message' => "User not matched!",
+                    ]);
+                }
+            } catch (\Throwable $th) {
+               throw $th;
+            }
+        } catch (Exception $e) {
+            \Log::error('Face authentication error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Authentication error: ' . $e->getMessage()
+            ], 500);
+        }
+    }*/
+    
+    public function attendanceAadhaarVerification(Request $request)
+    {
+        try {
+            // Validate request
+            $validator = Validator::make($request->all(), [
+                'image' => 'required|string'
+            ]);
+    
+            if ($validator->fails()) {
+                return $this->sendError('Validation Error.', $validator->errors());
+            }
+    
+            // Process the captured image
+            $base64Image = $this->getBase64($request->image);
+            $capturedImage = $this->processBase64Image($base64Image);
+    
+            // Save the captured image
+            $imageName = 'captured_' . time() . '.jpg';
+            $imagePath = 'public/captured/' . $imageName;
+            Storage::put($imagePath, $capturedImage->toJpeg()->toString());
+            $publicPath = '/storage/captured/' . $imageName;
+    
+            // Convert the captured image to JPEG base64
+            $capturedBase64Jpeg = base64_encode($capturedImage->toJpeg()->toString());
+    
+            // Get the authenticated user's Aadhaar photo
+            $aadhaarDetail = AadhaarDetail::where('employee_id', Auth::user()->employee->id)->first();
+            if (!$aadhaarDetail || !$aadhaarDetail->photo_encoded) {
+                return $this->sendError('User photo not found', [], 404);
+            }
+    
+            // Process the user's photo from database
+            $userPhotoEncoded = $aadhaarDetail->photo_encoded;
+            $userPhotoEncodedBase64 = $this->processBase64Image($userPhotoEncoded);
+            $userPhotoEncodedBase64Jpeg = base64_encode($userPhotoEncodedBase64->toJpeg()->toString());
+    
+            // Compare the faces using Face++ API
+            $result = $this->compareFaces($capturedBase64Jpeg, $userPhotoEncodedBase64Jpeg);
+            
+            if ($result['success'] && $result['confidence'] > 80) {
+                // Get employee details
+                $emp = Employee::where('user_id', Auth::user()->id)->first();
+                if (!$emp) {
+                    return $this->sendError('Employee not found', [], 404);
+                }
+                
+                // Get current date and time
+                $date = Carbon::now()->format('Y-m-d');
+                $time = Carbon::now()->format('H:i:s');
+                
+                // Update attendance
+                $attendanceResult = $this->updateAttendance($emp->name, $emp->id, $date, $time);
+                
+                // Return the response directly since updateAttendance already returns a response
+                return $attendanceResult;
+            } else {
+                return $this->sendError('Face verification failed', [
+                    'confidence' => $result['confidence'],
+                    'message' => 'User not matched!'
+                ], 401);
+            }
+        } catch (Exception $e) {
+            \Log::error('Face authentication error: ' . $e->getMessage());
+            return $this->sendError('Authentication error', ['message' => $e->getMessage()], 500);
+        }
+    }
+    
+    private function compareFaces($image1Base64, $image2Base64)
+    {
+        try {
+            $response = Http::asForm()->post($this->compareUrl, [
+                'api_key' => $this->apiKey,
+                'api_secret' => $this->apiSecret,
+                'image_base64_1' => $image1Base64,
+                'image_base64_2' => $image2Base64,
+            ]);
+
+            $result = $response->json();
+
+            if (isset($result['error_message'])) {
+                throw new Exception($result['error_message']);
+            }
+
+            $confidence = $result['confidence'] ?? 0;
+            
+            return [
+                'success' => true,
+                'confidence' => $confidence
+            ];
+
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Face comparison failed: ' . $e->getMessage(),
+                'confidence' => 0
+            ];
+        }
+    }
+    
+    private function processBase64Image($base64String)
+    {
+        
+        try {
+            // Create new manager instance with GD driver
+            $manager = new ImageManager(new Driver());
+
+            // Process the image
+            $image = $manager->read($base64String);
+
+            // Fit the image to 224x224
+            $image->cover(224, 224);
+
+            return $image;
+        } catch (\Exception $e) {
+            throw new \Exception('Failed to process image: ' . $e->getMessage());
+        }
+    }
+    
+    private function getBase64($image_code)
+    {
+        // Check if the image already has the base64 prefix
+        if (strpos($image_code, ';base64,') !== false) {
+            // If it has the prefix, split and return the actual base64 content
+            $image_parts = explode(";base64,", $image_code);
+            if (count($image_parts) !== 2) {
+                throw new \Exception('Invalid Base64 string format.');
+            }
+            return $image_parts[1];
+        } else {
+            // If it's already a raw base64 string without prefix, validate and return it
+            if (base64_encode(base64_decode($image_code, true)) === $image_code) {
+                return $image_code;
+            } else {
+                // If it's neither format, add proper format and try again
+                $formattedImage = 'data:image/jpeg;base64,' . $image_code;
+                return $this->getBase64($formattedImage);
+            }
+        }
+    }
+    
+    /*private function getBase64($image_code)
+    {
+        $image_parts = explode(";base64,", $image_code);
+        if (count($image_parts) !== 2) {
+            throw new \Exception('Invalid Base64 string format.');
+        }
+        return $image_parts[1];
+    }*/
+    
+    private function updateAttendance($emp_name, $emp_id, $date, $time)
+    {
+        try {
+            $empAttendance = AttendanceEmployee::whereNotNull('clock_in')
+                ->where('employee_id', $emp_id)
+                ->where('date', $date)
+                ->where(function ($query) {
+                    $query->whereNull('clock_out')
+                        ->orWhere('clock_out', '00:00:00');
+                })
+                ->first();
+    
+            if ($empAttendance) {
+                // Clock out
+                $empAttendance->clock_out = $time;
+                $empAttendance->save();
+                
+                return response()->json([
+                    'success' => true,
+                    'data' => [
+                        'status' => true,
+                        'message' => 'Clock out successfully',
+                        'time' => date("h:i:s A", strtotime($time)),
+                        'attendance_id' => $empAttendance->id
+                    ],
+                    'message' => 'Clock out successfully'
+                ], 200);
+            } else {
+                // Clock in
+                $attendance = new AttendanceEmployee();
+                $attendance->employee_name = $emp_name;
+                $attendance->employee_id = $emp_id;
+                $attendance->date = $date;
+                $attendance->status = "Present";
+                $attendance->clock_in = $time;
+                $attendance->save();
+                
+                return response()->json([
+                    'success' => true,
+                    'data' => [
+                        'status' => true,
+                        'message' => 'Clock in successfully',
+                        'time' => date("h:i:s A", strtotime($time)),
+                        'attendance_id' => $attendance->id
+                    ],
+                    'message' => 'Clock in successfully'
+                ], 200);
+            }
+        } catch (\Throwable $th) {
+            \Log::error('Attendance update error: ' . $th->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Attendance update failed',
+                'data' => ['message' => $th->getMessage()]
+            ], 500);
+        }
+    }
+    
+    /*private function updateAttendance($emp_name,$emp_id,$date,$time)
+    {
+        $empAttendance = AttendanceEmployee::whereNotNull('clock_in')
+        ->where('employee_id', $emp_id)
+        ->where('date', $date)
+        ->where(function ($query) {
+            $query->whereNull('clock_out')
+                ->orWhere('clock_out', '00:00:00');
+        })
+        ->first();
+
+        if($empAttendance){
+            $empAttendance->clock_out = $time;
+            $empAttendance->save();
+            return response()->json([
+                'status' => true,
+                'message' => 'Clock out successfully',
+                'time'=> date("h:i:s A", strtotime($time)),
+            ]);
+        }else{
+            try {
+                $attendance = new AttendanceEmployee();
+                $attendance->employee_name = $emp_name;
+                $attendance->employee_id = $emp_id;
+                $attendance->date = $date;
+                $attendance->status = "Present";
+                $attendance->clock_in = $time;
+                $attendance->save();
+            } catch (\Throwable $th) {
+                throw $th;
+            }          
+            return response()->json([
+                'status' => true,
+                'message' => 'Clock in successfully',
+                'time'=> date("h:i:s A", strtotime($time)),
+            ]);
+        }
+        return response()->json([
+            'status' => false,
+            'message'=>'Something went wrong.'
+        ]);
+    }*/
+    
+    
+    
+    
+}

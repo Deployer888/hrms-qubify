@@ -1,0 +1,304 @@
+/* Attendance Statistics Cards */
+.attendance-stats-card {
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+    margin-bottom: 1rem;
+    background: white;
+}
+
+.attendance-stats-card .card-body {
+    padding: 1.5rem;
+}
+
+.attendance-stats-card .stats-icon {
+    color: #4F5DE4;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.attendance-stats-card h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.attendance-stats-card p {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+/* Recent Attendance Log */
+.recent-attendance-table {
+    margin-bottom: 0;
+}
+
+.recent-attendance-table thead {
+    background-color: #4F5DE4;
+    color: white;
+}
+
+.recent-attendance-table thead th {
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.recent-attendance-table tbody tr {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.recent-attendance-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.recent-attendance-table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.status-present {
+    background-color: #3BBCE0;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    display: inline-block;
+}
+
+/* Headers */
+h5.text-muted {
+    color: #6c757d !important;
+    font-weight: normal;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+/* Attendance Card Styles */
+.attendance-card {
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    height: auto;
+}
+
+.attendance-table {
+    margin-bottom: 0;
+}
+
+.attendance-table thead {
+    background-color: #3B5BDB;
+    color: white;
+}
+
+.attendance-table thead th {
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-weight: 600;
+}
+
+.attendance-table tbody tr {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.attendance-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.attendance-table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+/* Timer and Total Time Display */
+#timer-display {
+    font-family: 'Roboto', monospace;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Buttons */
+.btn-sm {
+    padding: 0.5rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 4px;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+    min-width: 140px;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+    min-width: 140px;
+}
+
+.btn-sm i {
+    margin-right: 5px;
+}
+
+.btn-sm:hover {
+    opacity: 0.9;
+}
+
+button.disabled {
+    background-color: grey !important;
+    border-color: grey !important;
+    cursor: not-allowed;
+    border-radius: 10px;
+}
+
+/* Calendar Styles */
+.widget-calendar {
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+.calendar {
+    height: 400px;
+}
+
+.fc-event {
+    border-radius: 4px;
+}
+
+.fc-event .fc-title {
+    padding: 2px 5px !important;
+}
+
+.fc-day-grid-container {
+    height: auto !important;
+}
+
+/* Card Headers */
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid #e9ecef;
+    padding: 1rem 1.5rem;
+}
+
+.card-header h4 {
+    margin-bottom: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .stats-card .card-body {
+        padding: 1rem;
+    }
+    
+    .stats-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+    }
+    
+    .stats-info .stats-value {
+        font-size: 1.5rem;
+    }
+}
+
+/* Dropdown Styles */
+.dropdown-toggle {
+    background-color: #f8f9fa;
+    border-color: #ced4da;
+}
+
+.dropdown-toggle:hover {
+    background-color: #e9ecef;
+}
+
+/* Table Responsive */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.attendanceBody {
+    overflow: auto;
+}
+
+.attendanceBody tr td {
+    border: none !important;
+    padding: 10px 20px !important;
+}
+
+/* Misc Styles */
+.card {
+    margin-bottom: 1rem !important;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+}
+
+.attendance-card {
+    height: auto;
+    min-height: 450px;
+}
+
+/* Page Background */
+.content {
+    background-color: #f5f8fb;
+    min-height: 100vh;
+}
+
+/* Clock In/Out Section */
+.attendance-card .card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* Total Time and Timer Text */
+.attendance-card h4 strong {
+    color: #333;
+    font-weight: 600;
+}
+
+.attendance-card h4 {
+    font-size: 1.25rem;
+    color: #6c757d;
+}
+
+/* Fix for dropdown button */
+.dropdown-toggle::after {
+    margin-left: 0.5rem;
+}
+
+.dropdown-menu {
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* Table hover effect */
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+    background-color: white;
+    padding: 1rem 0;
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-header h4 {
+    color: #333;
+    font-weight: 600;
+    margin: 0;
+}
+

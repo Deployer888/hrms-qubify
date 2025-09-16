@@ -1,0 +1,29 @@
+@extends('backend.layouts.master')
+
+@section('template_title')
+    {{ __('Update') }} Technology List
+@endsection
+
+@section('admin-content')
+    <section class="content container-fluid">
+        <div class="">
+            <div class="col-md-12">
+
+                <div class="card card-default">
+                    <div class="card-header">
+                        <span class="card-title">{{ __('Update') }} Technology List</span>
+                    </div>
+                    <div class="card-body bg-white">
+                        <form method="POST" action="{{ route('admin.technology-lists.update', $technologyList->id) }}"  role="form" enctype="multipart/form-data">
+                            {{ method_field('PATCH') }}
+                            @csrf
+
+                            @include('backend.technology-list.form')
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+@endsection
