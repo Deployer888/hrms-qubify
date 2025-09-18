@@ -621,37 +621,907 @@ $requestType = isset($_GET['type']) ? $_GET['type'] : 'daily';
     }
 
     /* Responsive Design */
-    @media (max-width: 768px) {
+    
+    /* Mobile Devices (320px - 767px) */
+    @media (max-width: 767px) {
+        /* Container optimizations */
+        .container-fluid {
+            padding: 0 12px;
+        }
+        
+        /* Enhanced Premium Header Mobile Styles */
+        .page-header-premium {
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            border-radius: 16px;
+        }
+        
         .header-content {
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
             text-align: center;
+            align-items: center;
         }
         
+        .header-left {
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            font-size: 1.25rem;
+            border-radius: 12px;
+        }
+        
+        .header-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        
+        .header-text p {
+            font-size: 0.875rem;
+            margin: 2px 0 0 0;
+        }
+        
+        .header-stats {
+            gap: 16px;
+            margin-top: 8px;
+        }
+        
+        .stat-item {
+            min-width: 60px;
+        }
+        
+        .stat-number {
+            font-size: 1.25rem;
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+        }
+        
+        /* Enhanced Main Form Section Mobile Styles */
         .main-form-section {
-            padding: 20px;
+            padding: 18px 16px;
             margin-bottom: 12px;
+            border-radius: 12px;
+            min-height: auto;
         }
         
+        .form-header {
+            margin-bottom: 24px;
+        }
+        
+        .form-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+        
+        .form-header p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* Touch-Friendly Form Controls */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            gap: 8px;
+        }
+        
+        .form-control {
+            padding: 14px 18px;
+            font-size: 16px; /* Prevents zoom on iOS */
+            min-height: 48px;
+            border-width: 2px;
+            border-radius: 10px;
+        }
+        
+        .form-control:focus {
+            transform: none; /* Remove transform on mobile for better performance */
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .input-group .form-control {
+            padding-left: 48px;
+        }
+        
+        .input-icon {
+            left: 16px;
+            font-size: 1rem;
+        }
+        
+        /* Select2 Mobile Optimization */
+        .select2-container--default .select2-selection--single {
+            height: 48px;
+            padding: 10px 16px;
+            border-width: 2px;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        
+        /* Enhanced Verification Steps Mobile Layout */
         .verification-steps {
             flex-direction: column;
+            align-items: flex-start;
             gap: 16px;
-            padding: 0;
+            padding: 0 0 0 24px;
+            margin-bottom: 24px;
         }
         
         .verification-steps::before {
-            display: none;
+            display: block;
+            width: 2px;
+            height: calc(100% - 60px);
+            left: 20px;
+            top: 40px;
+            right: auto;
+            background: linear-gradient(180deg, #e5e7eb 0%, rgba(229, 231, 235, 0.3) 100%);
+        }
+        
+        .step {
+            flex-direction: row;
+            align-items: center;
+            padding: 0;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .step-icon {
+            width: 36px;
+            height: 36px;
+            margin-bottom: 0;
+            margin-right: 12px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .step-label {
+            font-size: 0.875rem;
+            text-align: left;
+            margin: 0;
+            flex: 1;
         }
 
+        /* Enhanced Button Mobile Styles */
         .premium-btn,
         .premium-btn-outline {
             width: 100%;
             margin: 8px 0;
+            padding: 14px 28px;
+            font-size: 1rem;
+            min-height: 48px;
+            border-radius: 12px;
+            gap: 10px;
+        }
+        
+        .premium-btn {
+            padding: 14px 28px;
+        }
+        
+        .premium-btn-outline {
+            padding: 12px 26px;
+            border-width: 2px;
+        }
+        
+        /* Touch-friendly interactive elements */
+        .premium-card:hover {
+            transform: none; /* Disable hover transforms on mobile */
+        }
+        
+        .info-card:hover {
+            transform: none;
+        }
+        
+        .face-auth-card:hover {
+            transform: none;
+        }
+        
+        /* Mobile Quick Guide and Instructions */
+        .instruction-list {
+            padding: 12px;
+            margin-top: 10px;
+        }
+        
+        .instruction-item {
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+        }
+        
+        .instruction-item:hover {
+            transform: none;
+        }
+        
+        .instruction-number {
+            width: 22px;
+            height: 22px;
+            font-size: 0.7rem;
+            margin-right: 8px;
+        }
+        
+        .instruction-content h6 {
+            font-size: 0.8rem;
+            margin-bottom: 3px;
+        }
+        
+        .instruction-content small {
+            font-size: 0.7rem;
+            line-height: 1.3;
+        }
+        
+        /* Mobile Error Message Enhancements */
+        .text-danger {
+            font-size: 0.8rem;
+            margin-top: 6px;
+            gap: 5px;
+            padding: 6px 8px;
+            background: rgba(239, 68, 68, 0.05);
+            border-radius: 6px;
+            border-left: 3px solid var(--danger);
+        }
+        
+        .text-danger i {
+            font-size: 0.75rem;
+            flex-shrink: 0;
         }
 
+        /* Enhanced Sidebar Mobile Layout */
+        .sidebar-section {
+            margin-top: 16px;
+            gap: 12px;
+        }
+        
+        .sidebar-card {
+            margin-bottom: 12px;
+        }
+        
+        .sidebar-card .premium-card-body {
+            padding: 14px;
+        }
+        
+        .face-auth-card {
+            padding: 18px;
+            border-radius: 12px;
+        }
+        
         .face-auth-icon {
             width: 56px;
             height: 56px;
+            font-size: 1.375rem;
+            margin-bottom: 12px;
+        }
+        
+        .card-title {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+        
+        .premium-card-body {
+            padding: 16px;
+        }
+        
+        /* Face Auth Card Mobile Enhancements */
+        .face-auth-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        
+        .face-auth-card p {
+            font-size: 0.875rem;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+        
+        .face-auth-card .premium-btn-outline {
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            min-width: auto;
+            width: 100%;
+        }
+    }
+    
+    /* Small Mobile Devices (320px - 479px) */
+    @media (max-width: 479px) {
+        .container-fluid {
+            padding: 0 8px;
+        }
+        
+        .page-header-premium {
+            padding: 14px 16px;
+            border-radius: 12px;
+        }
+        
+        .header-icon {
+            width: 44px;
+            height: 44px;
+            font-size: 1.1rem;
+        }
+        
+        .header-text h1 {
+            font-size: 1.375rem;
+        }
+        
+        .header-text p {
+            font-size: 0.8rem;
+        }
+        
+        .header-stats {
+            gap: 12px;
+        }
+        
+        .stat-number {
+            font-size: 1.125rem;
+        }
+        
+        .stat-label {
+            font-size: 0.65rem;
+        }
+        
+        /* Small Mobile Verification Steps */
+        .verification-steps {
+            padding: 0 0 0 20px;
+            margin-bottom: 20px;
+        }
+        
+        .verification-steps::before {
+            left: 18px;
+        }
+        
+        .step-icon {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+        
+        .step-label {
+            font-size: 0.8rem;
+        }
+        
+        /* Small Mobile Form Optimizations */
+        .main-form-section {
+            padding: 16px 12px;
+        }
+        
+        .form-header h2 {
+            font-size: 1.375rem;
+        }
+        
+        .form-header p {
+            font-size: 0.875rem;
+        }
+        
+        .form-control {
+            padding: 12px 16px;
+            min-height: 44px;
+        }
+        
+        .input-group .form-control {
+            padding-left: 44px;
+        }
+        
+        .input-icon {
+            left: 14px;
+            font-size: 0.9rem;
+        }
+        
+        .select2-container--default .select2-selection--single {
+            height: 44px;
+            padding: 8px 14px;
+        }
+        
+        /* Small Mobile Sidebar Optimizations */
+        .sidebar-section {
+            margin-top: 12px;
+            gap: 10px;
+        }
+        
+        .sidebar-card .premium-card-body {
+            padding: 12px;
+        }
+        
+        .face-auth-card {
+            padding: 16px;
+        }
+        
+        .face-auth-icon {
+            width: 52px;
+            height: 52px;
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+        
+        .card-title {
+            font-size: 0.95rem;
+        }
+        
+        /* Small Mobile Face Auth Enhancements */
+        .face-auth-card h4 {
+            font-size: 1rem;
+        }
+        
+        .face-auth-card p {
+            font-size: 0.8rem;
+            margin-bottom: 14px;
+        }
+        
+        .face-auth-card .premium-btn-outline {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+        
+        /* Security Features Mobile Layout */
+        .premium-card-body[style*="display: flex"] {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            justify-content: flex-start !important;
+        }
+        
+        .info-card {
+            margin-bottom: 8px;
+            padding: 12px;
+        }
+        
+        .info-card-icon {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        
+        .info-card-title {
+            font-size: 0.85rem;
+            margin-bottom: 3px;
+        }
+        
+        .info-card-desc {
+            font-size: 0.75rem;
+            line-height: 1.3;
+        }
+        
+        /* Small Mobile Security Features */
+        .info-card {
+            padding: 10px;
+        }
+        
+        .info-card-icon {
+            width: 28px;
+            height: 28px;
+            font-size: 0.9rem;
+        }
+        
+        .info-card-title {
+            font-size: 0.8rem;
+        }
+        
+        .info-card-desc {
+            font-size: 0.7rem;
+        }
+        
+        /* Small Mobile Button Enhancements */
+        .premium-btn,
+        .premium-btn-outline {
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            min-height: 44px;
+            border-radius: 10px;
+        }
+        
+        .premium-btn-outline {
+            padding: 10px 22px;
+        }
+        
+        /* Small Mobile Instructions */
+        .instruction-list {
+            padding: 10px;
+        }
+        
+        .instruction-item {
+            padding: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .instruction-number {
+            width: 20px;
+            height: 20px;
+            font-size: 0.65rem;
+            margin-right: 6px;
+        }
+        
+        .instruction-content h6 {
+            font-size: 0.75rem;
+        }
+        
+        .instruction-content small {
+            font-size: 0.65rem;
+        }
+        
+        /* Small Mobile Error Messages */
+        .text-danger {
+            font-size: 0.75rem;
+            margin-top: 5px;
+            padding: 5px 6px;
+        }
+        
+        .text-danger i {
+            font-size: 0.7rem;
+        }
+    }
+    
+    /* Tablet Devices (768px - 1023px) */
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .page-header-premium {
+            padding: 18px 24px;
+            border-radius: 18px;
+        }
+        
+        .header-content {
+            gap: 14px;
+        }
+        
+        .header-left {
+            gap: 14px;
+        }
+        
+        .header-icon {
+            width: 52px;
+            height: 52px;
+            font-size: 1.375rem;
+            border-radius: 14px;
+        }
+        
+        .header-text h1 {
+            font-size: 1.625rem;
+        }
+        
+        .header-text p {
+            font-size: 0.9rem;
+        }
+        
+        .header-stats {
+            gap: 18px;
+        }
+        
+        /* Tablet Verification Steps Optimization */
+        .verification-steps {
+            padding: 0 16px;
+            margin-bottom: 28px;
+        }
+        
+        .verification-steps::before {
+            left: 36px;
+            right: 36px;
+        }
+        
+        .step {
+            padding: 0 10px;
+        }
+        
+        .step-icon {
+            width: 38px;
+            height: 38px;
+            font-size: 0.95rem;
+        }
+        
+        .step-label {
+            font-size: 0.8rem;
+        }
+        
+        /* Tablet Form Section Optimization */
+        .main-form-section {
+            padding: 24px 20px;
+            border-radius: 14px;
+        }
+        
+        .form-header h2 {
+            font-size: 1.7rem;
+        }
+        
+        .form-header p {
+            font-size: 1.05rem;
+        }
+        
+        .form-control {
+            padding: 15px 19px;
+            font-size: 1.05rem;
+            min-height: 52px;
+        }
+        
+        .input-group .form-control {
+            padding-left: 52px;
+        }
+        
+        .input-icon {
+            left: 17px;
+            font-size: 1.05rem;
+        }
+        
+        .select2-container--default .select2-selection--single {
+            height: 52px;
+            padding: 11px 19px;
+        }
+        
+        /* Tablet Sidebar Optimization */
+        .sidebar-section {
+            gap: 16px;
+        }
+        
+        .sidebar-card .premium-card-body {
+            padding: 15px;
+        }
+        
+        .face-auth-card {
+            padding: 20px;
+            border-radius: 14px;
+        }
+        
+        .face-auth-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 1.4rem;
+            margin-bottom: 14px;
+        }
+        
+        .card-title {
+            font-size: 1.05rem;
+        }
+        
+        /* Tablet Face Auth Enhancements */
+        .face-auth-card h4 {
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+        }
+        
+        .face-auth-card p {
+            font-size: 0.9rem;
+            margin-bottom: 18px;
+        }
+        
+        .face-auth-card .premium-btn-outline {
+            padding: 13px 28px;
+            font-size: 1rem;
+        }
+        
+        /* Tablet Security Features Layout */
+        .premium-card-body[style*="display: flex"] {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            gap: 20px !important;
+            justify-content: space-between !important;
+        }
+        
+        .info-card {
+            flex: 1 1 calc(50% - 10px);
+            margin-bottom: 10px;
+            padding: 14px;
+        }
+        
+        .info-card:nth-child(3) {
+            flex: 1 1 100%;
+            max-width: 100%;
+        }
+        
+        .info-card-icon {
+            width: 34px;
+            height: 34px;
+            font-size: 1.05rem;
+        }
+        
+        .info-card-title {
+            font-size: 0.875rem;
+        }
+        
+        .info-card-desc {
+            font-size: 0.775rem;
+        }
+        
+        /* Additional Tablet Optimizations */
+        .container-fluid {
+            padding: 0 20px;
+        }
+        
+        .premium-card {
+            border-radius: 14px;
+        }
+        
+        .card-header-premium {
+            padding: 15px 18px;
+        }
+        
+        .instruction-list {
+            padding: 15px;
+        }
+        
+        .instruction-item {
+            padding: 9px;
+            margin-bottom: 11px;
+        }
+        
+        .instruction-number {
+            width: 26px;
+            height: 26px;
+            font-size: 0.8rem;
+        }
+        
+        .instruction-content h6 {
+            font-size: 0.9rem;
+        }
+        
+        .instruction-content small {
+            font-size: 0.8rem;
+        }
+        
+        /* Tablet Button Enhancements */
+        .premium-btn,
+        .premium-btn-outline {
+            padding: 16px 32px;
+            font-size: 1.05rem;
+            min-height: 52px;
+            border-radius: 14px;
+            min-width: 180px;
+        }
+        
+        .premium-btn-outline {
+            padding: 14px 30px;
+        }
+        
+        /* Re-enable hover effects for tablet */
+        .premium-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .info-card:hover {
+            transform: translateX(4px);
+        }
+        
+        .face-auth-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Tablet Error Message Optimization */
+        .text-danger {
+            font-size: 0.85rem;
+            margin-top: 7px;
+            gap: 6px;
+            padding: 7px 10px;
+            border-radius: 8px;
+        }
+        
+        .text-danger i {
+            font-size: 0.8rem;
+        }
+    }
+    
+    /* Large Desktop (1200px - 1399px) */
+    @media (min-width: 1200px) and (max-width: 1399px) {
+        .container-fluid {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        .page-header-premium {
+            padding: 22px 32px;
+        }
+        
+        .main-form-section {
+            padding: 32px 28px;
+        }
+        
+        .form-header h2 {
+            font-size: 1.9rem;
+        }
+        
+        .premium-btn,
+        .premium-btn-outline {
+            min-width: 220px;
+        }
+    }
+    
+    /* Extra Large Desktop (1400px+) */
+    @media (min-width: 1400px) {
+        .container-fluid {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+        
+        .page-header-premium {
+            padding: 24px 36px;
+        }
+        
+        .header-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 1.6rem;
+        }
+        
+        .header-text h1 {
+            font-size: 1.875rem;
+        }
+        
+        .main-form-section {
+            padding: 36px 32px;
+            max-width: none;
+        }
+        
+        .form-header h2 {
+            font-size: 2rem;
+        }
+        
+        .form-header p {
+            font-size: 1.15rem;
+        }
+        
+        .premium-btn,
+        .premium-btn-outline {
+            min-width: 240px;
+            padding: 20px 40px;
+            font-size: 1.15rem;
+        }
+        
+        .sidebar-section {
+            gap: 18px;
+        }
+        
+        .face-auth-icon {
+            width: 68px;
+            height: 68px;
+            font-size: 1.6rem;
+        }
+        
+        /* Prevent excessive stretching on ultra-wide screens */
+        .row-equal-height {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+    }
+    
+    /* Performance and Compatibility Optimizations */
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+    
+    /* High DPI Display Optimizations */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        .header-icon,
+        .step-icon,
+        .face-auth-icon,
+        .info-card-icon,
+        .instruction-number {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    }
+    
+    /* Print Styles */
+    @media print {
+        .page-header-premium,
+        .sidebar-section,
+        .premium-btn,
+        .premium-btn-outline {
+            display: none !important;
+        }
+        
+        .main-form-section {
+            box-shadow: none;
+            border: 1px solid #ccc;
         }
     }
 
@@ -1037,10 +1907,13 @@ $requestType = isset($_GET['type']) ? $_GET['type'] : 'daily';
             }
         });
 
-        // Add focus effects
+        // Add focus effects (responsive aware)
         document.querySelectorAll('.form-control').forEach(input => {
             input.addEventListener('focus', function() {
-                this.style.transform = 'translateY(-2px)';
+                // Only apply transform on desktop devices
+                if (window.innerWidth > 767) {
+                    this.style.transform = 'translateY(-2px)';
+                }
             });
             
             input.addEventListener('blur', function() {
@@ -1048,9 +1921,88 @@ $requestType = isset($_GET['type']) ? $_GET['type'] : 'daily';
             });
         });
 
+        // Responsive Manager for orientation and resize handling
+        const ResponsiveManager = {
+            breakpoints: {
+                mobile: 767,
+                tablet: 1023,
+                desktop: 1200
+            },
+            
+            getCurrentBreakpoint() {
+                const width = window.innerWidth;
+                if (width <= this.breakpoints.mobile) return 'mobile';
+                if (width <= this.breakpoints.tablet) return 'tablet';
+                return 'desktop';
+            },
+            
+            handleResize() {
+                // Reinitialize Select2 on resize to fix positioning
+                if (typeof $.fn.select2 !== 'undefined') {
+                    $('.select2').select2('close');
+                    setTimeout(() => {
+                        $('.select2').select2({
+                            placeholder: "{{ __('Choose an employee...') }}",
+                            allowClear: true,
+                            theme: 'default'
+                        });
+                    }, 100);
+                }
+                
+                // Update focus effects based on screen size
+                document.querySelectorAll('.form-control').forEach(input => {
+                    if (window.innerWidth <= 767) {
+                        input.style.transform = 'translateY(0)';
+                    }
+                });
+            },
+            
+            handleOrientationChange() {
+                // Preserve form state during orientation change
+                const formData = {
+                    employeeId: employeeIdSelect.value,
+                    aadharNumber: aadharNumberInput.value
+                };
+                
+                setTimeout(() => {
+                    // Restore form state
+                    if (formData.employeeId) {
+                        employeeIdSelect.value = formData.employeeId;
+                        if (typeof $.fn.select2 !== 'undefined') {
+                            $(employeeIdSelect).trigger('change');
+                        }
+                    }
+                    if (formData.aadharNumber) {
+                        aadharNumberInput.value = formData.aadharNumber;
+                    }
+                    
+                    // Revalidate form
+                    updateButtonState();
+                    
+                    // Recalculate layouts
+                    this.handleResize();
+                }, 200);
+            }
+        };
+
+        // Add resize event listener
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                ResponsiveManager.handleResize();
+            }, 150);
+        });
+
+        // Add orientation change event listener
+        window.addEventListener('orientationchange', function() {
+            ResponsiveManager.handleOrientationChange();
+        });
+
         // Initialize
         updateButtonState();
         updateSteps(0);
+        ResponsiveManager.handleResize(); // Initial setup
     });
 </script>
 @endsection

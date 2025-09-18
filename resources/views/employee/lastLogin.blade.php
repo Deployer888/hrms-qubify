@@ -130,6 +130,11 @@
         display: flex;
         align-items: center;
         gap: 20px;
+        flex: 1;
+    }
+
+    .header-text {
+        flex: 1;
     }
 
     .header-icon {
@@ -190,6 +195,7 @@
         display: flex;
         gap: 32px;
         align-items: center;
+        flex-shrink: 0;
     }
 
     .stat-item {
@@ -325,12 +331,12 @@
         position: relative;
     }
 
-    table thead tr {
+    /* table thead tr {
         background: none;
         border-radius: 0px;
     }
 
-    /* Elite Table Styling */
+
     .table-container {
         position: relative;
         overflow: hidden;
@@ -342,7 +348,7 @@
         border-radius: 20px;
         overflow: hidden;
         position: relative;
-    }
+    } */
 
     .dataTable {
         margin: 0 !important;
@@ -828,14 +834,53 @@
     }
 
     /* Ultra Responsive Design */
+    @media (max-width: 1200px) {
+        .header-content {
+            gap: 25px;
+        }
+
+        .header-stats {
+            gap: 25px;
+        }
+
+        .stat-item {
+            padding: 14px 22px;
+            min-width: 90px;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .header-content {
+            flex-direction: column;
+            gap: 25px;
+            text-align: center;
+        }
+
+        .header-left {
+            justify-content: center;
+        }
+
+        .header-stats {
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* .dataTable thead th,
+        .dataTable tbody td {
+            padding: 18px 24px;
+            font-size: 0.9rem;
+        } */
+    }
+
     @media (max-width: 768px) {
         .container-fluid {
             padding: 0 16px;
         }
 
         .page-header-premium {
-            padding: 24px 28px;
-            border-radius: 20px;
+            padding: 20px 24px;
+            border-radius: 18px;
+            margin-bottom: 24px;
         }
 
         .header-content {
@@ -843,36 +888,336 @@
             gap: 20px;
             text-align: center;
         }
+
+        .header-left {
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            border-radius: 16px;
+        }
+
+        .header-text h1 {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+        }
+
+        .header-text p {
+            font-size: 0.9rem;
+            padding: 0 10px;
+        }
         
         .header-stats {
             justify-content: center;
             gap: 20px;
+            flex-wrap: wrap;
         }
 
         .stat-item {
-            padding: 12px 20px;
+            padding: 12px 18px;
             min-width: 80px;
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 1.4rem;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
         }
 
         .quick-actions {
             flex-direction: column;
             gap: 16px;
-            padding: 20px 24px;
+            padding: 18px 20px;
+            border-radius: 16px;
         }
 
         .filter-group {
             flex-wrap: wrap;
             justify-content: center;
+            gap: 12px;
         }
 
-        .dataTable thead th,
-        .dataTable tbody td {
-            padding: 16px 20px;
+        .filter-select {
+            min-width: 120px;
+            padding: 10px 14px;
             font-size: 0.85rem;
         }
 
+        .premium-btn-sm {
+            padding: 10px 16px;
+            font-size: 0.8rem;
+        }
+
+        .premium-card {
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+
+        .card-header-premium {
+            padding: 20px 24px;
+            flex-direction: column;
+            gap: 12px;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+        }
+
         .premium-card-body {
-            padding: 24px;
+            padding: 16px;
+        }
+
+        /* .dataTable thead th,
+        .dataTable tbody td {
+            padding: 12px 16px;
+            font-size: 0.8rem;
+        }
+
+        .dataTable thead th {
+            padding: 16px 16px;
+        } */
+
+        /* Make table horizontally scrollable on mobile */
+        .table-responsive {
+            border-radius: 16px;
+        }
+
+        .table-container {
+            max-height: 500px;
+        }
+
+        /* Adjust role badges for mobile */
+        .role-badge {
+            padding: 6px 12px;
+            font-size: 0.7rem;
+            border-radius: 20px;
+        }
+
+        .role-badge i {
+            font-size: 0.7rem;
+        }
+
+        /* Status indicators */
+        .status-dot {
+            width: 8px;
+            height: 8px;
+        }
+
+        .status-indicator {
+            gap: 8px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .container-fluid {
+            padding: 0 12px;
+        }
+
+        .page-header-premium {
+            padding: 16px 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .header-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 1.3rem;
+            border-radius: 14px;
+        }
+
+        .header-text h1 {
+            font-size: 1.4rem;
+            margin-bottom: 6px;
+        }
+
+        .header-text p {
+            font-size: 0.85rem;
+            padding: 0 5px;
+        }
+
+        .header-stats {
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .stat-item {
+            padding: 10px 16px;
+            min-width: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-number {
+            font-size: 1.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+        }
+
+        .quick-actions {
+            padding: 16px 18px;
+        }
+
+        .filter-group {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .filter-select {
+            width: 100%;
+            min-width: unset;
+        }
+
+        .premium-btn-sm {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .card-header-premium {
+            padding: 16px 20px;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .premium-card-body {
+            padding: 12px;
+        }
+
+        /* Mobile table adjustments */
+        /* .dataTable thead th,
+        .dataTable tbody td {
+            padding: 10px 12px;
+            font-size: 0.75rem;
+        }
+
+        .dataTable thead th {
+            padding: 14px 12px;
+        } */
+
+        /* Hide some columns on very small screens */
+        .dataTable th:nth-child(1),
+        .dataTable td:nth-child(1) {
+            display: none;
+        }
+
+        /* Adjust column widths for mobile */
+        #lastLoginTable th:nth-child(2),
+        #lastLoginTable td:nth-child(2) { width: 35%; }
+        #lastLoginTable th:nth-child(3),
+        #lastLoginTable td:nth-child(3) { width: 40%; }
+        #lastLoginTable th:nth-child(4),
+        #lastLoginTable td:nth-child(4) { width: 25%; }
+
+        .table-container {
+            max-height: 400px;
+        }
+
+        .role-badge {
+            padding: 4px 8px;
+            font-size: 0.65rem;
+        }
+
+        .role-badge i {
+            font-size: 0.65rem;
+        }
+
+        .status-indicator {
+            flex-direction: column;
+            gap: 4px;
+            align-items: flex-start;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+        }
+
+        /* Badge adjustments */
+        .badge {
+            padding: 6px 12px !important;
+            font-size: 0.7rem !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-header-premium {
+            padding: 14px 16px;
+            border-radius: 14px;
+        }
+
+        .header-icon {
+            width: 45px;
+            height: 45px;
+            font-size: 1.1rem;
+        }
+
+        .header-text h1 {
+            font-size: 1.2rem;
+        }
+
+        .header-text p {
+            font-size: 0.8rem;
+        }
+
+        .premium-card-body {
+            padding: 10px;
+        }
+/* 
+        .dataTable thead th,
+        .dataTable tbody td {
+            padding: 8px 10px;
+            font-size: 0.7rem;
+        }
+
+        .card-header-premium {
+            padding: 14px 16px;
+        }
+
+        .table-container {
+            max-height: 350px;
+        } */
+    }
+
+    /* Landscape orientation adjustments */
+    @media (max-width: 768px) and (orientation: landscape) {
+        .page-header-premium {
+            padding: 16px 24px;
+        }
+
+        .header-content {
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            flex-direction: row;
+            gap: 15px;
+        }
+
+        .header-stats {
+            flex-direction: row;
+            gap: 16px;
+        }
+
+        .table-container {
+            max-height: 300px;
         }
     }
 

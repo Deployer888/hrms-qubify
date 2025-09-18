@@ -1,4 +1,7 @@
 <style>
+    .modal-body {
+        padding: 12px;
+    }
     .modal-dialog {
         background: white;
         padding: 20px;
