@@ -32,6 +32,54 @@ $profile=asset(Storage::url('uploads/avatar/'));
         --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        
+        /* Responsive Breakpoints */
+        --breakpoint-xs: 575.98px;
+        --breakpoint-sm: 767.98px;
+        --breakpoint-md: 991.98px;
+        --breakpoint-lg: 1199.98px;
+        --breakpoint-xl: 1200px;
+        
+        /* Mobile-optimized spacing */
+        --mobile-padding: 1rem;
+        --mobile-margin: 0.75rem;
+        --mobile-gap: 0.5rem;
+        
+        /* Touch-friendly sizes */
+        --touch-target-min: 44px;
+        --mobile-font-base: 0.9rem;
+        --mobile-font-small: 0.8rem;
+    }
+
+    /* Responsive Foundation - Ensure proper mobile rendering */
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+    }
+
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+    }
+
+    /* Container Responsive Adjustments */
+    .container-fluid {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    @media (max-width: 767.98px) {
+        .container-fluid {
+            padding-left: var(--mobile-padding);
+            padding-right: var(--mobile-padding);
+        }
     }
 
     /* Compact Header */
@@ -833,14 +881,445 @@ $profile=asset(Storage::url('uploads/avatar/'));
         object-position: center;
     }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .attendance-management-container {
+    /* Mobile Statistics Cards Fix */
+    @media (max-width: 767.98px) {
+        .stats-container .row {
+            display: flex !important;
+            flex-direction: column !important;
+            margin: 0 !important;
+        }
+        
+        .stats-container .col-lg-3,
+        .stats-container .col-md-6,
+        .stats-container .col-sm-12,
+        .stats-container [class*="col-"] {
+            flex: 0 0 100% !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            margin-bottom: 1rem !important;
+            padding: 0 !important;
+        }
+        
+        .stats-container .stat-card {
+            width: 100% !important;
+            margin: 0 !important;
+            display: block !important;
+        }
+    }
+
+    /* Enhanced Mobile-First Responsive Design */
+    
+    /* Mobile Layout (≤767px) */
+    @media (max-width: 767.98px) {
+        /* Force single column layout on mobile */
+        .stats-container .col-lg-3,
+        .stats-container .col-md-6,
+        .stats-container .col-sm-12,
+        .stats-container [class*="col-"] {
+            flex: 0 0 100% !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            margin-bottom: 1rem !important;
+        }
+        
+        /* Ensure row displays properly */
+        .stats-container .row {
+            display: flex !important;
+            flex-direction: column !important;
+            width: 100% !important;
+            margin: 0 !important;
+        }
+        
+        .page-header-compact {
+            padding: 1.5rem var(--mobile-padding);
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .header-content {
+            flex-direction: column !important;
+            gap: 1.5rem;
+            align-items: center !important;
+        }
+        
+        .header-content > div {
+            width: 100% !important;
+            max-width: none !important;
+        }
+        
+        .header-content .d-flex {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center;
+        }
+        
+        .header-icon {
+            width: 56px;
+            height: 56px;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-title-compact {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .page-subtitle-compact {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+        
+        /* Mobile Statistics Cards */
+        .stats-container .row {
+            margin: 0 calc(-0.5 * var(--mobile-gap));
+        }
+        
+        .stats-container .row > [class*="col-"] {
+            padding: 0 calc(0.5 * var(--mobile-gap));
+            margin-bottom: var(--mobile-margin);
+        }
+        
+        .stat-card {
+            padding: 1.25rem;
+            border-radius: 12px;
+        }
+        
+        .stat-card .stat-number {
+            font-size: 2rem;
+        }
+        
+        .stat-card .stat-icon {
+            width: 48px;
+            height: 48px;
+            font-size: 1.3rem;
+        }
+        
+        /* Mobile Filter Section */
+        .filter-section {
+            padding: var(--mobile-padding);
+        }
+        
+        .filter-row {
+            flex-direction: column !important;
+            gap: 1rem !important;
+            align-items: stretch !important;
+        }
+        
+        .filter-group {
+            width: 100% !important;
+        }
+        
+        .filter-group .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: var(--mobile-font-base);
+            min-height: var(--touch-target-min);
+        }
+        
+        .action-buttons {
+            flex-direction: column !important;
+            gap: 0.75rem !important;
+            margin-top: 1rem;
+        }
+        
+        .btn-premium {
+            width: 100% !important;
+            padding: 0.875rem 1rem;
+            font-size: var(--mobile-font-base);
+            min-height: var(--touch-target-min);
+            justify-content: center;
+        }
+        
+        /* Mobile Table Container */
+        .table-container {
+            height: 70vh !important;
+            max-height: 600px;
+            margin: 0 calc(-1 * var(--mobile-padding));
+            border-radius: 0;
+        }
+        
+        .table-responsive {
+            border-radius: 0;
+        }
+        
+        /* Mobile Table Styling */
+        .custom-table {
+            min-width: 900px; /* Ensures horizontal scroll */
+            font-size: var(--mobile-font-small);
+        }
+        
+        .custom-table thead th {
+            padding: 1rem 0.5rem;
+            font-size: 0.7rem;
+            white-space: nowrap;
+        }
+        
+        .custom-table tbody td {
+            padding: 0.875rem 0.5rem;
+            font-size: var(--mobile-font-small);
+            line-height: 1.3;
+        }
+        
+        /* Mobile Employee Headers */
+        .employee-header-row td {
+            padding: 1rem var(--mobile-padding) !important;
+            font-size: var(--mobile-font-base) !important;
+        }
+        
+        .employee-name-section {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            width: 100%;
+        }
+        
+        .employee-info {
+            width: 100%;
+            gap: 0.75rem;
+        }
+        
+        .employee-avatar {
+            width: 36px;
+            height: 36px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .employee-controls {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            width: 100%;
+            justify-content: flex-start;
+        }
+        
+        .attendance-counter {
+            background: rgba(255,255,255,0.25);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: var(--mobile-font-small);
+            font-weight: 600;
+            white-space: nowrap;
+            min-height: var(--touch-target-min);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .view-more-btn {
+            background: #e8ebfe;
+            border: 1px solid #828282;
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: var(--mobile-font-small);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: var(--touch-target-min);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+        
+        .add-attendance-btn {
+            width: var(--touch-target-min);
+            height: var(--touch-target-min);
+            min-width: var(--touch-target-min);
+            min-height: var(--touch-target-min);
+            font-size: 1rem;
+        }
+        
+        /* Mobile Action Buttons */
+        .action-buttons {
+            gap: 0.25rem;
+            justify-content: center;
+        }
+        
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            font-size: 0.8rem;
+            min-width: var(--touch-target-min);
+            min-height: var(--touch-target-min);
+            padding: 4px;
+        }
+        
+        /* Mobile Status and Time Badges */
+        .time-badge {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+        }
+        
+        .status-present,
+        .status-absent,
+        .status-leave {
+            font-size: var(--mobile-font-small);
+        }
+        
+        /* Mobile Table Scroll Indicator */
+        .table-container::before {
+            content: '← Scroll to view more →';
+            position: sticky;
+            left: 0;
+            top: 0;
+            background: rgba(37, 99, 235, 0.9);
+            color: white;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 101;
+            display: block;
+        }
+        
+        .table-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 100%;
+            background: linear-gradient(to left, rgba(255,255,255,0.9), transparent);
+            pointer-events: none;
+            z-index: 10;
+        }
+    }
+    
+    /* Extra Small Devices (≤575px) */
+    @media (max-width: 575.98px) {
+        .page-header-compact {
+            padding: 1rem var(--mobile-padding);
+            margin-bottom: 1rem;
+        }
+        
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            font-size: 1.2rem;
+        }
+        
+        .page-title-compact {
+            font-size: 1.25rem;
+        }
+        
+        .page-subtitle-compact {
+            font-size: 0.8rem;
+        }
+        
+        .stat-card {
             padding: 1rem;
         }
         
-        .attendance-header {
+        .stat-card .stat-number {
+            font-size: 1.75rem;
+        }
+        
+        .stat-card .stat-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 1.1rem;
+        }
+        
+        .custom-table {
+            min-width: 800px;
+            font-size: 0.75rem;
+        }
+        
+        .custom-table thead th,
+        .custom-table tbody td {
+            padding: 0.75rem 0.375rem;
+        }
+        
+        .employee-header-row td {
+            padding: 0.75rem !important;
+            font-size: 0.85rem !important;
+        }
+        
+        .employee-avatar {
+            width: 32px;
+            height: 32px;
+            font-size: 0.8rem;
+        }
+        
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            font-size: 0.75rem;
+            min-width: var(--touch-target-min);
+            min-height: var(--touch-target-min);
+            padding: 6px;
+        }
+        
+        .time-badge {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.4rem;
+        }
+    }
+    
+    /* Large Phones (576px - 767px) */
+    @media (min-width: 576px) and (max-width: 767.98px) {
+        .page-header-compact {
+            padding: 1.25rem var(--mobile-padding);
+            border-radius: 14px;
+        }
+        
+        .header-icon {
+            width: 52px;
+            height: 52px;
+            font-size: 1.3rem;
+        }
+        
+        .page-title-compact {
+            font-size: 1.4rem;
+        }
+        
+        .stats-container .row > [class*="col-"] {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+        
+        .custom-table {
+            min-width: 850px;
+            font-size: 0.8rem;
+        }
+        
+        .custom-table thead th,
+        .custom-table tbody td {
+            padding: 0.875rem 0.4rem;
+        }
+    }
+    
+    /* Tablet Layout (768px - 991px) */
+    @media (min-width: 768px) and (max-width: 991.98px) {
+        .page-header-compact {
             padding: 2rem 1.5rem;
+            border-radius: 20px;
+        }
+        
+        .header-icon {
+            width: 64px;
+            height: 64px;
+            font-size: 1.6rem;
+        }
+        
+        .page-title-compact {
+            font-size: 1.8rem;
+        }
+        
+        .page-subtitle-compact {
+            font-size: 0.95rem;
+        }
+        
+        .stats-container .row > [class*="col-"] {
+            flex: 0 0 50%;
+            max-width: 50%;
+            margin-bottom: 1.5rem;
         }
         
         .filter-section {
@@ -848,42 +1327,697 @@ $profile=asset(Storage::url('uploads/avatar/'));
         }
         
         .filter-row {
-            flex-direction: column;
-            align-items: stretch;
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 1.25rem !important;
         }
         
-        .table-controls {
-            flex-direction: column;
-            gap: 1rem;
-            padding: 1.5rem;
+        .filter-group:last-child {
+            grid-column: 1 / -1;
         }
         
-        .search-box input {
-            width: 100%;
+        .action-buttons {
+            flex-direction: row !important;
+            justify-content: center;
+        }
+        
+        .btn-premium {
+            width: auto !important;
+            min-width: 140px;
         }
         
         .table-container {
-            height: 500px;
+            height: 550px;
         }
         
         .custom-table {
+            font-size: 0.85rem;
+        }
+        
+        .custom-table thead th,
+        .custom-table tbody td {
+            padding: 1.125rem 0.75rem;
+        }
+        
+        .employee-header-row td {
+            padding: 1.25rem !important;
+            font-size: 1rem !important;
+        }
+        
+        .employee-name-section {
+            flex-direction: row;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .employee-controls {
+            flex-direction: row;
+            gap: 1rem;
+        }
+    }
+    
+    /* Large Devices (992px+) */
+    @media (min-width: 992px) {
+        .stats-container .row > [class*="col-"] {
+            flex: 0 0 25%;
+            max-width: 25%;
+        }
+        
+        .filter-row {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 1.5rem !important;
+        }
+        
+        .filter-group:last-child {
+            grid-column: auto;
+        }
+    }
+    
+    /* Landscape Orientation Optimizations */
+    @media (max-width: 767.98px) and (orientation: landscape) {
+        .page-header-compact {
+            padding: 1rem var(--mobile-padding);
+            margin-bottom: 1rem;
+        }
+        
+        .stats-container .row > [class*="col-"] {
+            flex: 0 0 25%;
+            max-width: 25%;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-card {
+            padding: 0.75rem;
+        }
+        
+        .stat-card .stat-number {
+            font-size: 1.5rem;
+        }
+        
+        .stat-card .stat-icon {
+            width: 36px;
+            height: 36px;
+            font-size: 1rem;
+        }
+        
+        .table-container {
+            height: 50vh !important;
+            max-height: 400px;
+        }
+    }
+    
+    /* Touch-Friendly Enhancements */
+    @media (hover: none) and (pointer: coarse) {
+        .action-btn,
+        .btn-premium,
+        .view-more-btn,
+        .add-attendance-btn {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        
+        .action-btn:hover,
+        .view-more-btn:hover {
+            transform: none;
+        }
+        
+        .action-btn:active,
+        .view-more-btn:active {
+            transform: scale(0.95);
+            transition: transform 0.1s ease;
+        }
+        
+        .custom-table tbody tr:hover {
+            background: inherit;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .custom-table tbody tr:active {
+            background-color: rgba(37, 99, 235, 0.05) !important;
+        }
+    }
+    
+    /* Performance Optimizations for Mobile */
+    @media (max-width: 767.98px) {
+        .page-header-compact::before {
+            animation-duration: 30s; /* Slower animation to reduce CPU usage */
+        }
+        
+        .stat-card,
+        .action-btn,
+        .custom-table tbody tr {
+            will-change: auto;
+        }
+        
+        .table-responsive {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .table-responsive::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: rgba(37, 99, 235, 0.5);
+            border-radius: 3px;
+        }
+        
+        .table-responsive::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        }
+        
+        .page-title-compact {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .page-subtitle-compact {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+        
+        /* Mobile Statistics Cards */
+        .stats-container .row {
+            margin: 0 calc(-0.5 * var(--mobile-gap));
+        }
+        
+        .stats-container .row > [class*="col-"] {
+            padding: 0 calc(0.5 * var(--mobile-gap));
+            margin-bottom: var(--mobile-margin);
+        }
+        
+        .stat-card {
+            padding: 1.25rem;
+            border-radius: 12px;
+        }
+        
+        .stat-card .stat-number {
+            font-size: 2rem;
+        }
+        
+        .stat-card .stat-icon {
+            width: 48px;
+            height: 48px;
+            font-size: 1.3rem;
+        }
+        
+        /* Mobile Filter Section */
+        .filter-section {
+            padding: var(--mobile-padding);
+        }
+        
+        .filter-row {
+            flex-direction: column !important;
+            gap: 1rem !important;
+            align-items: stretch !important;
+        }
+        
+        .filter-group {
+            width: 100% !important;
+        }
+        
+        .filter-group .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: var(--mobile-font-base);
+            min-height: var(--touch-target-min);
+        }
+        
+        .action-buttons {
+            flex-direction: column !important;
+            gap: 0.75rem !important;
+            margin-top: 1rem;
+        }
+        
+        .btn-premium {
+            width: 100% !important;
+            padding: 0.875rem 1rem;
+            font-size: var(--mobile-font-base);
+            min-height: var(--touch-target-min);
+            justify-content: center;
+        }
+        
+        /* Mobile Table Container */
+        .table-container {
+            height: 70vh !important;
+            max-height: 600px;
+            margin: 0 calc(-1 * var(--mobile-padding));
+            border-radius: 0;
+        }
+        
+        .table-responsive {
+            border-radius: 0;
+        }
+        
+        /* Mobile Table Styling */
+        .custom-table {
+            min-width: 900px; /* Ensures horizontal scroll */
+            font-size: var(--mobile-font-small);
+        }
+        
+        .custom-table thead th {
+            padding: 1rem 0.5rem;
+            font-size: 0.7rem;
+            white-space: nowrap;
+        }
+        
+        .custom-table tbody td {
+            padding: 0.875rem 0.5rem;
+            font-size: var(--mobile-font-small);
+            line-height: 1.3;
+        }
+        
+        /* Mobile Employee Headers */
+        .employee-header-row td {
+            padding: 1rem var(--mobile-padding) !important;
+            font-size: var(--mobile-font-base) !important;
+        }
+        
+        .employee-name-section {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            width: 100%;
+        }
+        
+        .employee-info {
+            width: 100%;
+            gap: 0.75rem;
+        }
+        
+        .employee-avatar {
+            width: 36px;
+            height: 36px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .employee-controls {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            width: 100%;
+            justify-content: flex-start;
+        }
+        
+        .attendance-counter {
+            background: rgba(255,255,255,0.25);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: var(--mobile-font-small);
+            font-weight: 600;
+            white-space: nowrap;
+            min-height: var(--touch-target-min);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .view-more-btn {
+            background: #e8ebfe;
+            border: 1px solid #828282;
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: var(--mobile-font-small);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: var(--touch-target-min);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+        
+        .add-attendance-btn {
+            width: var(--touch-target-min);
+            height: var(--touch-target-min);
+            min-width: var(--touch-target-min);
+            min-height: var(--touch-target-min);
+            font-size: 1rem;
+        }
+        
+        /* Mobile Action Buttons */
+        .action-buttons {
+            gap: 0.25rem;
+            justify-content: center;
+        }
+        
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            font-size: 0.8rem;
+            min-width: var(--touch-target-min);
+            min-height: var(--touch-target-min);
+            padding: 4px;
+        }
+        
+        /* Mobile Status and Time Badges */
+        .time-badge {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+        }
+        
+        .status-present,
+        .status-absent,
+        .status-leave {
+            font-size: var(--mobile-font-small);
+        }
+        
+        /* Mobile Table Scroll Indicator */
+        .table-container::before {
+            content: '← Scroll to view more →';
+            position: sticky;
+            left: 0;
+            top: 0;
+            background: rgba(37, 99, 235, 0.9);
+            color: white;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 101;
+            display: block;
+        }
+        
+        .table-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 100%;
+            background: linear-gradient(to left, rgba(255,255,255,0.9), transparent);
+            pointer-events: none;
+            z-index: 10;
+        }
+    }
+    
+    /* Extra Small Devices (≤575px) */
+    @media (max-width: 575.98px) {
+        .page-header-compact {
+            padding: 1rem var(--mobile-padding);
+            margin-bottom: 1rem;
+        }
+        
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            font-size: 1.2rem;
+        }
+        
+        .page-title-compact {
+            font-size: 1.25rem;
+        }
+        
+        .page-subtitle-compact {
+            font-size: 0.8rem;
+        }
+        
+        .stat-card {
+            padding: 1rem;
+        }
+        
+        .stat-card .stat-number {
+            font-size: 1.75rem;
+        }
+        
+        .stat-card .stat-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 1.1rem;
+        }
+        
+        .custom-table {
+            min-width: 800px;
+            font-size: 0.75rem;
+        }
+        
+        .custom-table thead th,
+        .custom-table tbody td {
+            padding: 0.75rem 0.375rem;
+        }
+        
+        .employee-header-row td {
+            padding: 0.75rem !important;
+            font-size: 0.85rem !important;
+        }
+        
+        .employee-avatar {
+            width: 32px;
+            height: 32px;
+            font-size: 0.8rem;
+        }
+        
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            font-size: 0.75rem;
+            min-width: var(--touch-target-min);
+            min-height: var(--touch-target-min);
+            padding: 6px;
+        }
+        
+        .time-badge {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.4rem;
+        }
+    }
+    
+    /* Large Phones (576px - 767px) */
+    @media (min-width: 576px) and (max-width: 767.98px) {
+        .page-header-compact {
+            padding: 1.25rem var(--mobile-padding);
+            border-radius: 14px;
+        }
+        
+        .header-icon {
+            width: 52px;
+            height: 52px;
+            font-size: 1.3rem;
+        }
+        
+        .page-title-compact {
+            font-size: 1.4rem;
+        }
+        
+        .stats-container .row > [class*="col-"] {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+        
+        .custom-table {
+            min-width: 850px;
             font-size: 0.8rem;
         }
         
         .custom-table thead th,
         .custom-table tbody td {
-            padding: 1rem 0.5rem;
+            padding: 0.875rem 0.4rem;
         }
-
+    }
+    
+    /* Tablet Layout (768px - 991px) */
+    @media (min-width: 768px) and (max-width: 991.98px) {
+        .page-header-compact {
+            padding: 2rem 1.5rem;
+            border-radius: 20px;
+        }
+        
+        .header-icon {
+            width: 64px;
+            height: 64px;
+            font-size: 1.6rem;
+        }
+        
+        .page-title-compact {
+            font-size: 1.8rem;
+        }
+        
+        .page-subtitle-compact {
+            font-size: 0.95rem;
+        }
+        
+        .stats-container .row > [class*="col-"] {
+            flex: 0 0 50%;
+            max-width: 50%;
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-section {
+            padding: 1.5rem;
+        }
+        
+        .filter-row {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 1.25rem !important;
+        }
+        
+        .filter-group:last-child {
+            grid-column: 1 / -1;
+        }
+        
+        .action-buttons {
+            flex-direction: row !important;
+            justify-content: center;
+        }
+        
+        .btn-premium {
+            width: auto !important;
+            min-width: 140px;
+        }
+        
+        .table-container {
+            height: 550px;
+        }
+        
+        .custom-table {
+            font-size: 0.85rem;
+        }
+        
+        .custom-table thead th,
+        .custom-table tbody td {
+            padding: 1.125rem 0.75rem;
+        }
+        
         .employee-header-row td {
-            padding: 1rem !important;
+            padding: 1.25rem !important;
             font-size: 1rem !important;
         }
-
+        
         .employee-name-section {
-            flex-direction: column;
+            flex-direction: row;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .employee-controls {
+            flex-direction: row;
             gap: 1rem;
-            align-items: flex-start;
+        }
+    }
+    
+    /* Large Devices (992px+) */
+    @media (min-width: 992px) {
+        .stats-container .row > [class*="col-"] {
+            flex: 0 0 25%;
+            max-width: 25%;
+        }
+        
+        .filter-row {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 1.5rem !important;
+        }
+        
+        .filter-group:last-child {
+            grid-column: auto;
+        }
+    }
+    
+    /* Landscape Orientation Optimizations */
+    @media (max-width: 767.98px) and (orientation: landscape) {
+        .page-header-compact {
+            padding: 1rem var(--mobile-padding);
+            margin-bottom: 1rem;
+        }
+        
+        .stats-container .row > [class*="col-"] {
+            flex: 0 0 25%;
+            max-width: 25%;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-card {
+            padding: 0.75rem;
+        }
+        
+        .stat-card .stat-number {
+            font-size: 1.5rem;
+        }
+        
+        .stat-card .stat-icon {
+            width: 36px;
+            height: 36px;
+            font-size: 1rem;
+        }
+        
+        .table-container {
+            height: 50vh !important;
+            max-height: 400px;
+        }
+    }
+    
+    /* Touch-Friendly Enhancements */
+    @media (hover: none) and (pointer: coarse) {
+        .action-btn,
+        .btn-premium,
+        .view-more-btn,
+        .add-attendance-btn {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        
+        .action-btn:hover,
+        .view-more-btn:hover {
+            transform: none;
+        }
+        
+        .action-btn:active,
+        .view-more-btn:active {
+            transform: scale(0.95);
+            transition: transform 0.1s ease;
+        }
+        
+        .custom-table tbody tr:hover {
+            background: inherit;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .custom-table tbody tr:active {
+            background-color: rgba(37, 99, 235, 0.05) !important;
+        }
+    }
+    
+    /* Performance Optimizations for Mobile */
+    @media (max-width: 767.98px) {
+        .page-header-compact::before {
+            animation-duration: 30s; /* Slower animation to reduce CPU usage */
+        }
+        
+        .stat-card,
+        .action-btn,
+        .custom-table tbody tr {
+            will-change: auto;
+        }
+        
+        .table-responsive {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .table-responsive::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: rgba(37, 99, 235, 0.5);
+            border-radius: 3px;
+        }
+        
+        .table-responsive::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
         }
     }
 
@@ -1307,18 +2441,46 @@ $profile=asset(Storage::url('uploads/avatar/'));
     .filter-group:nth-child(3) { animation-delay: 0.3s; }
     .filter-group:nth-child(4) { animation-delay: 0.4s; }
     .filter-group:nth-child(5) { animation-delay: 0.5s; }
+
+    /* FINAL MOBILE STATISTICS OVERRIDE - HIGHEST PRIORITY */
+    @media screen and (max-width: 767px) {
+        .stats-container .row {
+            display: flex !important;
+            flex-direction: column !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .stats-container .row .col-lg-3,
+        .stats-container .row .col-md-6,
+        .stats-container .row .mb-3,
+        .stats-container .row > div {
+            flex: 0 0 100% !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            margin-bottom: 1rem !important;
+            padding: 0 !important;
+            display: block !important;
+        }
+        
+        .stats-container .stat-card {
+            width: 100% !important;
+            margin: 0 !important;
+            display: block !important;
+        }
+    }
 </style>
 @endpush
 
 @section('content')
-
+<div class="container-fluid px-3">
     <div class="page-header-compact">
         <div class="header-content d-flex justify-content-between align-items-center">
-            <div class="col-md-6 d-flex">
+            <div class="d-flex align-items-center w-100">
                 <div class="header-icon">
                     <i class="fas fa-clock"></i>
                 </div>
-                <div class="ml-3">
+                <div class="ml-3 flex-grow-1">
                     <h1 class="page-title-compact">
                         {{ __('Attendance Management') }}
                     </h1>
@@ -1850,55 +3012,181 @@ $profile=asset(Storage::url('uploads/avatar/'));
             const collapsibleRows = document.querySelectorAll('.employee-' + employeeId);
             const toggleText = document.getElementById('toggle-text-' + employeeId);
             const toggleIcon = document.getElementById('toggle-icon-' + employeeId);
+            const button = toggleText ? toggleText.closest('.view-more-btn') : null;
             
-            collapsibleRows.forEach(row => {
-                if (row.classList.contains('show')) {
-                    row.classList.remove('show');
-                    toggleText.textContent = 'View All';
-                    toggleIcon.classList.remove('fa-chevron-up');
-                    toggleIcon.classList.add('fa-chevron-down');
-                } else {
-                    row.classList.add('show');
-                    toggleText.textContent = 'Show Less';
-                    toggleIcon.classList.remove('fa-chevron-down');
-                    toggleIcon.classList.add('fa-chevron-up');
-                }
+            // Add loading state
+            if (button) {
+                button.style.opacity = '0.7';
+                button.style.pointerEvents = 'none';
+            }
+            
+            // Use requestAnimationFrame for smooth animation
+            requestAnimationFrame(() => {
+                collapsibleRows.forEach((row, index) => {
+                    setTimeout(() => {
+                        if (row.classList.contains('show')) {
+                            row.classList.remove('show');
+                            row.style.display = 'none';
+                        } else {
+                            row.classList.add('show');
+                            row.style.display = 'table-row';
+                        }
+                    }, index * 50); // Stagger animation for better UX
+                });
+                
+                // Update button text and icon
+                setTimeout(() => {
+                    if (collapsibleRows[0] && collapsibleRows[0].classList.contains('show')) {
+                        if (toggleText) toggleText.textContent = 'Show Less';
+                        if (toggleIcon) {
+                            toggleIcon.classList.remove('fa-chevron-down');
+                            toggleIcon.classList.add('fa-chevron-up');
+                        }
+                    } else {
+                        if (toggleText) toggleText.textContent = 'View All';
+                        if (toggleIcon) {
+                            toggleIcon.classList.remove('fa-chevron-up');
+                            toggleIcon.classList.add('fa-chevron-down');
+                        }
+                    }
+                    
+                    // Remove loading state
+                    if (button) {
+                        button.style.opacity = '1';
+                        button.style.pointerEvents = 'auto';
+                    }
+                }, collapsibleRows.length * 50 + 100);
             });
         }
 
-        // Global delete function - must be accessible from onclick
+        // Enhanced delete function with mobile-optimized SweetAlert2
         function deleteAttendance(attendanceId, employeeName, attendanceDate) {
             console.log('Delete function called:', attendanceId, employeeName, attendanceDate);
             
             if (!attendanceId) {
-                alert('Error: No attendance ID provided');
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'No attendance ID provided',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#ef4444',
+                    customClass: {
+                        popup: 'swal2-popup-mobile',
+                        title: 'swal2-title-mobile',
+                        confirmButton: 'swal2-confirm-mobile'
+                    },
+                    buttonsStyling: false
+                });
                 return;
             }
             
-            if (confirm('Are you sure you want to delete the attendance record for ' + employeeName + ' on ' + attendanceDate + '?')) {
-                // Try form submission first
-                var form = document.getElementById('delete-form-' + attendanceId);
-                if (form) {
-                    console.log('Submitting form for ID:', attendanceId);
-                    form.submit();
-                } else {
-                    console.log('Form not found, using AJAX...');
-                    // AJAX fallback
-                    $.ajax({
-                        url: '{{ url("attendanceemployee") }}/' + attendanceId,
-                        type: 'DELETE',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function(response) {
-                            alert('Attendance record deleted successfully!');
-                            window.location.reload();
-                        },
-                        error: function(xhr) {
-                            console.error('Delete error:', xhr);
-                            alert('Error deleting record. Please try again.');
-                        }
-                    });
+            // Check if SweetAlert2 is available
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Delete Attendance Record?',
+                    html: `
+                        <div style="text-align: left; margin: 1rem 0;">
+                            <p><strong>Employee:</strong> ${employeeName}</p>
+                            <p><strong>Date:</strong> ${attendanceDate}</p>
+                            <br>
+                            <p style="color: var(--danger); font-weight: 600;">
+                                <i class="fas fa-exclamation-triangle"></i> 
+                                This action cannot be undone and will permanently remove this attendance record.
+                            </p>
+                        </div>
+                    `,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: '<i class="fas fa-trash mr-2"></i>Yes, Delete Record',
+                    cancelButtonText: '<i class="fas fa-times mr-2"></i>Cancel',
+                    customClass: {
+                        popup: 'swal2-popup-mobile',
+                        title: 'swal2-title-mobile',
+                        content: 'swal2-content-mobile',
+                        confirmButton: 'swal2-confirm-mobile',
+                        cancelButton: 'swal2-cancel-mobile'
+                    },
+                    buttonsStyling: false,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Show loading toast
+                        Swal.fire({
+                            title: 'Deleting Record...',
+                            html: `
+                                <div style="text-align: center; margin: 1rem 0;">
+                                    <div style="width: 20px; height: 20px; border: 3px solid rgba(37, 99, 235, 0.3); border-radius: 50%; border-top: 3px solid var(--primary); animation: spin 1s linear infinite; margin: 0 auto 1rem;"></div>
+                                    <p>Please wait while we delete the attendance record for <strong>${employeeName}</strong>.</p>
+                                </div>
+                            `,
+                            icon: 'info',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            showConfirmButton: false,
+                            timer: 1000,
+                            timerProgressBar: true,
+                            customClass: {
+                                popup: 'swal2-popup-mobile'
+                            }
+                        }).then(() => {
+                            // Submit the form
+                            const form = document.getElementById(`delete-form-${attendanceId}`);
+                            if (form) {
+                                form.submit();
+                            } else {
+                                // AJAX fallback
+                                $.ajax({
+                                    url: '{{ url("attendanceemployee") }}/' + attendanceId,
+                                    type: 'DELETE',
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    success: function(response) {
+                                        Swal.fire({
+                                            title: 'Deleted!',
+                                            text: 'Attendance record deleted successfully!',
+                                            icon: 'success',
+                                            confirmButtonText: 'OK',
+                                            confirmButtonColor: '#10b981',
+                                            customClass: {
+                                                popup: 'swal2-popup-mobile',
+                                                confirmButton: 'swal2-confirm-mobile'
+                                            },
+                                            buttonsStyling: false
+                                        }).then(() => {
+                                            window.location.reload();
+                                        });
+                                    },
+                                    error: function(xhr) {
+                                        console.error('Delete error:', xhr);
+                                        Swal.fire({
+                                            title: 'Error!',
+                                            text: 'Error deleting record. Please try again.',
+                                            icon: 'error',
+                                            confirmButtonText: 'OK',
+                                            confirmButtonColor: '#ef4444',
+                                            customClass: {
+                                                popup: 'swal2-popup-mobile',
+                                                confirmButton: 'swal2-confirm-mobile'
+                                            },
+                                            buttonsStyling: false
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            } else {
+                // Fallback to native confirm if SweetAlert2 is not available
+                const confirmMessage = `Are you sure you want to delete the attendance record for "${employeeName}" on ${attendanceDate}? This action cannot be undone.`;
+                if (confirm(confirmMessage)) {
+                    const form = document.getElementById(`delete-form-${attendanceId}`);
+                    if (form) {
+                        form.submit();
+                    }
                 }
             }
         }
@@ -2050,14 +3338,20 @@ $profile=asset(Storage::url('uploads/avatar/'));
             });
         });
         
-            // Success/Error messages from Laravel
+            // Success/Error messages from Laravel with mobile optimization
             @if(session('success'))
                 Swal.fire({
                     title: 'Success!',
                     text: '{{ session('success') }}',
                     icon: 'success',
                     confirmButtonText: 'Great!',
-                    confirmButtonColor: '#10b981'
+                    confirmButtonColor: '#10b981',
+                    customClass: {
+                        popup: 'swal2-popup-mobile',
+                        title: 'swal2-title-mobile',
+                        confirmButton: 'swal2-confirm-mobile'
+                    },
+                    buttonsStyling: false
                 });
             @endif
 
@@ -2067,12 +3361,18 @@ $profile=asset(Storage::url('uploads/avatar/'));
                     text: '{{ session('error') }}',
                     icon: 'error',
                     confirmButtonText: 'OK',
-                    confirmButtonColor: '#ef4444'
+                    confirmButtonColor: '#ef4444',
+                    customClass: {
+                        popup: 'swal2-popup-mobile',
+                        title: 'swal2-title-mobile',
+                        confirmButton: 'swal2-confirm-mobile'
+                    },
+                    buttonsStyling: false
                 });
             @endif
         });
 
-        // CSS Animation
+        // Enhanced CSS Animation and Mobile Optimizations
         const style = document.createElement('style');
         style.textContent = `
             @keyframes spin {
@@ -2083,14 +3383,234 @@ $profile=asset(Storage::url('uploads/avatar/'));
             .fadeIn { animation-name: fadeIn; }
             .faster { animation-duration: 0.2s; }
             @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+            
+            /* Mobile touch feedback */
+            .touch-active {
+                transform: scale(0.95) !important;
+                opacity: 0.8 !important;
+                transition: all 0.1s ease !important;
+            }
+            
+            /* Mobile-specific improvements */
+            @media (max-width: 767.98px) {
+                .table-container {
+                    scroll-behavior: smooth;
+                    -webkit-overflow-scrolling: touch;
+                }
+                
+                .table-container.scrolling::before {
+                    opacity: 1;
+                    transition: opacity 0.3s ease;
+                }
+                
+                .action-btn, .btn-premium, .view-more-btn, .add-attendance-btn {
+                    -webkit-tap-highlight-color: transparent;
+                    user-select: none;
+                    -webkit-user-select: none;
+                }
+                
+                /* Better mobile table scrolling */
+                .table-responsive::-webkit-scrollbar {
+                    height: 6px;
+                }
+                
+                .table-responsive::-webkit-scrollbar-thumb {
+                    background: rgba(37, 99, 235, 0.5);
+                    border-radius: 3px;
+                }
+                
+                .table-responsive::-webkit-scrollbar-track {
+                    background: rgba(0, 0, 0, 0.1);
+                }
+                
+                /* Mobile table row animations */
+                .custom-table tbody tr {
+                    transition: background-color 0.2s ease;
+                }
+                
+                .custom-table tbody tr:active {
+                    background-color: rgba(37, 99, 235, 0.05) !important;
+                }
+                
+                /* Improved mobile modal positioning */
+                .swal2-container {
+                    padding: 1rem !important;
+                }
+                
+                .swal2-popup {
+                    margin: 0 !important;
+                    max-width: calc(100vw - 2rem) !important;
+                    max-height: calc(100vh - 2rem) !important;
+                }
+                
+                /* Mobile scroll indicator */
+                .table-container::before {
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                }
+                
+                /* Enhanced SweetAlert2 Mobile Styling */
+                .swal2-popup-mobile {
+                    border-radius: 16px !important;
+                    padding: 1.5rem !important;
+                    margin: 1rem !important;
+                    max-width: calc(100vw - 2rem) !important;
+                    max-height: calc(100vh - 2rem) !important;
+                    font-size: var(--mobile-font-base) !important;
+                }
+                
+                .swal2-title-mobile {
+                    font-size: 1.25rem !important;
+                    margin-bottom: 1rem !important;
+                    color: var(--text-primary) !important;
+                }
+                
+                .swal2-confirm-mobile,
+                .swal2-cancel-mobile {
+                    width: 100% !important;
+                    padding: 0.875rem 1rem !important;
+                    font-size: var(--mobile-font-base) !important;
+                    min-height: var(--touch-target-min) !important;
+                    border-radius: 12px !important;
+                    font-weight: 600 !important;
+                    margin: 0.25rem 0 !important;
+                }
+                
+                .swal2-content-mobile {
+                    font-size: var(--mobile-font-base) !important;
+                    margin-bottom: 1.5rem !important;
+                }
+                
+                .swal2-actions {
+                    flex-direction: column !important;
+                    gap: 0.75rem !important;
+                    width: 100% !important;
+                }
+                
+                .swal2-icon {
+                    width: 60px !important;
+                    height: 60px !important;
+                    margin: 1rem auto !important;
+                }
+            }
+            
+            /* Landscape mobile optimizations */
+            @media (max-width: 767.98px) and (orientation: landscape) {
+                .page-header-compact {
+                    padding: 1rem !important;
+                    margin-bottom: 1rem !important;
+                }
+                
+                .stats-container .row > [class*="col-"] {
+                    flex: 0 0 25% !important;
+                    max-width: 25% !important;
+                    margin-bottom: 1rem !important;
+                }
+                
+                .stat-card {
+                    padding: 0.75rem !important;
+                }
+                
+                .table-container {
+                    height: 50vh !important;
+                }
+            }
         `;
         document.head.appendChild(style);
+        
+        // Add viewport meta tag if not present for proper mobile rendering
+        if (!document.querySelector('meta[name="viewport"]')) {
+            const viewport = document.createElement('meta');
+            viewport.name = 'viewport';
+            viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+            document.head.appendChild(viewport);
+        }
+        
+        // Force responsive behavior
+        document.documentElement.style.setProperty('--viewport-width', window.innerWidth + 'px');
+        window.addEventListener('resize', function() {
+            document.documentElement.style.setProperty('--viewport-width', window.innerWidth + 'px');
+        });
     </script>
+</div>
 @endsection
 
 @push('script-page')
 <script>
     $(document).ready(function() {
+        // Force mobile statistics layout
+        function forceMobileStatsLayout() {
+            if (window.innerWidth <= 767) {
+                const statsContainer = document.querySelector('.stats-container');
+                if (statsContainer) {
+                    const row = statsContainer.querySelector('.row');
+                    if (row) {
+                        row.style.display = 'flex';
+                        row.style.flexDirection = 'column';
+                        row.style.margin = '0';
+                        
+                        const cols = row.querySelectorAll('[class*="col-"]');
+                        cols.forEach(col => {
+                            col.style.flex = '0 0 100%';
+                            col.style.maxWidth = '100%';
+                            col.style.width = '100%';
+                            col.style.marginBottom = '1rem';
+                            col.style.padding = '0';
+                        });
+                    }
+                }
+            }
+        }
+        
+        // Apply on load and resize
+        forceMobileStatsLayout();
+        window.addEventListener('resize', forceMobileStatsLayout);
+        
+        // Mobile-specific optimizations
+        if (window.innerWidth <= 768) {
+            // Add touch-friendly feedback
+            $('.action-btn, .btn-premium, .view-more-btn, .add-attendance-btn').on('touchstart', function() {
+                $(this).addClass('touch-active');
+            }).on('touchend touchcancel', function() {
+                $(this).removeClass('touch-active');
+            });
+            
+            // Add scroll position indicator for mobile table
+            const tableContainer = document.querySelector('.table-container');
+            if (tableContainer) {
+                let scrollTimeout;
+                tableContainer.addEventListener('scroll', function() {
+                    // Show scroll position indicator
+                    this.classList.add('scrolling');
+                    
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        this.classList.remove('scrolling');
+                    }, 1000);
+                });
+            }
+            
+            // Optimize touch scrolling performance
+            document.addEventListener('touchstart', function() {}, { passive: true });
+            document.addEventListener('touchmove', function() {}, { passive: true });
+        }
+        
+        // Handle orientation changes
+        window.addEventListener('orientationchange', function() {
+            setTimeout(function() {
+                // Recalculate table dimensions after orientation change
+                const tableContainer = document.querySelector('.table-container');
+                if (tableContainer) {
+                    tableContainer.style.height = window.innerHeight < 600 ? '50vh' : '70vh';
+                }
+                
+                // Refresh any tooltips if they exist
+                if (typeof $().tooltip === 'function') {
+                    $('[data-toggle="tooltip"]').tooltip('dispose').tooltip();
+                }
+            }, 100);
+        });
+        
         // Branch change functionality
         $('select[name="branch"]').on('change', function() {
             var branchId = $(this).val();
