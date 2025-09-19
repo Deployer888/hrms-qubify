@@ -547,3 +547,24 @@ function getWeeklyCheckinData($employeeId) {
     return [9.92, 9.75, 9.83, 10.25, 9.67, 9.75, 9.83, 9.75];
 }
 @endphp
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const tabItems = document.querySelectorAll(".tab-item");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    tabItems.forEach(item => {
+        item.addEventListener("click", function () {
+            const target = this.getAttribute("data-tab");
+
+            // Remove active class from all tabs
+            tabItems.forEach(i => i.classList.remove("active"));
+            tabContents.forEach(c => c.classList.remove("active"));
+
+            // Add active class to clicked tab and target content
+            this.classList.add("active");
+            document.getElementById(target).classList.add("active");
+        });
+    });
+});
+</script>

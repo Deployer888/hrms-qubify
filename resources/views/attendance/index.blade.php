@@ -9,7 +9,7 @@ $requestType = isset($_GET['type']) ? $_GET['type'] : 'daily';
 $profile=asset(Storage::url('uploads/avatar/'));
 @endphp
 
-@push('css-page')
+@push('css-page')               
 <style>
     /* Enhanced Color Scheme - Matching Leave Management */
     :root {
@@ -64,22 +64,6 @@ $profile=asset(Storage::url('uploads/avatar/'));
     body {
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        overflow-x: hidden;
-    }
-
-    /* Container Responsive Adjustments */
-    .container-fluid {
-        padding-left: 1rem;
-        padding-right: 1rem;
-        max-width: 100%;
-        overflow-x: hidden;
-    }
-
-    @media (max-width: 767.98px) {
-        .container-fluid {
-            padding-left: var(--mobile-padding);
-            padding-right: var(--mobile-padding);
-        }
     }
 
     /* Compact Header */
@@ -881,55 +865,10 @@ $profile=asset(Storage::url('uploads/avatar/'));
         object-position: center;
     }
 
-    /* Mobile Statistics Cards Fix */
-    @media (max-width: 767.98px) {
-        .stats-container .row {
-            display: flex !important;
-            flex-direction: column !important;
-            margin: 0 !important;
-        }
-        
-        .stats-container .col-lg-3,
-        .stats-container .col-md-6,
-        .stats-container .col-sm-12,
-        .stats-container [class*="col-"] {
-            flex: 0 0 100% !important;
-            max-width: 100% !important;
-            width: 100% !important;
-            margin-bottom: 1rem !important;
-            padding: 0 !important;
-        }
-        
-        .stats-container .stat-card {
-            width: 100% !important;
-            margin: 0 !important;
-            display: block !important;
-        }
-    }
-
     /* Enhanced Mobile-First Responsive Design */
     
     /* Mobile Layout (≤767px) */
     @media (max-width: 767.98px) {
-        /* Force single column layout on mobile */
-        .stats-container .col-lg-3,
-        .stats-container .col-md-6,
-        .stats-container .col-sm-12,
-        .stats-container [class*="col-"] {
-            flex: 0 0 100% !important;
-            max-width: 100% !important;
-            width: 100% !important;
-            margin-bottom: 1rem !important;
-        }
-        
-        /* Ensure row displays properly */
-        .stats-container .row {
-            display: flex !important;
-            flex-direction: column !important;
-            width: 100% !important;
-            margin: 0 !important;
-        }
-        
         .page-header-compact {
             padding: 1.5rem var(--mobile-padding);
             border-radius: 16px;
@@ -1134,549 +1073,28 @@ $profile=asset(Storage::url('uploads/avatar/'));
             font-size: 1rem;
         }
         
-        /* Mobile Action Buttons */
+        /* Mobile Action Buttons - Force Horizontal Layout */
         .action-buttons {
-            gap: 0.25rem;
-            justify-content: center;
-        }
-        
-        .action-btn {
-            width: 36px;
-            height: 36px;
-            font-size: 0.8rem;
-            min-width: var(--touch-target-min);
-            min-height: var(--touch-target-min);
-            padding: 4px;
-        }
-        
-        /* Mobile Status and Time Badges */
-        .time-badge {
-            font-size: 0.7rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 12px;
-        }
-        
-        .status-present,
-        .status-absent,
-        .status-leave {
-            font-size: var(--mobile-font-small);
-        }
-        
-        /* Mobile Table Scroll Indicator */
-        .table-container::before {
-            content: '← Scroll to view more →';
-            position: sticky;
-            left: 0;
-            top: 0;
-            background: rgba(37, 99, 235, 0.9);
-            color: white;
-            padding: 0.5rem;
-            text-align: center;
-            font-size: 0.75rem;
-            font-weight: 600;
-            z-index: 101;
-            display: block;
-        }
-        
-        .table-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 30px;
-            height: 100%;
-            background: linear-gradient(to left, rgba(255,255,255,0.9), transparent);
-            pointer-events: none;
-            z-index: 10;
-        }
-    }
-    
-    /* Extra Small Devices (≤575px) */
-    @media (max-width: 575.98px) {
-        .page-header-compact {
-            padding: 1rem var(--mobile-padding);
-            margin-bottom: 1rem;
-        }
-        
-        .header-icon {
-            width: 48px;
-            height: 48px;
-            font-size: 1.2rem;
-        }
-        
-        .page-title-compact {
-            font-size: 1.25rem;
-        }
-        
-        .page-subtitle-compact {
-            font-size: 0.8rem;
-        }
-        
-        .stat-card {
-            padding: 1rem;
-        }
-        
-        .stat-card .stat-number {
-            font-size: 1.75rem;
-        }
-        
-        .stat-card .stat-icon {
-            width: 40px;
-            height: 40px;
-            font-size: 1.1rem;
-        }
-        
-        .custom-table {
-            min-width: 800px;
-            font-size: 0.75rem;
-        }
-        
-        .custom-table thead th,
-        .custom-table tbody td {
-            padding: 0.75rem 0.375rem;
-        }
-        
-        .employee-header-row td {
-            padding: 0.75rem !important;
-            font-size: 0.85rem !important;
-        }
-        
-        .employee-avatar {
-            width: 32px;
-            height: 32px;
-            font-size: 0.8rem;
-        }
-        
-        .action-btn {
-            width: 32px;
-            height: 32px;
-            font-size: 0.75rem;
-            min-width: var(--touch-target-min);
-            min-height: var(--touch-target-min);
-            padding: 6px;
-        }
-        
-        .time-badge {
-            font-size: 0.65rem;
-            padding: 0.2rem 0.4rem;
-        }
-    }
-    
-    /* Large Phones (576px - 767px) */
-    @media (min-width: 576px) and (max-width: 767.98px) {
-        .page-header-compact {
-            padding: 1.25rem var(--mobile-padding);
-            border-radius: 14px;
-        }
-        
-        .header-icon {
-            width: 52px;
-            height: 52px;
-            font-size: 1.3rem;
-        }
-        
-        .page-title-compact {
-            font-size: 1.4rem;
-        }
-        
-        .stats-container .row > [class*="col-"] {
-            flex: 0 0 50%;
-            max-width: 50%;
-        }
-        
-        .custom-table {
-            min-width: 850px;
-            font-size: 0.8rem;
-        }
-        
-        .custom-table thead th,
-        .custom-table tbody td {
-            padding: 0.875rem 0.4rem;
-        }
-    }
-    
-    /* Tablet Layout (768px - 991px) */
-    @media (min-width: 768px) and (max-width: 991.98px) {
-        .page-header-compact {
-            padding: 2rem 1.5rem;
-            border-radius: 20px;
-        }
-        
-        .header-icon {
-            width: 64px;
-            height: 64px;
-            font-size: 1.6rem;
-        }
-        
-        .page-title-compact {
-            font-size: 1.8rem;
-        }
-        
-        .page-subtitle-compact {
-            font-size: 0.95rem;
-        }
-        
-        .stats-container .row > [class*="col-"] {
-            flex: 0 0 50%;
-            max-width: 50%;
-            margin-bottom: 1.5rem;
-        }
-        
-        .filter-section {
-            padding: 1.5rem;
-        }
-        
-        .filter-row {
-            display: grid !important;
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 1.25rem !important;
-        }
-        
-        .filter-group:last-child {
-            grid-column: 1 / -1;
-        }
-        
-        .action-buttons {
+            display: flex !important;
             flex-direction: row !important;
-            justify-content: center;
-        }
-        
-        .btn-premium {
-            width: auto !important;
-            min-width: 140px;
-        }
-        
-        .table-container {
-            height: 550px;
-        }
-        
-        .custom-table {
-            font-size: 0.85rem;
-        }
-        
-        .custom-table thead th,
-        .custom-table tbody td {
-            padding: 1.125rem 0.75rem;
-        }
-        
-        .employee-header-row td {
-            padding: 1.25rem !important;
-            font-size: 1rem !important;
-        }
-        
-        .employee-name-section {
-            flex-direction: row;
-            align-items: center;
-            gap: 1.5rem;
-        }
-        
-        .employee-controls {
-            flex-direction: row;
-            gap: 1rem;
-        }
-    }
-    
-    /* Large Devices (992px+) */
-    @media (min-width: 992px) {
-        .stats-container .row > [class*="col-"] {
-            flex: 0 0 25%;
-            max-width: 25%;
-        }
-        
-        .filter-row {
-            display: grid !important;
-            grid-template-columns: repeat(4, 1fr) !important;
-            gap: 1.5rem !important;
-        }
-        
-        .filter-group:last-child {
-            grid-column: auto;
-        }
-    }
-    
-    /* Landscape Orientation Optimizations */
-    @media (max-width: 767.98px) and (orientation: landscape) {
-        .page-header-compact {
-            padding: 1rem var(--mobile-padding);
-            margin-bottom: 1rem;
-        }
-        
-        .stats-container .row > [class*="col-"] {
-            flex: 0 0 25%;
-            max-width: 25%;
-            margin-bottom: 1rem;
-        }
-        
-        .stat-card {
-            padding: 0.75rem;
-        }
-        
-        .stat-card .stat-number {
-            font-size: 1.5rem;
-        }
-        
-        .stat-card .stat-icon {
-            width: 36px;
-            height: 36px;
-            font-size: 1rem;
-        }
-        
-        .table-container {
-            height: 50vh !important;
-            max-height: 400px;
-        }
-    }
-    
-    /* Touch-Friendly Enhancements */
-    @media (hover: none) and (pointer: coarse) {
-        .action-btn,
-        .btn-premium,
-        .view-more-btn,
-        .add-attendance-btn {
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        
-        .action-btn:hover,
-        .view-more-btn:hover {
-            transform: none;
-        }
-        
-        .action-btn:active,
-        .view-more-btn:active {
-            transform: scale(0.95);
-            transition: transform 0.1s ease;
-        }
-        
-        .custom-table tbody tr:hover {
-            background: inherit;
-            transform: none;
-            box-shadow: none;
-        }
-        
-        .custom-table tbody tr:active {
-            background-color: rgba(37, 99, 235, 0.05) !important;
-        }
-    }
-    
-    /* Performance Optimizations for Mobile */
-    @media (max-width: 767.98px) {
-        .page-header-compact::before {
-            animation-duration: 30s; /* Slower animation to reduce CPU usage */
-        }
-        
-        .stat-card,
-        .action-btn,
-        .custom-table tbody tr {
-            will-change: auto;
-        }
-        
-        .table-responsive {
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        .table-responsive::-webkit-scrollbar {
-            height: 6px;
-        }
-        
-        .table-responsive::-webkit-scrollbar-thumb {
-            background: rgba(37, 99, 235, 0.5);
-            border-radius: 3px;
-        }
-        
-        .table-responsive::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.1);
-        }
-        }
-        
-        .page-title-compact {
-            font-size: 1.5rem;
-            margin-bottom: 0.25rem;
-        }
-        
-        .page-subtitle-compact {
-            font-size: 0.85rem;
-            line-height: 1.4;
-            margin: 0;
-        }
-        
-        /* Mobile Statistics Cards */
-        .stats-container .row {
-            margin: 0 calc(-0.5 * var(--mobile-gap));
-        }
-        
-        .stats-container .row > [class*="col-"] {
-            padding: 0 calc(0.5 * var(--mobile-gap));
-            margin-bottom: var(--mobile-margin);
-        }
-        
-        .stat-card {
-            padding: 1.25rem;
-            border-radius: 12px;
-        }
-        
-        .stat-card .stat-number {
-            font-size: 2rem;
-        }
-        
-        .stat-card .stat-icon {
-            width: 48px;
-            height: 48px;
-            font-size: 1.3rem;
-        }
-        
-        /* Mobile Filter Section */
-        .filter-section {
-            padding: var(--mobile-padding);
-        }
-        
-        .filter-row {
-            flex-direction: column !important;
-            gap: 1rem !important;
-            align-items: stretch !important;
-        }
-        
-        .filter-group {
-            width: 100% !important;
-        }
-        
-        .filter-group .form-control {
-            width: 100%;
-            padding: 0.75rem;
-            font-size: var(--mobile-font-base);
+            gap: 0.5rem !important;
+            justify-content: center !important;
+            align-items: center !important;
+            flex-wrap: nowrap !important;
             min-height: var(--touch-target-min);
-        }
-        
-        .action-buttons {
-            flex-direction: column !important;
-            gap: 0.75rem !important;
-            margin-top: 1rem;
-        }
-        
-        .btn-premium {
-            width: 100% !important;
-            padding: 0.875rem 1rem;
-            font-size: var(--mobile-font-base);
-            min-height: var(--touch-target-min);
-            justify-content: center;
-        }
-        
-        /* Mobile Table Container */
-        .table-container {
-            height: 70vh !important;
-            max-height: 600px;
-            margin: 0 calc(-1 * var(--mobile-padding));
-            border-radius: 0;
-        }
-        
-        .table-responsive {
-            border-radius: 0;
-        }
-        
-        /* Mobile Table Styling */
-        .custom-table {
-            min-width: 900px; /* Ensures horizontal scroll */
-            font-size: var(--mobile-font-small);
-        }
-        
-        .custom-table thead th {
-            padding: 1rem 0.5rem;
-            font-size: 0.7rem;
-            white-space: nowrap;
-        }
-        
-        .custom-table tbody td {
-            padding: 0.875rem 0.5rem;
-            font-size: var(--mobile-font-small);
-            line-height: 1.3;
-        }
-        
-        /* Mobile Employee Headers */
-        .employee-header-row td {
-            padding: 1rem var(--mobile-padding) !important;
-            font-size: var(--mobile-font-base) !important;
-        }
-        
-        .employee-name-section {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 1rem;
-            width: 100%;
-        }
-        
-        .employee-info {
-            width: 100%;
-            gap: 0.75rem;
-        }
-        
-        .employee-avatar {
-            width: 36px;
-            height: 36px;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-        }
-        
-        .employee-controls {
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            width: 100%;
-            justify-content: flex-start;
-        }
-        
-        .attendance-counter {
-            background: rgba(255,255,255,0.25);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: var(--mobile-font-small);
-            font-weight: 600;
-            white-space: nowrap;
-            min-height: var(--touch-target-min);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .view-more-btn {
-            background: #e8ebfe;
-            border: 1px solid #828282;
-            color: #000;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: var(--mobile-font-small);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-height: var(--touch-target-min);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            white-space: nowrap;
-        }
-        
-        .add-attendance-btn {
-            width: var(--touch-target-min);
-            height: var(--touch-target-min);
-            min-width: var(--touch-target-min);
-            min-height: var(--touch-target-min);
-            font-size: 1rem;
-        }
-        
-        /* Mobile Action Buttons */
-        .action-buttons {
-            gap: 0.25rem;
-            justify-content: center;
         }
         
         .action-btn {
-            width: 36px;
-            height: 36px;
-            font-size: 0.8rem;
-            min-width: var(--touch-target-min);
-            min-height: var(--touch-target-min);
-            padding: 4px;
+            width: 40px !important;
+            height: 40px !important;
+            font-size: 0.9rem !important;
+            min-width: var(--touch-target-min) !important;
+            min-height: var(--touch-target-min) !important;
+            padding: 0 !important;
+            flex-shrink: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
         }
         
         /* Mobile Status and Time Badges */
@@ -1778,12 +1196,25 @@ $profile=asset(Storage::url('uploads/avatar/'));
         }
         
         .action-btn {
-            width: 32px;
-            height: 32px;
-            font-size: 0.75rem;
-            min-width: var(--touch-target-min);
-            min-height: var(--touch-target-min);
-            padding: 6px;
+            width: 36px !important;
+            height: 36px !important;
+            font-size: 0.8rem !important;
+            min-width: var(--touch-target-min) !important;
+            min-height: var(--touch-target-min) !important;
+            padding: 0 !important;
+            flex-shrink: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        .action-buttons {
+            display: flex !important;
+            flex-direction: row !important;
+            gap: 0.375rem !important;
+            justify-content: center !important;
+            align-items: center !important;
+            flex-wrap: nowrap !important;
         }
         
         .time-badge {
@@ -2442,45 +1873,45 @@ $profile=asset(Storage::url('uploads/avatar/'));
     .filter-group:nth-child(4) { animation-delay: 0.4s; }
     .filter-group:nth-child(5) { animation-delay: 0.5s; }
 
-    /* FINAL MOBILE STATISTICS OVERRIDE - HIGHEST PRIORITY */
+    /* FINAL ACTION BUTTONS OVERRIDE - FORCE HORIZONTAL LAYOUT ON MOBILE */
     @media screen and (max-width: 767px) {
-        .stats-container .row {
+        .action-buttons {
             display: flex !important;
-            flex-direction: column !important;
-            margin: 0 !important;
-            padding: 0 !important;
+            flex-direction: row !important;
+            gap: 0.5rem !important;
+            justify-content: center !important;
+            align-items: center !important;
+            flex-wrap: nowrap !important;
+            min-height: var(--touch-target-min) !important;
+            width: 100% !important;
         }
         
-        .stats-container .row .col-lg-3,
-        .stats-container .row .col-md-6,
-        .stats-container .row .mb-3,
-        .stats-container .row > div {
-            flex: 0 0 100% !important;
-            max-width: 100% !important;
-            width: 100% !important;
-            margin-bottom: 1rem !important;
+        .action-btn {
+            width: 40px !important;
+            height: 40px !important;
+            min-width: var(--touch-target-min) !important;
+            min-height: var(--touch-target-min) !important;
+            flex-shrink: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
             padding: 0 !important;
-            display: block !important;
-        }
-        
-        .stats-container .stat-card {
-            width: 100% !important;
             margin: 0 !important;
-            display: block !important;
+            border-radius: 50% !important;
         }
     }
 </style>
 @endpush
 
 @section('content')
-<div class="container-fluid px-3">
+
     <div class="page-header-compact">
         <div class="header-content d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center w-100">
+            <div class="col-md-6 d-flex">
                 <div class="header-icon">
                     <i class="fas fa-clock"></i>
                 </div>
-                <div class="ml-3 flex-grow-1">
+                <div class="ml-3">
                     <h1 class="page-title-compact">
                         {{ __('Attendance Management') }}
                     </h1>
@@ -3525,47 +2956,12 @@ $profile=asset(Storage::url('uploads/avatar/'));
             viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
             document.head.appendChild(viewport);
         }
-        
-        // Force responsive behavior
-        document.documentElement.style.setProperty('--viewport-width', window.innerWidth + 'px');
-        window.addEventListener('resize', function() {
-            document.documentElement.style.setProperty('--viewport-width', window.innerWidth + 'px');
-        });
     </script>
-</div>
 @endsection
 
 @push('script-page')
 <script>
     $(document).ready(function() {
-        // Force mobile statistics layout
-        function forceMobileStatsLayout() {
-            if (window.innerWidth <= 767) {
-                const statsContainer = document.querySelector('.stats-container');
-                if (statsContainer) {
-                    const row = statsContainer.querySelector('.row');
-                    if (row) {
-                        row.style.display = 'flex';
-                        row.style.flexDirection = 'column';
-                        row.style.margin = '0';
-                        
-                        const cols = row.querySelectorAll('[class*="col-"]');
-                        cols.forEach(col => {
-                            col.style.flex = '0 0 100%';
-                            col.style.maxWidth = '100%';
-                            col.style.width = '100%';
-                            col.style.marginBottom = '1rem';
-                            col.style.padding = '0';
-                        });
-                    }
-                }
-            }
-        }
-        
-        // Apply on load and resize
-        forceMobileStatsLayout();
-        window.addEventListener('resize', forceMobileStatsLayout);
-        
         // Mobile-specific optimizations
         if (window.innerWidth <= 768) {
             // Add touch-friendly feedback
@@ -3593,6 +2989,48 @@ $profile=asset(Storage::url('uploads/avatar/'));
             // Optimize touch scrolling performance
             document.addEventListener('touchstart', function() {}, { passive: true });
             document.addEventListener('touchmove', function() {}, { passive: true });
+            
+            // Force action buttons to stay horizontal
+            function forceHorizontalActionButtons() {
+                const actionButtonContainers = document.querySelectorAll('.action-buttons');
+                actionButtonContainers.forEach(container => {
+                    container.style.display = 'flex';
+                    container.style.flexDirection = 'row';
+                    container.style.gap = '0.5rem';
+                    container.style.justifyContent = 'center';
+                    container.style.alignItems = 'center';
+                    container.style.flexWrap = 'nowrap';
+                    
+                    const buttons = container.querySelectorAll('.action-btn');
+                    buttons.forEach(btn => {
+                        btn.style.width = '40px';
+                        btn.style.height = '40px';
+                        btn.style.flexShrink = '0';
+                        btn.style.display = 'flex';
+                        btn.style.alignItems = 'center';
+                        btn.style.justifyContent = 'center';
+                        btn.style.padding = '0';
+                        btn.style.margin = '0';
+                    });
+                });
+            }
+            
+            // Apply immediately and on DOM changes
+            forceHorizontalActionButtons();
+            
+            // Use MutationObserver to fix action buttons when new content is loaded
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'childList') {
+                        forceHorizontalActionButtons();
+                    }
+                });
+            });
+            
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
         }
         
         // Handle orientation changes

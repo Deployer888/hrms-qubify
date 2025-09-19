@@ -1441,7 +1441,7 @@ Route::group(['middleware' => ['auth', 'XSS']], function () {
     Route::get('office/create', 'OfficeController@create')->name('office.create');
     Route::post('office', 'OfficeController@store')->name('office.store');
     Route::get('office/{id}/edit', 'OfficeController@edit')->name('office.edit');
-    Route::put('office/{id}', 'OfficeController@update')->name('office.update');
+    Route::put('office/{id}', 'OfficeController@update')->name('office.update');  
     Route::delete('office/{id}', 'OfficeController@destroy')->name('office.destroy');
     Route::get('office/{id}', 'OfficeController@show')->name('office.one.index');
 });
