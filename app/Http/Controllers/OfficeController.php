@@ -497,6 +497,7 @@ class OfficeController extends Controller
 
     public function employee($employeeID)
     {
+       
         // try {
             // Get employee data with eager loading to reduce queries
             $employee = Employee::with(['department', 'designation'])
