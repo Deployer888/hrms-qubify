@@ -11,6 +11,7 @@ use App\Models\Leave;
 use App\Models\LeaveType;
 use App\Models\AttendanceEmployee;
 use App\Models\EmployeeDocument;
+use App\Models\EmployeeLocation;
 use App\Models\Department;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -502,10 +503,6 @@ class OfficeController extends Controller
                 ->where('id', $employeeID)
                 ->first();
                 
-// echo "<pre>";
-// print_r($employee->department->name);
-// die;
-                
             $department = $employee->department;
 
             if (!$employee) {
@@ -635,7 +632,7 @@ class OfficeController extends Controller
             $recentAttendances = AttendanceEmployee::where('employee_id', $employeeID)
                 ->orderBy('date', 'desc')
                 ->orderBy('clock_in', 'desc')
-                ->limit(7)
+                ->limit(7)    
                 ->get();
 
             // Get employee documents
@@ -667,9 +664,17 @@ class OfficeController extends Controller
                 ];
             }
 
+            // Get monthly attendance data for charts
+            $monthlyAttendanceData = $this->getMonthlyAttendanceData($employeeID);
+            $weeklyCheckinData = $this->getWeeklyCheckinData($employeeID);
+
             // Empty placeholders for inactive features
-            $locationHistory = [];
+            $locationHistory = $this->getLocation($employeeID);
+            $latestLocation = $locationHistory->sortByDesc('created_at')->first();
             $activities = [];
+
+            // Prepare chart data
+       
 
             return view('office.employee', compact(
                 'employee',
@@ -688,7 +693,10 @@ class OfficeController extends Controller
                 'lateDays',
                 'absentDays',
                 'leaveDays',
-                'workingDaysCount'
+                'workingDaysCount',
+                'monthlyAttendanceData',
+                'weeklyCheckinData',
+                'latestLocation'
             ));
         // } catch (\Exception $e) {
         //     return redirect()->back()->with('error', __('Something went wrong.'));
@@ -988,5 +996,183 @@ class OfficeController extends Controller
         $distance = $earthRadius * $c;
         
         return $distance <= $radius;
+    }
+
+    /**
+     * Get monthly attendance data for charts
+     */
+    private function getMonthlyAttendanceData($employeeId)
+    {
+        $defaultData = [
+            'present' => array_fill(0, 12, 0),
+            'absent' => array_fill(0, 12, 0),
+            'late' => array_fill(0, 12, 0)
+        ];
+        
+        if (!$employeeId) {
+            return $defaultData;
+        }
+        
+        $currentYear = date('Y');
+        $monthlyData = $defaultData;
+        
+        try {
+            // Get attendance data for the current year
+            $attendanceData = DB::table('attendance_employees')
+                ->select(
+                    DB::raw('MONTH(date) as month'),
+                    'status',
+                    DB::raw('COUNT(DISTINCT date) as count')
+                )
+                ->where('employee_id', $employeeId)
+                ->whereYear('date', $currentYear)
+                ->whereIn('status', ['present', 'absent', 'late'])
+                ->groupBy(DB::raw('MONTH(date)'), 'status')
+                ->get();
+            
+            // Populate the monthly data array
+            foreach ($attendanceData as $record) {
+                $monthIndex = $record->month - 1;
+                $status = strtolower($record->status);
+                
+                if (isset($monthlyData[$status]) && $monthIndex >= 0 && $monthIndex < 12) {
+                    $monthlyData[$status][$monthIndex] = (int)$record->count;
+                }
+            }
+            
+            return $monthlyData;
+        } catch (\Exception $e) {
+            // Return default data structure if query fails
+            return $defaultData;
+        }
+    }
+
+    /**
+     * Get weekly check-in time data for charts
+     */
+ 
+
+    private function getWeeklyCheckinData($employeeId)
+        {
+            $defaultData = [
+                'data' => array_fill(0, 7, '09:00 AM'),
+                'labels' => $this->generateWeekLabels()
+            ];
+
+            if (!$employeeId) {
+                return $defaultData;
+            }
+
+            try {
+                // Step 1: get first clock-in per day with actual date
+                $dailyFirstClockIns = DB::table('attendance_employees')
+                    ->select(
+                        'date',
+                        DB::raw('MIN(clock_in) as first_clock_in')
+                    )
+                    ->where('employee_id', $employeeId)
+                    ->whereNotNull('clock_in')
+                    ->where('clock_in', '!=', '00:00:00')
+                    ->groupBy('date');
+
+                // Step 2: take those daily first-ins, and average by week
+                $avgCheckinTime = DB::table(DB::raw("({$dailyFirstClockIns->toSql()}) as t"))
+                    ->mergeBindings($dailyFirstClockIns)
+                    ->select(
+                        DB::raw('YEARWEEK(date, 1) as week_number'),
+                        DB::raw('MIN(date) as week_start_date'),
+                        DB::raw('SEC_TO_TIME(AVG(TIME_TO_SEC(first_clock_in))) as avg_clock_in')
+                    )
+                    ->groupBy(DB::raw('YEARWEEK(date, 1)'))
+                    ->orderBy('week_number', 'desc')
+                    ->limit(7) // only last 7 weeks
+                    ->get()
+                    ->reverse() // oldest → newest
+                    ->values();
+
+                // Step 3: format times and generate labels
+                $weeklyData = [];
+                $weekLabels = [];
+                
+                foreach ($avgCheckinTime as $row) {
+                    // Format time
+                    if (!empty($row->avg_clock_in)) {
+                        $timeString = $row->avg_clock_in; // "09:36:49"
+                        $formattedTime = date("h:i A", strtotime($timeString));
+                        $weeklyData[] = $formattedTime;
+                    } else {
+                        $weeklyData[] = '09:00 AM'; // fallback
+                    }
+                    
+                    // Generate week label from week start date
+                    if (!empty($row->week_start_date)) {
+                        $weekStart = Carbon::parse($row->week_start_date)->startOfWeek();
+                        $weekEnd = $weekStart->copy()->endOfWeek();
+                        $weekLabels[] = $this->generateWeekLabel($weekStart, $weekEnd);
+                    } else {
+                        $weekLabels[] = 'Week';
+                    }
+                }
+
+                // Step 4: ensure exactly 7 weeks (fill missing with defaults)
+                $weeklyData = array_pad($weeklyData, 7, '09:00 AM');
+                $weekLabels = array_pad($weekLabels, 7, 'Week');
+                
+                // If we have fewer than 7 weeks of data, generate missing week labels
+                if (count($weekLabels) < 7) {
+                    $missingWeeks = 7 - count($weekLabels);
+                    $defaultLabels = $this->generateWeekLabels();
+                    $weekLabels = array_merge(array_slice($defaultLabels, 0, $missingWeeks), $weekLabels);
+                }
+
+                return [
+                    'data' => $weeklyData,
+                    'labels' => $weekLabels
+                ];
+
+            } catch (\Exception $e) {
+                return $defaultData;
+            }
+        }
+
+    /**
+     * Generate week labels for the last 7 weeks
+     */
+    private function generateWeekLabels()
+    {
+        $weekLabels = [];
+        $currentDate = Carbon::now();
+        
+        for ($i = 6; $i >= 0; $i--) {
+            $weekStart = $currentDate->copy()->subWeeks($i)->startOfWeek();
+            $weekEnd = $weekStart->copy()->endOfWeek();
+            $weekLabels[] = $this->generateWeekLabel($weekStart, $weekEnd);
+        }
+        
+        return $weekLabels;
+    }
+
+    /**
+     * Generate a single week label
+     */
+    private function generateWeekLabel($weekStart, $weekEnd)
+    {
+        $startMonth = $weekStart->format('M');
+        $endMonth = $weekEnd->format('M');
+        $startDay = $weekStart->format('j');
+        $endDay = $weekEnd->format('j');
+        
+        if ($startMonth === $endMonth) {
+            // Same month: "Jan 1-7"
+            return $startMonth . ' ' . $startDay . '-' . $endDay;
+        } else {
+            // Different months: "Jan 29-Feb 4"
+            return $startMonth . ' ' . $startDay . '-' . $endMonth . ' ' . $endDay;
+        }
+    }
+
+
+    private function getLocation($employeeId){
+       return EmployeeLocation::where('employee_id',$employeeId)->get();
     }
 }

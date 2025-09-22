@@ -616,7 +616,7 @@ var Dropzones = function () {
     })
 }(), Scrollbar = function () {
     var e = $(".scrollbar-inner");
-    e.length && e.scrollbar().scrollLock()
+    // e.length && e.scrollbar().scrollLock()
 }(), Select = function () {
     var e = $('[data-toggle="select"]');
     e.length && e.each(function () {

@@ -597,15 +597,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const togglePassword = document.querySelector('.toggle-password');
     const passwordInput = document.getElementById('password');
     
-    togglePassword.addEventListener('click', function() {
-        // Toggle the type attribute between password and text
-        const type = passwordInput.type === 'password' ? 'text' : 'password';
-        passwordInput.type = type;
-        
-        // Toggle the eye icon (change it to "eye-slash" when password is visible)
-        this.querySelector('i').classList.toggle('fa-eye-slash');
-    });
+    if (togglePassword && passwordInput) {
+        togglePassword.addEventListener('click', function() {
+            // Toggle the type attribute between password and text
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            
+            // Toggle the eye icon if <i> exists inside
+            const icon = this.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-eye-slash');
+            }
+        });
+    }
 });
+
 
 document.querySelectorAll('.read-more-btn').forEach(function (btn) {
     btn.addEventListener('click', function () {

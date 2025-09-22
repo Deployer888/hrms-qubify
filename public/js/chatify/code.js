@@ -473,72 +473,72 @@ function cancelUpdatingAvatar() {
  */
 
 // subscribe to the channel
-var channel = pusher.subscribe('private-chatify');
+// var channel = pusher.subscribe('private-chatify');
 
 // Listen to messages, and append if data received
-channel.bind('messaging', function (data) {
-    // console.info(data.from_id+' - '+data.to_id+'\n'+auth_id+' - '+messenger);
-    if (data.from_id == messenger.split('_')[1] && data.to_id == auth_id) {
-        // remove message hint
-        $(".message-hint").remove();
-        // append message
-        messagesContainer.find('.messages').append(data.message);
-        // scroll to bottom
-        scrollBottom(messagesContainer);
-        // trigger seen event
-        makeSeen(true);
-        // remove unseen counter for the user from the contacts list
-        $('.messenger-list-item[data-contact=' + messenger.split('_')[1] + ']').find('tr>td>b').remove();
-    }
-});
+// channel.bind('messaging', function (data) {
+//     // console.info(data.from_id+' - '+data.to_id+'\n'+auth_id+' - '+messenger);
+//     if (data.from_id == messenger.split('_')[1] && data.to_id == auth_id) {
+//         // remove message hint
+//         $(".message-hint").remove();
+//         // append message
+//         messagesContainer.find('.messages').append(data.message);
+//         // scroll to bottom
+//         scrollBottom(messagesContainer);
+//         // trigger seen event
+//         makeSeen(true);
+//         // remove unseen counter for the user from the contacts list
+//         $('.messenger-list-item[data-contact=' + messenger.split('_')[1] + ']').find('tr>td>b').remove();
+//     }
+// });
 
 // listen to typing indicator
-channel.bind('client-typing', function (data) {
-    if (data.from_id == messenger.split('_')[1] && data.to_id == auth_id) {
-        data.typing == true ? messagesContainer.find('.typing-indicator').show()
-            : messagesContainer.find('.typing-indicator').hide();
-    }
-    // scroll to bottom
-    scrollBottom(messagesContainer);
-});
+// channel.bind('client-typing', function (data) {
+//     if (data.from_id == messenger.split('_')[1] && data.to_id == auth_id) {
+//         data.typing == true ? messagesContainer.find('.typing-indicator').show()
+//             : messagesContainer.find('.typing-indicator').hide();
+//     }
+//     // scroll to bottom
+//     scrollBottom(messagesContainer);
+// });
 
 // listen to seen event
-channel.bind('client-seen', function (data) {
-    if (data.from_id == messenger.split('_')[1] && data.to_id == auth_id) {
-        if (data.seen == true) {
-            $('.message-time').find('.fa-check').before('<span class="fas fa-check-double seen"></span> ');
-            $('.message-time').find('.fa-check').remove();
-            // console.info('[seen] triggered!');
-        } else {
-            // console.error('[seen] event not triggered!');
-        }
-    }
-});
+// channel.bind('client-seen', function (data) {
+//     if (data.from_id == messenger.split('_')[1] && data.to_id == auth_id) {
+//         if (data.seen == true) {
+//             $('.message-time').find('.fa-check').before('<span class="fas fa-check-double seen"></span> ');
+//             $('.message-time').find('.fa-check').remove();
+//             // console.info('[seen] triggered!');
+//         } else {
+//             // console.error('[seen] event not triggered!');
+//         }
+//     }
+// });
 
 // listen to contact item updates event
-channel.bind('client-contactItem', function (data) {
-    if (data.update_for == auth_id) {
-        data.updating == true ? updateContatctItem(data.update_to)
-            : /*console.error('[Contact Item updates] Updating failed!')*/ '';
-    }
-});
+// channel.bind('client-contactItem', function (data) {
+//     if (data.update_for == auth_id) {
+//         data.updating == true ? updateContatctItem(data.update_to)
+//             : /*console.error('[Contact Item updates] Updating failed!')*/ '';
+//     }
+// });
 
 // -------------------------------------
 // presence channel [User Active Status]
-var activeStatusChannel = pusher.subscribe('presence-activeStatus');
+// var activeStatusChannel = pusher.subscribe('presence-activeStatus');
 
-// Joined
-activeStatusChannel.bind('pusher:member_added', function (member) {
-    setActiveStatus(1, member.id);
-    $('.messenger-list-item[data-contact=' + member.id + ']').find('.activeStatus').remove();
-    $('.messenger-list-item[data-contact=' + member.id + ']').find('.avatar').before(activeStatusCircle());
-});
+// // Joined
+// activeStatusChannel.bind('pusher:member_added', function (member) {
+//     setActiveStatus(1, member.id);
+//     $('.messenger-list-item[data-contact=' + member.id + ']').find('.activeStatus').remove();
+//     $('.messenger-list-item[data-contact=' + member.id + ']').find('.avatar').before(activeStatusCircle());
+// });
 
-// Leaved
-activeStatusChannel.bind('pusher:member_removed', function (member) {
-    setActiveStatus(0, member.id);
-    $('.messenger-list-item[data-contact=' + member.id + ']').find('.activeStatus').remove();
-});
+// // Leaved
+// activeStatusChannel.bind('pusher:member_removed', function (member) {
+//     setActiveStatus(0, member.id);
+//     $('.messenger-list-item[data-contact=' + member.id + ']').find('.activeStatus').remove();
+// });
 
 /**
  *-------------------------------------------------------------
@@ -641,27 +641,27 @@ function checkInternet(state, selector) {
  * Get contacts
  *-------------------------------------------------------------
  */
-function getContacts() {
-    $('.listOfContacts').html(listItemLoading(4));
-    $.ajax({
-        url: url + '/getContacts',
-        method: 'POST',
-        data: {'_token': access_token, 'messenger_id': messenger.split('_')[1]},
-        dataType: 'JSON',
-        success: (data) => {
-            $('.listOfContacts').html('');
-            $('.listOfContacts').html(data.contacts);
+// function getContacts() {
+//     $('.listOfContacts').html(listItemLoading(4));
+//     $.ajax({
+//         url: url + '/getContacts',
+//         method: 'POST',
+//         data: {'_token': access_token, 'messenger_id': messenger.split('_')[1]},
+//         dataType: 'JSON',
+//         success: (data) => {
+//             $('.listOfContacts').html('');
+//             $('.listOfContacts').html(data.contacts);
 
-            $('.all_members').html('');
-            $('.all_members').html(data.allUsers);
-            // update data-action required with [responsive design]
-            cssMediaQueries();
-        },
-        error: () => {
-            console.error('Server error, check your response');
-        }
-    });
-}
+//             $('.all_members').html('');
+//             $('.all_members').html(data.allUsers);
+//             // update data-action required with [responsive design]
+//             cssMediaQueries();
+//         },
+//         error: () => {
+//             console.error('Server error, check your response');
+//         }
+//     });
+// }
 
 /**
  *-------------------------------------------------------------
@@ -722,24 +722,25 @@ function star(user_id) {
  * Get favorite list
  *-------------------------------------------------------------
  */
-function getFavoritesList() {
-    $('.messenger-favorites').html(avatarLoading(4));
-    $.ajax({
-        url: url + '/favorites',
-        method: 'POST',
-        data: {'_token': access_token},
-        dataType: 'JSON',
-        success: (data) => {
-            $('.messenger-favorites').html('');
-            $('.messenger-favorites').html(data.favorites);
-            // update data-action required with [responsive design]
-            cssMediaQueries();
-        },
-        error: () => {
-            console.error('Server error, check your response');
-        }
-    });
-}
+// function getFavoritesList() {
+//     $('.messenger-favorites').html(avatarLoading(4));
+//     $.ajax({
+//         url: url + '/favorites',
+//         method: 'POST',
+//         data: {'_token': access_token},
+//         dataType: 'JSON',
+//         success: (data) => {
+//             $('.messenger-favorites').html('');
+//             $('.messenger-favorites').html(data.favorites);
+//             // update data-action required with [responsive design]
+//             cssMediaQueries();
+//         },
+//         error: () => {
+//             console.error('Server error, check your response');
+//         }
+//     });
+// }
+
 
 /**
  *-------------------------------------------------------------

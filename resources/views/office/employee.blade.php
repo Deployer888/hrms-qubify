@@ -10,6 +10,7 @@
 @php
 use App\Helpers\Helper;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 @endphp
 
 @section('content')
@@ -393,7 +394,7 @@ use Carbon\Carbon;
                     <div class="document-actions">
                         @if(asset(Storage::url('uploads/document')).'/'.$document->document_value)
 
-                            <p><a href="{{ (!empty($document->id)?asset(Storage::url('uploads/document')).'/'.$document->document_value:'') }}" target="_blank"><i class="fas fa-eye"></i></a></p>
+                            <p><a href="{{ (!empty($document->id)?asset('/document').'/'.$document->document_value:'') }}" target="_blank"><i class="fas fa-eye"></i></a></p>
 
                         @endif
                         @can('Delete Employee Document')
@@ -443,11 +444,11 @@ use Carbon\Carbon;
     </div> --}}
     
     <!-- Location Tab Content -->
-    <div class="tab-content" id="location">
+    <div class="tab-content" id="location">[]
         <div class="section-title">Current Location</div>
         <div class="info-card">
-            <p class="mb-3"><i class="fas fa-map-marker-alt text-danger mr-2"></i> <strong>Current Location:</strong> <span id="current-address">Loading address...</span></p>
-            <p class="mb-3"><i class="fas fa-clock text-primary mr-2"></i> <strong>Last Updated:</strong> <span id="location-timestamp">Today, {{ now()->format('h:i A') }}</span></p>
+            <p class="mb-3"><i class="fas fa-map-marker-alt text-danger mr-2"></i> <strong>Current Location:</strong> <span id="current-address">{{$latestLocation->location_name ?? ''}}</span></p>
+            <p class="mb-3"><i class="fas fa-clock text-primary mr-2"></i> <strong>Last Updated:</strong> <span id="location-timestamp">{{ $latestLocation->time->format('d-m-Y h:i A') }}</span></p>
             <div class="location-map" id="employee-location-map"></div>
         </div>
         
@@ -456,17 +457,17 @@ use Carbon\Carbon;
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Date & Time</th>
+                        <th>Date</th>
+                        <th>Time</th>
                         <th>Location</th>
-                        <th>Activity</th>
                     </tr>
                 </thead>
                 <tbody id="location-history-table">
                     @forelse($locationHistory as $location)
                         <tr>
-                            <td>{{ \Carbon\Carbon::parse($location->created_at)->format('d M Y, h:i A') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($location->created_at)->format('d M Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($location->created_at)->format('h:i A') }}</td>
                             <td>{{ $location->location_name ?? 'Unknown Location' }}</td>
-                            <td>{{ $location->activity_type ?? 'Location Update' }}</td>
                         </tr>
                     @empty
                         <tr>
@@ -480,12 +481,18 @@ use Carbon\Carbon;
 </div>
 @endsection
 
-@push('script-page')
+
+<!-- jQuery first -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<!-- Chart.js (v2 or v4, pick one) -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
-<!-- Google Maps JavaScript API -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUI4YwyEVg-TcI_R-sRdwuCuA22pY9VXg&callback=initMap" async defer></script>
-<script src="{{ asset('assets/js/office_employee.js') }}"></script>
-@endpush
+<!-- OR latest -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script> -->
+
+<!-- Then your custom script -->
+<script src="{{asset('/js/chatify/code.js')}}"></script>
+
 
 @php
 /**
@@ -526,27 +533,83 @@ function formatFileSize($size) {
 /**
  * Helper function to get monthly attendance data for the chart
  */
-function getMonthlyAttendanceData($employeeId, $status) {
-    // This would be replaced with actual database query
-    // For now, return sample data
-    $sampleData = [
-        'present' => [21, 19, 22, 20, 21, 20, 22, 21, 19, 21, 20, 16],
-        'absent' => [0, 1, 0, 1, 0, 1, 0, 1, 2, 0, 1, 0],
-        'late' => [1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 2]
+function getMonthlyAttendanceData($employeeId) {
+    if (!$employeeId) {
+        return [
+            'present' => array_fill(0, 12, 0),
+            'absent' => array_fill(0, 12, 0),
+            'late' => array_fill(0, 12, 0)
+        ];
+    }
+    
+    $currentYear = date('Y');
+    $monthlyData = [
+        'present' => array_fill(0, 12, 0),
+        'absent' => array_fill(0, 12, 0),
+        'late' => array_fill(0, 12, 0)
     ];
     
-    return $sampleData[$status] ?? array_fill(0, 12, 0);
+    try {
+        // Get attendance data for the current year
+        $attendanceData = DB::table('attendance_employees')
+            ->select(
+                DB::raw('MONTH(date) as month'),
+                'status',
+                DB::raw('COUNT(*) as count')
+            )
+            ->where('employee_id', $employeeId)
+            ->whereYear('date', $currentYear)
+            ->whereIn('status', ['present', 'absent', 'late'])
+            ->groupBy(DB::raw('MONTH(date)'), 'status')
+            ->get();
+        
+        // Populate the monthly data array
+        foreach ($attendanceData as $record) {
+            $monthIndex = $record->month - 1; // Convert to 0-based index
+            $status = $record->status;
+            
+            if (isset($monthlyData[$status]) && $monthIndex >= 0 && $monthIndex < 12) {
+                $monthlyData[$status][$monthIndex] = (int)$record->count;
+            }
+        }
+        
+        return $monthlyData;
+    } catch (\Exception $e) {
+        // Return sample data if query fails
+        return [
+            'present' => [21, 19, 22, 20, 21, 20, 22, 21, 19, 21, 20, 16],
+            'absent' => [0, 1, 0, 1, 0, 1, 0, 1, 2, 0, 1, 0],
+            'late' => [1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 2]
+        ];
+    }
 }
 
-/**
- * Helper function to get weekly check-in time data for the chart
- */
-function getWeeklyCheckinData($employeeId) {
-    // This would be replaced with actual database query
-    // Sample data - checkin times in decimal format (e.g., 9.75 = 9:45 AM)
-    return [9.92, 9.75, 9.83, 10.25, 9.67, 9.75, 9.83, 9.75];
-}
+
 @endphp
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initEmployeeMap" async defer></script>
+
+<script>
+  function initEmployeeMap() {
+    // Example employee coordinates (New Delhi)
+    const employeeLocation = { 
+        lat: {{ $latestLocation->latitude ?? 0 }}, 
+        lng: {{ $latestLocation->longitude ?? 0 }} 
+    };
+
+    // Create map
+    const map = new google.maps.Map(document.getElementById("employee-location-map"), {
+      zoom: 14,
+      center: employeeLocation,
+    });
+
+    // Add marker
+    new google.maps.Marker({
+      position: employeeLocation,
+      map: map,
+      title: "Employee Location",
+    });
+  }
+</script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -564,7 +627,233 @@ document.addEventListener("DOMContentLoaded", function () {
             // Add active class to clicked tab and target content
             this.classList.add("active");
             document.getElementById(target).classList.add("active");
+            
+            // Initialize charts when attendance tab is activated
+            if (target === 'attendance') {
+                setTimeout(() => {
+                    if (window.monthlyAttendanceData && window.weeklyCheckinData) {
+                        initEmployeeAttendanceCharts(window.monthlyAttendanceData, window.weeklyCheckinData);
+                    } else {
+                        initEmployeeAttendanceCharts();
+                    }
+                }, 100);
+            }
         });
     });
+    
+    // Initialize charts if attendance tab is already active on page load
+    if (document.querySelector('.tab-item[data-tab="attendance"]').classList.contains('active')) {
+        setTimeout(() => {
+            if (window.monthlyAttendanceData && window.weeklyCheckinData) {
+                initEmployeeAttendanceCharts(window.monthlyAttendanceData, window.weeklyCheckinData);
+            } else {
+                initEmployeeAttendanceCharts();
+            }
+        }, 100);
+    }
 });
 </script>
+
+
+<!-- Pass PHP data to JS safely -->
+<script>
+    // Assign server data to window variables
+    window.monthlyAttendanceData = @json($monthlyAttendanceData);
+    window.weeklyCheckinData = @json($weeklyCheckinData);
+
+    /**
+     * Initialize Employee Attendance Charts
+     * @param {Object} monthlyData - { present: [], absent: [], late: [] }
+     * @param {Object|Array} weeklyData - Object with {data: [], labels: []} or legacy array format
+     */
+    function initEmployeeAttendanceCharts(
+        monthlyData = { present: Array(12).fill(0), absent: Array(12).fill(0), late: Array(12).fill(0) },
+        weeklyData = { data: Array(8).fill(9), labels: Array(8).fill('Week') }
+    ) {
+        console.log('Initializing Employee Attendance Charts...');
+        console.log('Monthly Data:', monthlyData);
+        console.log('Weekly Data:', weeklyData);
+        console.log('Weekly Data Type:', typeof weeklyData);
+        
+        // Validate data structure
+        if (!monthlyData || typeof monthlyData !== 'object') {
+            console.warn('Invalid monthly data, using defaults');
+            monthlyData = { present: Array(12).fill(0), absent: Array(12).fill(0), late: Array(12).fill(0) };
+        }
+        
+        // Handle both legacy array format and new object format
+        let weeklyDataValues, weeklyLabels;
+        if (Array.isArray(weeklyData)) {
+            // Legacy format - convert to new format
+            console.warn('Using legacy weekly data format, generating default labels');
+            weeklyDataValues = weeklyData;
+            weeklyLabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8'];
+        } else if (weeklyData && typeof weeklyData === 'object' && weeklyData.data && weeklyData.labels) {
+            // New format with data and labels
+            weeklyDataValues = weeklyData.data;
+            weeklyLabels = weeklyData.labels;
+        } else {
+            console.warn('Invalid weekly data, using defaults');
+            weeklyDataValues = Array(8).fill(9);
+            weeklyLabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8'];
+        }
+        
+        console.log('Processed Weekly Data Values:', weeklyDataValues);
+        console.log('Processed Weekly Labels:', weeklyLabels);
+
+        if (typeof Chart === 'undefined') {
+            console.warn('Chart.js not loaded');
+            document.querySelectorAll('.chart-container').forEach(c => {
+                c.innerHTML = '<div class="text-center p-4"><p class="text-muted">Chart.js library not loaded. Please refresh the page.</p></div>';
+            });
+            return;
+        }
+
+        try {
+            // --- Monthly Attendance Chart ---
+            const monthlyChartEl = document.getElementById('monthly-attendance-chart');
+            if (monthlyChartEl && !monthlyChartEl.chart) {
+                console.log('Creating monthly attendance chart...');
+                const ctx = monthlyChartEl.getContext('2d');
+                monthlyChartEl.chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+                        datasets: [
+                            { label: 'Present', data: monthlyData.present, backgroundColor: '#28a745', barPercentage: 0.5, categoryPercentage: 0.8 },
+                            { label: 'Absent',  data: monthlyData.absent, backgroundColor: '#dc3545', barPercentage: 0.5, categoryPercentage: 0.8 },
+                            { label: 'Late',    data: monthlyData.late, backgroundColor: '#ffc107', barPercentage: 0.5, categoryPercentage: 0.8 }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true, position: 'top', labels: { usePointStyle: true, padding: 20 } },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        const label = tooltipItem.dataset.label;
+                                        const value = tooltipItem.raw;
+                                        return `${label}: ${value} day${value !== 1 ? 's' : ''}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { stacked: true, grid: { display: false } },
+                            y: { stacked: true, beginAtZero: true, ticks: { stepSize: 1 } }
+                        }
+                    }
+                });
+                console.log('Monthly attendance chart created successfully');
+            }
+
+                // --- Weekly Check-in Time Chart ---
+
+                function timeToDecimal(timeStr) {
+                    // Convert "09:45 AM" → 9.75
+                    const [time, modifier] = timeStr.split(' ');
+                    let [hours, minutes] = time.split(':').map(Number);
+
+                    if (modifier === 'PM' && hours !== 12) hours += 12;
+                    if (modifier === 'AM' && hours === 12) hours = 0;
+
+                    // ⏰ Round minutes to nearest 15
+                    const roundedMinutes = Math.round(minutes / 15) * 15;
+                    if (roundedMinutes === 60) {
+                        hours += 1;
+                        minutes = 0;
+                    } else {
+                        minutes = roundedMinutes;
+                    }
+
+                    return hours + (minutes / 60);
+                }
+
+
+                // Convert time data to numeric format if needed
+                const numericWeeklyData = weeklyDataValues.map(t => {
+                    if (typeof t === 'string') {
+                        return timeToDecimal(t);
+                    }
+                    return t; // Already numeric
+                });
+
+                const checkinChartEl = document.getElementById('checkin-time-chart');
+                if (checkinChartEl && !checkinChartEl.chart) {
+                    const ctx = checkinChartEl.getContext('2d');
+                    checkinChartEl.chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: weeklyLabels,
+                            datasets: [{
+                                label: 'Average Check-in Time',
+                                data: numericWeeklyData,
+                                borderColor: '#6259ca',
+                                backgroundColor: 'rgba(98, 89, 202, 0.1)',
+                                borderWidth: 2,
+                                pointBackgroundColor: '#6259ca',
+                                pointBorderColor: '#6259ca',
+                                pointRadius: 4,
+                                pointHoverRadius: 6,
+                                tension: 0.4,
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: true, position: 'top', labels: { usePointStyle: true, padding: 20 } },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(tooltipItem) {
+                                            const value = tooltipItem.raw;
+                                            const hours = Math.floor(value);
+                                            const minutes = Math.round((value - hours) * 60);
+                                            return `Average Check-in: ${hours}:${minutes.toString().padStart(2,'0')}`;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: { grid: { display: false } },
+                                y: {
+                                    min: 8,
+                                    max: 14,
+                                    ticks: {
+                                        stepSize: 0.25,
+                                        callback: function(value) {
+                                            const hours = Math.floor(value);
+                                            const minutes = Math.round((value - hours) * 60);
+                                            return `${hours}:${minutes.toString().padStart(2,'0')}`;
+                                        }
+                                    },
+                                    grid: { color: 'rgba(0,0,0,0.1)' }
+                                }
+                            }
+                        }
+                    });
+                }
+
+        } catch (error) {
+            console.error('Error initializing charts:', error);
+            document.querySelectorAll('.chart-container').forEach(c => {
+                c.innerHTML = '<div class="text-center p-4"><p class="text-muted">Unable to load chart data. Please refresh the page.</p></div>';
+            });
+        }
+    }
+
+    // --- Initialize charts safely ---
+    if (window.monthlyAttendanceData && window.monthlyAttendanceData.present) {
+        initEmployeeAttendanceCharts(window.monthlyAttendanceData, window.weeklyCheckinData);
+    } else {
+        console.error('Monthly attendance data is missing:', window.monthlyAttendanceData);
+        // Initialize with default data if server data is missing
+        initEmployeeAttendanceCharts();
+    }
+</script>
+

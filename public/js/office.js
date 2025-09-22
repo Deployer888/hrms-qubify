@@ -241,167 +241,81 @@ function initCharts() {
         });
     }
     
-    // Daily Attendance Chart
-    const dailyAttendanceChartEl = document.getElementById('daily-attendance-chart');
-    if (dailyAttendanceChartEl) {
-        const ctx = dailyAttendanceChartEl.getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                datasets: [{
-                    label: 'Attendance Rate',
-                    data: [95, 94, 97, 92, 90, 75, 70],
-                    backgroundColor: '#3a8ef6',
-                    borderWidth: 0,
-                    barPercentage: 0.6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                            max: 100,
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }]
-                }
-            }
-        });
-    }
+    // // Daily Attendance Chart
+    // const dailyAttendanceChartEl = document.getElementById('daily-attendance-chart');
+    // if (dailyAttendanceChartEl) {
+    //     const ctx = dailyAttendanceChartEl.getContext('2d');
+    //     new Chart(ctx, {
+    //         type: 'bar',
+    //         data: {
+    //             labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    //             datasets: [{
+    //                 label: 'Attendance Rate',
+    //                 data: [95, 94, 97, 92, 90, 75, 70],
+    //                 backgroundColor: '#3a8ef6',
+    //                 borderWidth: 0,
+    //                 barPercentage: 0.6
+    //             }]
+    //         },
+    //         options: {
+    //             responsive: true,
+    //             maintainAspectRatio: false,
+    //             scales: {
+    //                 yAxes: [{
+    //                     ticks: {
+    //                         beginAtZero: true,
+    //                         max: 100,
+    //                         callback: function(value) {
+    //                             return value + '%';
+    //                         }
+    //                     }
+    //                 }]
+    //             }
+    //         }
+    //     });
+    // }
     
-    // Monthly Attendance Chart
-    const monthlyChartEl = document.getElementById('monthly-attendance-chart');
-    if (monthlyChartEl) {
-        const ctx = monthlyChartEl.getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                datasets: [{
-                    label: 'Attendance Rate',
-                    data: [88, 85, 90, 92, 91, 93, 92, 90, 87, 89, 92, 84],
-                    borderColor: '#6259ca',
-                    backgroundColor: 'rgba(98, 89, 202, 0.1)',
-                    borderWidth: 2,
-                    pointBackgroundColor: '#6259ca',
-                    pointRadius: 4,
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: false,
-                            min: 80,
-                            max: 100,
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }]
-                }
-            }
-        });
-    }
+    // // Monthly Attendance Chart
+    // const monthlyChartEl = document.getElementById('monthly-attendance-chart');
+    // if (monthlyChartEl) {
+    //     const ctx = monthlyChartEl.getContext('2d');
+    //     new Chart(ctx, {
+    //         type: 'line',
+    //         data: {
+    //             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    //             datasets: [{
+    //                 label: 'Attendance Rate',
+    //                 data: [88, 85, 90, 92, 91, 93, 92, 90, 87, 89, 92, 84],
+    //                 borderColor: '#6259ca',
+    //                 backgroundColor: 'rgba(98, 89, 202, 0.1)',
+    //                 borderWidth: 2,
+    //                 pointBackgroundColor: '#6259ca',
+    //                 pointRadius: 4,
+    //                 tension: 0.4,
+    //                 fill: true
+    //             }]
+    //         },
+    //         options: {
+    //             responsive: true,
+    //             maintainAspectRatio: false,
+    //             scales: {
+    //                 yAxes: [{
+    //                     ticks: {
+    //                         beginAtZero: false,
+    //                         min: 80,
+    //                         max: 100,
+    //                         callback: function(value) {
+    //                             return value + '%';
+    //                         }
+    //                     }
+    //                 }]
+    //             }
+    //         }
+    //     });
+    // }
+
     
-    // Employee monthly attendance chart
-    const empMonthlyAttendanceChartEl = document.getElementById('employee-monthly-attendance-chart');
-    if (empMonthlyAttendanceChartEl) {
-        const ctx = empMonthlyAttendanceChartEl.getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                datasets: [{
-                    label: 'Present',
-                    data: [21, 19, 22, 20, 21, 20, 22, 21, 19, 21, 20, 16],
-                    backgroundColor: '#28a745',
-                    barPercentage: 0.5,
-                    categoryPercentage: 0.8
-                }, {
-                    label: 'Absent',
-                    data: [0, 1, 0, 1, 0, 1, 0, 1, 2, 0, 1, 0],
-                    backgroundColor: '#dc3545',
-                    barPercentage: 0.5,
-                    categoryPercentage: 0.8
-                }, {
-                    label: 'Late',
-                    data: [1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 2],
-                    backgroundColor: '#ffc107',
-                    barPercentage: 0.5,
-                    categoryPercentage: 0.8
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    xAxes: [{
-                        stacked: true
-                    }],
-                    yAxes: [{
-                        stacked: true,
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-    }
-    
-    // Check-in Time Chart
-    const checkinTimeChartEl = document.getElementById('checkin-time-chart');
-    if (checkinTimeChartEl) {
-        const ctx = checkinTimeChartEl.getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8'],
-                datasets: [{
-                    label: 'Check-in Time',
-                    data: ['8:55', '8:45', '8:50', '9:15', '8:40', '8:45', '8:50', '8:45'].map(time => {
-                        const [hours, minutes] = time.split(':').map(Number);
-                        return hours + minutes / 60;
-                    }),
-                    borderColor: '#6259ca',
-                    backgroundColor: 'rgba(98, 89, 202, 0.1)',
-                    borderWidth: 2,
-                    pointBackgroundColor: '#6259ca',
-                    pointRadius: 4,
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            callback: function(value) {
-                                const hours = Math.floor(value);
-                                const minutes = Math.round((value - hours) * 60);
-                                return `${hours}:${minutes.toString().padStart(2, '0')}`;
-                            },
-                            min: 8,
-                            max: 10
-                        }
-                    }]
-                }
-            }
-        });
-    }
+
 }
 
 // Function to initialize Google Maps
@@ -626,3 +540,4 @@ function setupEventListeners() {
             }
         });
     }
+}

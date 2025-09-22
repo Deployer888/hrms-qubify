@@ -1,4 +1,4 @@
-<script src="https://js.pusher.com/7.0.3/pusher.min.js"></script>
+<!-- <script src="https://js.pusher.com/7.0.3/pusher.min.js"></script>
 <script >
   // Enable pusher logging - don't include this in production
   Pusher.logToConsole = true;
@@ -13,7 +13,7 @@
         }
     }
   });
-</script>
+</script> -->
 <script src="{{ asset('js/chatify/code.js') }}"></script>
 <script>
   // Messenger global variable - 0 by default

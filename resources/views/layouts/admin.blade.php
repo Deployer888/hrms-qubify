@@ -466,7 +466,7 @@ $company_favicon = Utility::getValByName('company_favicon');
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.1/daterangepicker.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js" crossorigin="anonymous"></script>
-
+  
     <!-- Custom Scripts -->
     @if(file_exists(public_path('js/custom.js')))
         <script src="{{ asset('js/custom.js') }}?v={{ filemtime(public_path('js/custom.js')) }}"></script>
@@ -517,14 +517,14 @@ $company_favicon = Utility::getValByName('company_favicon');
             $('[data-toggle="collapse"]').each(function() {
                 $(this).attr('data-bs-toggle', 'collapse');
                 $(this).removeAttr('data-toggle');
-                console.log('Fixed sidebar dropdown:', $(this).text().trim());
+                //console.log('Fixed sidebar dropdown:', $(this).text().trim());
             });
             
             // Fix header dropdowns
             $('[data-toggle="dropdown"]').each(function() {
                 $(this).attr('data-bs-toggle', 'dropdown');
                 $(this).removeAttr('data-toggle');
-                console.log('Fixed header dropdown');
+                //console.log('Fixed header dropdown');
             });
             
             // Fix tooltips
@@ -554,7 +554,7 @@ $company_favicon = Utility::getValByName('company_favicon');
                 var target = $this.attr('href') || $this.attr('data-bs-target');
                 var $target = $(target);
                 
-                console.log('Sidebar dropdown clicked:', $this.text().trim(), 'Target:', target);
+                //console.log('Sidebar dropdown clicked:', $this.text().trim(), 'Target:', target);
                 
                 if ($target.length) {
                     var isCurrentlyOpen = $target.hasClass('show');
@@ -573,9 +573,9 @@ $company_favicon = Utility::getValByName('company_favicon');
                         $target.addClass('show').slideDown(200);
                         $this.addClass('active').removeClass('collapsed');
                         $this.attr('aria-expanded', 'true');
-                        console.log('Opened dropdown:', $this.text().trim());
+                        //console.log('Opened dropdown:', $this.text().trim());
                     } else {
-                        console.log('Closed dropdown:', $this.text().trim());
+                        //console.log('Closed dropdown:', $this.text().trim());
                     }
                 }
             });
@@ -709,11 +709,11 @@ $company_favicon = Utility::getValByName('company_favicon');
                 
                 // Enhanced modal handling
                 $(document).off('show.bs.modal.attendance').on('show.bs.modal.attendance', '#commonModal', function() {
-                    console.log('Modal showing - preparing form components');
+                    //console.log('Modal showing - preparing form components');
                 });
                 
                 $(document).off('shown.bs.modal.attendance').on('shown.bs.modal.attendance', '#commonModal', function() {
-                    console.log('Modal shown - initializing form components');
+                    //console.log('Modal shown - initializing form components');
                     
                     // Delay initialization to ensure DOM is ready
                     setTimeout(function() {
@@ -726,7 +726,7 @@ $company_favicon = Utility::getValByName('company_favicon');
                                 firstInput.focus();
                             }
                             
-                            console.log('Form components initialized successfully');
+                            //console.log('Form components initialized successfully');
                         } catch (error) {
                             console.error('Error initializing form components:', error);
                         }
@@ -734,7 +734,7 @@ $company_favicon = Utility::getValByName('company_favicon');
                 });
                 
                 $(document).off('hidden.bs.modal.attendance').on('hidden.bs.modal.attendance', '#commonModal', function() {
-                    console.log('Modal hidden - cleaning up');
+                    //console.log('Modal hidden - cleaning up');
                     
                     // Close time picker if open
                     const timePicker = document.getElementById('timePickerModal');
@@ -757,10 +757,10 @@ $company_favicon = Utility::getValByName('company_favicon');
                 $(document).off('submit.attendance').on('submit.attendance', '#attendanceForm', function(e) {
                     e.preventDefault();
                     
-                    console.log('Form submission attempted');
+                    //console.log('Form submission attempted');
                     
                     if (window.validateAttendanceForm && !validateAttendanceForm()) {
-                        console.log('Form validation failed');
+                        //console.log('Form validation failed');
                         return false;
                     }
                     
@@ -838,7 +838,7 @@ $company_favicon = Utility::getValByName('company_favicon');
                     this.value = value;
                 });
                 
-                console.log('Attendance form system initialized');
+                //console.log('Attendance form system initialized');
             });
             
             // Global error handling for AJAX requests
@@ -863,14 +863,14 @@ $company_favicon = Utility::getValByName('company_favicon');
         // Utility to ensure form functions are available globally
         window.ensureFormFunctions = function() {
             if (typeof window.openTimePicker === 'undefined') {
-                console.log('Timepicker functions not found, initializing...');
+                //console.log('Timepicker functions not found, initializing...');
                 
                 // Re-initialize form functions if needed
                 setTimeout(function() {
                     const script = document.querySelector('script[src*="attendance"]');
                     if (script) {
                         // Script is loaded, functions should be available
-                        console.log('Attendance script loaded');
+                        //console.log('Attendance script loaded');
                     }
                 }, 100);
             }
