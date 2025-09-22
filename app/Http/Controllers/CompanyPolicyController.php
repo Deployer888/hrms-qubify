@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 
 class CompanyPolicyController extends Controller
 {
-
+    
     public function index()
     {
         if (\Auth::user()->can('Manage Company Policy') || \Auth::user()->type == 'employee') {

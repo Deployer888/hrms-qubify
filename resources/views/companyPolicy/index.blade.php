@@ -9,7 +9,7 @@
         <div class="header-content">
             <div class="header-left">
                 <div class="header-icon">
-                    <i class="fas fa-clock"></i>
+                
                 </div>
                 <div class="header-text">
                     <h1>{{__('Company Policies')}}</h1>
@@ -70,9 +70,9 @@
                                                 </a>
                                             @else
                                                 <p>-</p>
-                                            @endif
+                                            @endif   
                                         </td>
-                                            <td class="text-right action-btns">
+                                            <td class="text-right">
                                                 @can('Edit Company Policy')
                                                     <a href="#"
                                                         data-url="{{ route('company-policy.acknowledge', $policy->id) }}"
@@ -90,23 +90,23 @@
                                    
 
                                     @can('Delete Company Policy')
-    <a href="javascript:void(0);" 
-       onclick="return confirmDelete({{ $policy->id }});">
-        <i class="fas fa-trash"></i>
-    </a>
+                                        <a href="javascript:void(0);" 
+                                        onclick="return confirmDelete({{ $policy->id }});">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
 
-    <form id="delete-form-{{ $policy->id }}" 
-          action="{{ route('company-policy.destroy', $policy->id) }}" 
-          method="POST" style="display: none;">
-        @csrf
-        @method('DELETE')
-    </form>
-@endcan  
+                                        <form id="delete-form-{{ $policy->id }}" 
+                                            action="{{ route('company-policy.destroy', $policy->id) }}" 
+                                            method="POST" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                    @endcan  
 
                                           
                                             </td>
                                     @elseif(\Auth::user()->type == 'employee')
-                                        <td class="text-center action-btns" style="width:100%!important;">
+                                        <td class="text-center" style="width:100%!important;">
                                             <a href="#"
                                                 data-url="{{ route('company-policy.show', $policy->id) }}"
                                                 data-size="lg" data-ajax-popup="true"

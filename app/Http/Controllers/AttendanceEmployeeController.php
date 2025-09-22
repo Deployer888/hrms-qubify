@@ -425,7 +425,7 @@ class AttendanceEmployeeController extends Controller
                     'branch' => $branch,
                     'department' => $department,
                     'date' => $date,
-                    'month' => $month,
+                    'month' => $month,   
                     'employee' => $employeeId,
                     'holidays' => $holidays,
                     'isWeekend' => false,
