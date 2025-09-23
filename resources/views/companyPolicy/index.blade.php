@@ -3,10 +3,18 @@
 @section('page-title')
     {{ __('Manage Company Policy') }}
 @endsection
-
+<style>
+div.dataTables_wrapper div.dataTables_filter {
+    width: 15rem;
+    float: right;
+}
+.dataTables_wrapper .dataTables_filter label:before {
+    display: none !important;
+}
+</style>
 @section('content')
-    <div class="page-header-premium fade-in">
-        <div class="header-content">
+    <div class="page-header-premium fade-in mb-3">
+        <div class="header-content d-flex justify-content-between align-items-center">
             <div class="header-left">
                 <div class="header-icon">
                 
@@ -17,13 +25,11 @@
             </div>
             <div class="header-stats">
                 @can('Create Company Policy')
-                    <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6">
-                        <a href="#" data-url="{{ route('company-policy.create') }}"
-                            class="btn btn-xs btn-white btn-icon-only width-auto" data-ajax-popup="true"
-                            data-title="{{ __('Create New Company Policy') }}">
-                            <i class="fa fa-plus"></i> {{ __('Create') }}
-                        </a>
-                    </div>
+                    <a href="#" data-url="{{ route('company-policy.create') }}"
+                        class="btn btn-xs btn-white btn-icon-only width-auto" data-ajax-popup="true"
+                        data-title="{{ __('Create New Company Policy') }}">
+                        <i class="fa fa-plus"></i> {{ __('Create') }}
+                    </a>
                 @endcan
             </div>
         </div>
@@ -51,7 +57,6 @@
                             <tbody class="font-style">
                                 @foreach ($companyPolicy as $policy)
                                     @php
-                                   
                                          $policyPath = asset('companyPolicy');
                                     @endphp
                                     <tr>
@@ -72,59 +77,59 @@
                                                 <p>-</p>
                                             @endif   
                                         </td>
-                                            <td class="text-right">
-                                                @can('Edit Company Policy')
-                                                    <a href="#"
-                                                        data-url="{{ route('company-policy.acknowledge', $policy->id) }}"
-                                                        data-size="lg" data-ajax-popup="true"
-                                                        data-title="{{ __('Acknowledged employees') }}" class="edit-icon"
-                                                        data-toggle="tooltip" data-original-title="{{ __('Acknowledged employees') }}"><i
-                                                            class="fas fa-pray"></i></a>
-                                                    <a href="#"
-                                                        data-url="{{ route('company-policy.edit', $policy->id) }}"
-                                                        data-size="lg" data-ajax-popup="true"
-                                                        data-title="{{ __('Edit Company Policy') }}" class="edit-icon"
-                                                        data-toggle="tooltip" data-original-title="{{ __('Edit') }}"><i
-                                                            class="fas fa-pencil-alt"></i></a>
-                                                @endcan
-                                   
+                                        <td class="text-right" style="display: flex;">
+                                            @can('Edit Company Policy')
+                                                <a href="#"
+                                                    data-url="{{ route('company-policy.acknowledge', $policy->id) }}"
+                                                    data-size="lg" data-ajax-popup="true"
+                                                    data-title="{{ __('Acknowledged employees') }}" class="edit-icon"
+                                                    data-toggle="tooltip" data-original-title="{{ __('Acknowledged employees') }}"><i
+                                                        class="fas fa-pray"></i></a>
+                                                <a href="#"
+                                                    data-url="{{ route('company-policy.edit', $policy->id) }}"
+                                                    data-size="lg" data-ajax-popup="true"
+                                                    data-title="{{ __('Edit Company Policy') }}" class="edit-icon"
+                                                    data-toggle="tooltip" data-original-title="{{ __('Edit') }}"><i
+                                                        class="fas fa-pencil-alt"></i></a>
+                                            @endcan
+                                
 
-                                    @can('Delete Company Policy')
-                                        <a href="javascript:void(0);" 
-                                        onclick="return confirmDelete({{ $policy->id }});">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
+                                                @can('Delete Company Policy')
+                                                    <a href="javascript:void(0);" 
+                                                    onclick="return confirmDelete({{ $policy->id }});" class="edit-icon">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
 
-                                        <form id="delete-form-{{ $policy->id }}" 
-                                            action="{{ route('company-policy.destroy', $policy->id) }}" 
-                                            method="POST" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                    @endcan  
+                                                    <form id="delete-form-{{ $policy->id }}" 
+                                                        action="{{ route('company-policy.destroy', $policy->id) }}" 
+                                                        method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                @endcan  
 
-                                          
-                                            </td>
-                                    @elseif(\Auth::user()->type == 'employee')
-                                        <td class="text-center" style="width:100%!important;">
-                                            <a href="#"
-                                                data-url="{{ route('company-policy.show', $policy->id) }}"
-                                                data-size="lg" data-ajax-popup="true"
-                                                data-title="{{ __('Show Company Policy') }}" class="screen-icon"
-                                                data-toggle="tooltip" data-original-title="{{ __('Show') }}">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
+                                        
                                         </td>
-                                    @endif
+                                        @elseif(\Auth::user()->type == 'employee')
+                                            <td class="text-center" style="width:100%!important;">
+                                                <a href="#"
+                                                    data-url="{{ route('company-policy.show', $policy->id) }}"
+                                                    data-size="lg" data-ajax-popup="true"
+                                                    data-title="{{ __('Show Company Policy') }}" class="screen-icon"
+                                                    data-toggle="tooltip" data-original-title="{{ __('Show') }}">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        @endif
                                     </tr>
                                     @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     @endsection
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>

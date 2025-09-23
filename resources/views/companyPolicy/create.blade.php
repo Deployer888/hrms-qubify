@@ -1,4 +1,4 @@
-<div class="card bg-none card-box">
+<div class="bg-none card-box">
     <form action="{{ url('company-policy') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row">
