@@ -916,7 +916,7 @@
     }
     
     .action-buttons {
-        display: flex;
+        display: block;
         gap: var(--action-btn-gap-mobile);
         justify-content: center;
         align-items: center;

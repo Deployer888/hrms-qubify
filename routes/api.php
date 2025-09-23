@@ -37,6 +37,7 @@ use App\Http\Controllers\Api\{KioskAdminController, AppVersionController, Office
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('mark-face-attendance', [KioskController::class, 'newFaceAttendanceAPI']);
 //api module
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

@@ -53,7 +53,7 @@
         background: var(--primary-gradient);
         padding: 25px 30px;
         display: flex;
-        align-items: center;
+        align-items: row;
         justify-content: space-between;
         position: relative;
         overflow: hidden;
@@ -91,7 +91,8 @@
         background: rgba(255, 255, 255, 0.2) !important;
         border: 1px solid rgba(255,255,255,0.3) !important;
         border-radius: 8px !important;
-        padding: 8px 12px !important;
+        padding: 0px 5px !important;
+        height: auto !important;
         color: white !important;
         font-size: 1.2rem !important;
         cursor: pointer !important;
@@ -603,7 +604,7 @@
 
         .form-header {
             padding: 20px;
-            flex-direction: column;
+            flex-direction: row;
             gap: 15px;
             text-align: center;
         }

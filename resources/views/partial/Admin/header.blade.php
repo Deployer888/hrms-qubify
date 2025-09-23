@@ -10,6 +10,9 @@
         {{-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-main-collapse" aria-controls="navbar-main-collapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button> --}}
+        <a class="navbar-brand d-lg-none ml-3" href="{{ url('/') }}">
+            <img src="{{ Storage::url('uploads/logo/logo.png') }}" alt="Logo" style="height:40px;">
+        </a>
         <div class="navbar-user ml-auto">
             <ul class="navbar-nav flex-row align-items-center">
                 <li class="nav-item">
@@ -72,7 +75,7 @@
             </ul>
         </div>
         <!-- Navbar nav -->
-        <div class="collapse navbar-collapse navbar-collapse-fade" id="navbar-main-collapse">
+        <div class="collapse navbar-collapse navbar-collapse-fade " id="navbar-main-collapse">
             <ul class="navbar-nav align-items-center d-none d-lg-flex" style="justify-content: end!important;">
                 
                 <li class="nav-item dropdown dropdown-animate">
