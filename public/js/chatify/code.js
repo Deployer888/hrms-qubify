@@ -923,30 +923,30 @@ function setActiveStatus(status, user_id) {
  */
 $(document).ready(function () {
     // get contacts list
-    getContacts();
+    // getContacts();
 
     // get contacts list
-    getFavoritesList();
+    // getFavoritesList();
 
     // Clear typing timeout
     clearTimeout(typingTimeout);
 
     // NProgress configurations
-    NProgress.configure({showSpinner: false, minimum: 0.7, speed: 500});
+    // NProgress.configure({showSpinner: false, minimum: 0.7, speed: 500});
 
     // make message input autosize.
-    autosize($('.m-send'));
+    // autosize($('.m-send'));
 
     // check if pusher has access to the channel [Internet status]
-    pusher.connection.bind('state_change', function (states) {
-        let selector = $('.internet-connection');
-        checkInternet(states.current, selector);
-        // listening for pusher:subscription_succeeded
-        channel.bind('pusher:subscription_succeeded', function () {
-            // On connection state change [Updating] and get [info & msgs]
-            IDinfo(messenger.split('_')[1], messenger.split('_')[0]);
-        });
-    });
+    // pusher.connection.bind('state_change', function (states) {
+    //     let selector = $('.internet-connection');
+    //     checkInternet(states.current, selector);
+    //     // listening for pusher:subscription_succeeded
+    //     channel.bind('pusher:subscription_succeeded', function () {
+    //         // On connection state change [Updating] and get [info & msgs]
+    //         IDinfo(messenger.split('_')[1], messenger.split('_')[0]);
+    //     });
+    // });
 
     // tabs on click, show/hide...
     $('.messenger-listView-tabs a').on('click', function () {

@@ -38,6 +38,7 @@
                                         <td>{{ $leavetype->days }}</td>
 
                                         <td>
+                                            <span class="d-flex">
                                             @can('Edit Leave Type')
                                                 <a href="#"
                                                     data-url="{{ URL::to('leavetype/' . $leavetype->id . '/edit') }}"
@@ -52,12 +53,13 @@
                                                     data-confirm="{{ __('Are You Sure?') . '|' . __('This action can not be undone. Do you want to continue?') }}"
                                                     data-confirm-yes="document.getElementById('delete-form-{{ $leavetype->id }}').submit();"><i
                                                         class="fas fa-trash"></i></a>
-                                                <form method="POST" action="{{ route('leavetype.destroy', $leavetype->id) }}"
-                                                    id="delete-form-{{ $leavetype->id }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                    @endif
+                                                        @endcan
+                                                    </span>
+                                                    <form method="POST" action="{{ route('leavetype.destroy', $leavetype->id) }}"
+                                                        id="delete-form-{{ $leavetype->id }}">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
                                     </td>
                                     </tr>
                                     @endforeach

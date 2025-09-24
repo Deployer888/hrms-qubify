@@ -22,43 +22,120 @@ use DB;
 
 class OfficeController extends Controller
 {
-    public function index()
+    // public function index(Request $request)
+    // {
+
+    //     if (\Auth::user()->can('Manage Office')) {
+
+    //         $officeQuery = Office::where('created_by', \Auth::user()->creatorId());
+    //            if ($request->ajax()) {
+               
+
+    //             //     // Apply search if query is present
+    //                 if ($request->has('query') && $request->query != '') {
+                    
+    //                     $search = $request->input('query');
+    //                     $officeQuery->where(function($q) use ($search) {
+    //                         $q->where('name', 'LIKE', "%{$search}%")
+    //                         ->orWhere('city', 'LIKE', "%{$search}%")
+    //                         ->orWhere('country', 'LIKE', "%{$search}%");
+    //                     });
+                    
+    //                 }
+
+    //             }
+    //             $offices = $officeQuery->get();
+    //         // $offices = Office::where('created_by', '=', \Auth::user()->creatorId())->get();
+
+    //         // Count employees and departments efficiently
+    //         $employeeCounts = Employee::where('created_by', \Auth::user()->creatorId())
+    //             ->where('is_active', 1)
+    //             ->select('office_id', DB::raw('count(*) as count'))
+    //             ->groupBy('office_id')
+    //             ->pluck('count', 'office_id')
+    //             ->toArray();
+
+    //         // Get total metrics
+    //         $totalEmployees = array_sum($employeeCounts);
+    //         $totalDepartments = Department::where('created_by', \Auth::user()->creatorId())->count();
+    //         $totalCities = $offices->pluck('city')->unique()->count();
+
+    //         // Calculate average office attendance from AttendanceEmployee records for today
+    //         $today = Carbon::today()->format('Y-m-d');
+    //         $presentEmployees = AttendanceEmployee::whereDate('date', $today)
+    //             ->whereIn('employee_id', function($query) {
+    //                 $query->select('id')
+    //                     ->from('employees')
+    //                     ->where('created_by', \Auth::user()->creatorId())
+    //                     ->where('is_active', 1);
+    //             })
+    //             ->distinct('employee_id')
+    //             ->count();
+
+    //         $attendancePercentage = $totalEmployees > 0 ? round(($presentEmployees / $totalEmployees) * 100) : 0;
+
+    //         return view('office.index', compact('offices', 'totalEmployees', 'totalDepartments', 'totalCities', 'attendancePercentage'));
+    //     } else {
+    //         return redirect()->back()->with('error', __('Permission denied.'));
+    //     }
+    // }
+    public function index(Request $request)
     {
-        if (\Auth::user()->can('Manage Office')) {
-            $offices = Office::where('created_by', '=', \Auth::user()->creatorId())->get();
-
-            // Count employees and departments efficiently
-            $employeeCounts = Employee::where('created_by', \Auth::user()->creatorId())
-                ->where('is_active', 1)
-                ->select('office_id', DB::raw('count(*) as count'))
-                ->groupBy('office_id')
-                ->pluck('count', 'office_id')
-                ->toArray();
-
-            // Get total metrics
-            $totalEmployees = array_sum($employeeCounts);
-            $totalDepartments = Department::where('created_by', \Auth::user()->creatorId())->count();
-            $totalCities = $offices->pluck('city')->unique()->count();
-
-            // Calculate average office attendance from AttendanceEmployee records for today
-            $today = Carbon::today()->format('Y-m-d');
-            $presentEmployees = AttendanceEmployee::whereDate('date', $today)
-                ->whereIn('employee_id', function($query) {
-                    $query->select('id')
-                        ->from('employees')
-                        ->where('created_by', \Auth::user()->creatorId())
-                        ->where('is_active', 1);
-                })
-                ->distinct('employee_id')
-                ->count();
-
-            $attendancePercentage = $totalEmployees > 0 ? round(($presentEmployees / $totalEmployees) * 100) : 0;
-
-            return view('office.index', compact('offices', 'totalEmployees', 'totalDepartments', 'totalCities', 'attendancePercentage'));
-        } else {
+        if (!\Auth::user()->can('Manage Office')) {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
+
+        $officeQuery = Office::where('created_by', \Auth::user()->creatorId());
+
+        // Apply search if query is present
+        if ($request->has('query') && $request->query != '') {
+            $search = $request->input('query');
+            $officeQuery->where(function($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                ->orWhere('city', 'LIKE', "%{$search}%")
+                ->orWhere('country', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $offices = $officeQuery->get();
+
+        // If AJAX, return only office cards HTML
+        if ($request->ajax()) {
+            $html = '';
+            foreach ($offices as $office) {
+                $html .= view('office.office_cards', compact('office'))->render();
+            }
+            return response()->json(['html' => $html]);
+        }
+
+        // Metrics
+        $employeeCounts = Employee::where('created_by', \Auth::user()->creatorId())
+            ->where('is_active', 1)
+            ->select('office_id', DB::raw('count(*) as count'))
+            ->groupBy('office_id')
+            ->pluck('count', 'office_id')
+            ->toArray();
+
+        $totalEmployees = array_sum($employeeCounts);
+        $totalDepartments = Department::where('created_by', \Auth::user()->creatorId())->count();
+        $totalCities = $offices->pluck('city')->unique()->count();
+
+        $today = Carbon::today()->format('Y-m-d');
+        $presentEmployees = AttendanceEmployee::whereDate('date', $today)
+            ->whereIn('employee_id', function($query) {
+                $query->select('id')
+                    ->from('employees')
+                    ->where('created_by', \Auth::user()->creatorId())
+                    ->where('is_active', 1);
+            })
+            ->distinct('employee_id')
+            ->count();
+
+        $attendancePercentage = $totalEmployees > 0 ? round(($presentEmployees / $totalEmployees) * 100) : 0;
+
+        return view('office.index', compact('offices', 'totalEmployees', 'totalDepartments', 'totalCities', 'attendancePercentage'));
     }
+
 
     public function create()
     {

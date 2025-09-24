@@ -38,7 +38,7 @@
                                         <td>{{ $department->name }}</td>
 
                                         <td class="Action">
-                                            <span>
+                                            <span class="d-flex">
                                                 @can('Edit Department')
                                                     <a href="#"
                                                         data-url="{{ URL::to('department/' . $department->id . '/edit') }}"
@@ -53,13 +53,13 @@
                                                         data-confirm="{{ __('Are You Sure?') . '|' . __('This action can not be undone. Do you want to continue?') }}"
                                                         data-confirm-yes="document.getElementById('delete-form-{{ $department->id }}').submit();"><i
                                                             class="fas fa-trash"></i></a>
-                                                    <form action="{{ route('department.destroy', $department->id) }}"
-                                                        method="POST" id="delete-form-{{ $department->id }}">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
                                                 @endcan
                                             </span>
+                                                        <form action="{{ route('department.destroy', $department->id) }}"
+                                                            method="POST" id="delete-form-{{ $department->id }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -32,7 +32,7 @@ div.dataTables_wrapper div.dataTables_filter {
                     </a>
                 @endcan
             </div>
-        </div>
+        </div>    
     </div>
 
     <div class="row">

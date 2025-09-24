@@ -1444,6 +1444,7 @@ Route::group(['middleware' => ['auth', 'XSS']], function () {
     Route::put('office/{id}', 'OfficeController@update')->name('office.update');  
     Route::delete('office/{id}', 'OfficeController@destroy')->name('office.destroy');
     Route::get('office/{id}', 'OfficeController@show')->name('office.one.index');
+ 
 });
 Route::get('/office/employee/{id?}', [App\Http\Controllers\OfficeController::class, 'employee'])->name('office.employee')->middleware(['auth', 'XSS']);
 Route::group(['middleware' => ['auth', 'XSS']], function () {

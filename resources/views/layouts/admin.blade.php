@@ -267,6 +267,10 @@ $company_favicon = Utility::getValByName('company_favicon');
             animation: spin 1s linear infinite;
         }
 
+        .dataTables_wrapper .dataTables_filter label:before {
+            display: none !important;
+        } 
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -413,6 +417,30 @@ $company_favicon = Utility::getValByName('company_favicon');
             content: "✓";
             font-size: 0.875rem;
         }
+        /* Desktop only - DataTables filter input width */
+        @media (min-width: 992px) {
+            div.dataTables_wrapper div.dataTables_filter input {
+                width: 31rem;
+            }
+        }
+        @media (min-width: 1200px) {
+            div.dataTables_wrapper div.dataTables_filter input {
+                width: 31rem;
+            }
+           /* iPad Portrait and smaller tablets */
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            div.dataTables_wrapper div.dataTables_filter input {
+                width: 18rem;
+            }
+        }
+
+        /* iPad Landscape and larger tablets */
+        @media (min-width: 992px) and (max-width: 1199.98px) {
+            div.dataTables_wrapper div.dataTables_filter input {
+                width: 24rem;
+            }
+        }
+}
     </style>
 </head>
 

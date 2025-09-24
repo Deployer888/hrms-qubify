@@ -43,8 +43,8 @@
                                         <td>{{ !empty($department->name) ? $department->name : '' }}</td>
                                         <td>{{ $designation->name }}</td>
 
-                                        <td class="Action">
-                                            <span>
+                                        <td class="Action ">
+                                            <span class="d-flex">
                                                 @can('Edit Designation')
                                                     <a href="#"
                                                         data-url="{{ route('designation.edit', $designation->id) }}"
@@ -59,13 +59,13 @@
                                                         data-confirm="{{ __('Are You Sure?') . '|' . __('This action can not be undone. Do you want to continue?') }}"
                                                         data-confirm-yes="document.getElementById('delete-form-{{ $designation->id }}').submit();"><i
                                                             class="fas fa-trash"></i></a>
-                                                    <form action="{{ route('designation.destroy', $designation->id) }}"
-                                                        method="POST" id="delete-form-{{ $designation->id }}">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
-                                                @endcan
-                                            </span>
+                                                    @endcan
+                                                </span>
+                                                        <form action="{{ route('designation.destroy', $designation->id) }}"
+                                                            method="POST" id="delete-form-{{ $designation->id }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
                                         </td>
                                     </tr>
                                 @endforeach

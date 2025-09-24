@@ -22,7 +22,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body py-0">
-                    <div class="table-responsive">
+                    <div class="">
                         <table class="table table-striped mb-0 dataTable">
                             <thead>
                                 <tr>
