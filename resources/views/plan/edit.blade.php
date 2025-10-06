@@ -1,3 +1,113 @@
+<style>
+    .modal-body {
+        padding: 12px;
+    }
+    .modal-dialog {
+        background: white;
+        padding: 20px;
+        border: 2px solid #fff;
+        border-radius: 10px;
+    }
+
+    .modal-btn-cancel {
+        color: #FFF;
+        background-color: #FF5630;
+        border-color: #FF5630;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        border-radius: 7px;
+        padding: 5px 15px;
+    }
+
+    .modal-btn-submit {
+        color: #FFF;
+        background-color: #5668d7;
+        border-color: #5668d7;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        border-radius: 7px;
+        padding: 5px 15px;
+    }
+
+    #exampleModalLabel{
+        display:none;
+    }
+
+    .modal-dialog-centered {
+        min-height: calc(100% - 10.5rem);
+    }
+
+   /* Seamless Plan Info Integration */
+.plan-info {
+    margin-bottom: 24px;
+    padding: 0;
+}
+
+.plan-info-content {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 20px 0;
+    text-align: center;
+}
+
+/* Plan Details */
+.plan-details {
+    margin-bottom: 16px;
+}
+
+.plan-name {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2563eb;
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+.plan-pricing {
+    font-size: 16px;
+    font-weight: 500;
+    color: #6b7280;
+    margin-bottom: 0;
+}
+
+/* Plan Limits */
+.plan-limits {
+    margin-top: 16px;
+}
+
+.limits-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: #f59e0b;
+    color: white;
+    border-radius: 16px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.limits-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* Add subtle separator */
+.plan-info-content::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: #e5e7eb;
+    margin: 20px auto 0;
+    border-radius: 1px;
+}
+</style>
+
 {{-- Modal Header with Same Animation --}}
 <div class="page-header-premium fade-in modal-header-style">
     <div class="header-content header-content-modal">
@@ -26,13 +136,7 @@
     {{-- Plan Info Badge --}}
     <div class="plan-info mb-4">
         <div class="plan-info-content">
-            <div class="plan-icon-container">
-                @if($plan->price == 0)
-                    <i class="fas fa-gift"></i>
-                @else
-                    <i class="fas fa-crown"></i>
-                @endif
-            </div>
+    
             <div class="plan-details">
                 <div class="plan-name">{{ $plan->name }}</div>
                 <div class="plan-pricing">

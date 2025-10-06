@@ -1,3 +1,40 @@
+<style>
+    .modal-body {
+        padding: 12px;
+    }
+    .modal-dialog {
+        background: white;
+        padding: 20px;
+        border: 2px solid #fff;
+        border-radius: 10px;
+    }
+
+    .modal-btn-cancel {
+        color: #FFF;
+        background-color: #FF5630;
+        border-color: #FF5630;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        border-radius: 7px;
+        padding: 5px 15px;
+    }
+
+    .modal-btn-submit {
+        color: #FFF;
+        background-color: #5668d7;
+        border-color: #5668d7;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        border-radius: 7px;
+        padding: 5px 15px;
+    }
+
+    #exampleModalLabel{
+        display:none;
+    }
+
+    .modal-dialog-centered {
+        min-height: calc(100% - 10.5rem);
+    }
+</style>
 {{-- Modal Header with Same Animation --}}
 <div class="page-header-premium fade-in modal-header-style">
     <div class="header-content header-content-modal">
