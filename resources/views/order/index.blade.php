@@ -2,7 +2,9 @@
 @section('page-title')
     {{__('Orders')}}
 @endsection
-
+@push('css-page')
+ <link rel="stylesheet" href="{{ asset('css/superAdmin/order.css') }}">
+@endpush
 @section('content')
 <div class="container-fluid">
     <!-- Premium Header - uses styles from custom.css -->
@@ -25,7 +27,7 @@
                     <p class="stat-label">{{ __('Successful') }}</p>
                 </div>
                 <div class="stat-item">
-                    <p class="stat-number revenue-counter" id="totalRevenue">{{ (!empty(env('CURRENCY_SYMBOL')) ? env('CURRENCY_SYMBOL') : '$') . number_format($orders->where('payment_status', 'succeeded')->sum('price'), 2) }}</p>
+                    <p class="stat-number revenue-counter" id="totalRevenue">{{ (\App\Models\Utility::getValByName('site_currency_symbol') ?: '$') . number_format($orders->where('payment_status', 'succeeded')->sum('price'), 2) }}</p>
                     <p class="stat-label">{{ __('Total Revenue') }}</p>
                 </div>
             </div>
@@ -37,7 +39,7 @@
         @if($orders->count() > 0)
             <div class="premium-table-container">
                 <div class="table-responsive">
-                    <table class="premium-table" id="ordersTable">
+                    <table class="table premium-table" id="ordersTable">
                         <thead>
                             <tr>
                                 <th>{{ __('Order ID') }}</th>

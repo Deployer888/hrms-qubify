@@ -152,6 +152,8 @@
             overflow: hidden;
             transform-style: preserve-3d;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         @media (min-width: 576px) {
@@ -165,6 +167,17 @@
             .page-header-compact {
                 padding: var(--spacing-xl) var(--spacing-2xl);
                 border-radius: var(--radius-2xl);
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .page-header-compact {
+                margin-bottom: var(--spacing-lg);
+                padding: var(--spacing-md);
+            }
+            
+            .page-header-compact .header-content {
+                gap: var(--spacing-md);
             }
         }
 
@@ -220,7 +233,8 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            gap: var(--spacing-md);
+            gap: var(--spacing-lg);
+            width: 100%;
         }
 
         @media (min-width: 768px) {
@@ -229,6 +243,7 @@
                 align-items: center;
                 justify-content: space-between;
                 text-align: left;
+                gap: var(--spacing-md);
             }
         }
 
@@ -238,6 +253,7 @@
             gap: var(--spacing-md);
             flex-direction: column;
             text-align: center;
+            flex: 1;
         }
 
         @media (min-width: 576px) {
@@ -245,6 +261,25 @@
                 flex-direction: row;
                 text-align: left;
             }
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 768px) {
+            .header-right {
+                justify-content: flex-end;
+            }
+        }
+
+        .header-text {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
         }
 
         .page-title-compact {
@@ -414,17 +449,19 @@
             font-weight: 500;
             min-width: 140px;
             width: 100%;
-            max-width: 200px;
+            max-width: 220px;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             position: relative;
             z-index: 2;
+            cursor: pointer;
         }
 
         @media (min-width: 576px) {
             .office-select {
                 width: auto;
                 min-width: 160px;
+                max-width: 200px;
                 font-size: var(--font-base);
                 padding: var(--spacing-md) var(--spacing-lg);
             }
@@ -433,6 +470,7 @@
         @media (min-width: 768px) {
             .office-select {
                 min-width: 180px;
+                max-width: 220px;
             }
         }
 
@@ -442,10 +480,21 @@
             transform: translateY(-2px);
         }
 
+        .office-select:focus {
+            outline: none;
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.6);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+        }
+
         .office-select option {
-            /* background: #2d3748; */
-            color: #000;
+            background: #2563eb;
+            color: #fff;
             padding: 10px;
+        }
+
+        .office-select option:hover {
+            background: #1d4ed8;
         }
 
         /* HRMS Metrics Grid - Enhanced Responsive */

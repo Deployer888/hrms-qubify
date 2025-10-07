@@ -2,6 +2,11 @@
 @section('page-title')
     {{ __('Plans') }}
 @endsection
+
+@push('css-page')
+ <link rel="stylesheet" href="{{ asset('css/superAdmin/plan.css') }}">
+@endpush
+
 @section('content')
 <div class="container-fluid">
     {{-- Premium Header --}}
@@ -19,7 +24,7 @@
             <div class="header-stats">
                 <div class="stat-item">
                     <p class="stat-number">{{ $plans->count() }}</p>
-                    <p class="stat-label text-light">{{ __('Available Plans') }}</p>
+                    <p class="stat-label"><b>{{ __('Available Plans') }}</b></p>
                 </div>
                 @can('Create Plan')
                 @if (
@@ -32,7 +37,7 @@
                                 !empty($admin_payment_setting['paypal_secret_key']))))
                 <div class="stat-item">
                     <a href="#" data-url="{{ route('plans.create') }}" data-ajax-popup="true" 
-                       data-title="{{ __('Create New Plan') }}"
+                       data-title=""
                        class="premium-btn">
                         <i class="fa fa-plus"></i> {{ __('Create') }}
                     </a>
@@ -49,7 +54,7 @@
     @endphp
 
     @if($plans->count() > 0)
-        <div class="row gx-4 gy-4 row-equal-height">
+        <div class="plans-grid">
             @foreach ($plans as $plan)
             @php
                 $isCompany = \Auth::user()->type == 'company';
@@ -63,178 +68,197 @@
                     $isRecommended = true;
                 }
             @endphp
-            <div class="col-lg-3 col-md-6 col-sm-12 fade-in plan-card-container {{ $isRecommended || $isActive || \Auth::user()->type == 'super admin' ? '' : 'plan-blur' }}" 
+            <div class="fade-in premium-plan-card {{ $isRecommended ? 'recommended' : '' }} {{ $isActive ? 'active' : '' }} {{ $isRecommended || $isActive || \Auth::user()->type == 'super admin' ? '' : 'blurred' }}" 
                  style="animation-delay: {{ $loop->index * 0.1 }}s">
-                <div class="premium-card plan-card {{ $isRecommended ? 'plan-recommended' : '' }} {{ $isActive ? 'plan-active' : '' }}">
-                    {{-- Plan Status Badge --}}
-                    @if($isRecommended && !$active)
-                    <div class="plan-status-badge recommended-badge">
-                        <i class="fas fa-star"></i>
-                        {{ __('Recommended') }}
-                    </div>
-                    @endif
-                    @if($isActive)
-                    <div class="plan-status-badge active-badge">
-                        <i class="fas fa-check-circle"></i>
-                        {{ __('Active') }}
-                    </div>
-                    @endif
+                
+                {{-- Plan Status Badge --}}
+                @if($isRecommended && !$active)
+                <div class="plan-badge recommended">
+                    <i class="fas fa-star"></i>
+                    {{ __('Recommended') }}
+                </div>
+                @endif
+                @if($isActive)
+                <div class="plan-badge active">
+                    <i class="fas fa-check-circle"></i>
+                    {{ __('Active') }}
+                </div>
+                @endif
 
-                    {{-- Actions Dropdown --}}
-                    @if (Gate::check('Edit Plan') && \Auth::user()->type == 'super admin')
-                    <div class="actions-dropdown">
-                        <div class="dropdown">
-                            <button class="actions-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-ellipsis-h"></i>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="#" data-ajax-popup="true" 
-                                       data-url="{{ route('plans.edit', $plan->id) }}" 
-                                       data-title="{{ __('Edit Plan') }}"
-                                       class="dropdown-item">
-                                        <i class="fas fa-edit"></i>
-                                        {{ __('Edit') }}
-                                    </a>
-                                </li>
-                                @if($plan->id != 1)
-                                <li>
-                                    <a href="#" class="dropdown-item text-danger delete-plan" 
-                                       data-plan-id="{{ $plan->id }}"
-                                       data-plan-name="{{ $plan->name }}">
-                                        <i class="fas fa-trash"></i>
-                                        {{ __('Delete') }}
-                                    </a>
-                                    <form id="delete-form-{{ $plan->id }}" action="{{ route('plans.destroy', $plan->id) }}" method="POST" style="display: none;">
-                                        @csrf 
-                                        @method('DELETE')
-                                    </form>
-                                </li>
-                                @endif
-                            </ul>
-                        </div>
+                {{-- Actions Dropdown --}}
+                @if (Gate::check('Edit Plan') && \Auth::user()->type == 'super admin')
+                <div class="plan-actions-dropdown">
+                    <div class="dropdown">
+                        <button class="actions-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#" data-ajax-popup="true" 
+                                   data-url="{{ route('plans.edit', $plan->id) }}" 
+                                   data-title="{{ __('Edit Plan') }}"
+                                   class="dropdown-item">
+                                    <i class="fas fa-edit"></i>
+                                    {{ __('Edit') }}
+                                </a>
+                            </li>
+                            @if($plan->id != 1)
+                            <li>
+                                <a href="#" class="dropdown-item text-danger delete-plan" 
+                                   data-plan-id="{{ $plan->id }}"
+                                   data-plan-name="{{ $plan->name }}">
+                                    <i class="fas fa-trash"></i>
+                                    {{ __('Delete') }}
+                                </a>
+                                <form id="delete-form-{{ $plan->id }}" action="{{ route('plans.destroy', $plan->id) }}" method="POST" style="display: none;">
+                                    @csrf 
+                                    @method('DELETE')
+                                </form>
+                            </li>
+                            @endif
+                        </ul>
                     </div>
-                    @endif
+                </div>
+                @endif
 
-                    <div class="premium-card-body" style="padding-top: {{ Gate::check('Edit Plan') && \Auth::user()->type == 'super admin' ? '70px' : '32px' }}">
-                        <div>
-                            {{-- Plan Icon --}}
-                            <div class="plan-icon-wrapper">
-                                <div class="plan-icon">
-                                    @if($plan->price == 0)
-                                        <i class="fas fa-gift"></i>
-                                    @elseif($isRecommended)
-                                        <i class="fas fa-crown"></i>
-                                    @else
-                                        <i class="fas fa-rocket"></i>
-                                    @endif
-                                </div>
-                            </div>
-
-                            {{-- Plan Info --}}
-                            <h5 class="user-name">{{ $plan->name }}</h5>
-                            <div class="plan-price">
-                                <span class="price-currency">{{ (!empty(env('CURRENCY_SYMBOL')) ? env('CURRENCY_SYMBOL') : '$') }}</span>
-                                <span class="price-amount">{{ $plan->price }}</span>
-                                @if($plan->price > 0)
-                                <span class="price-duration">/ {{ ucfirst($plan->duration) }}</span>
-                                @elseif($plan->duration == '2_weeks')
-                                <span class="price-duration">for 2 Weeks</span>
+                <div class="premium-plan-card-body">
+                    <div class="card-main-content">
+                        {{-- Plan Icon --}}
+                        <div class="plan-icon-wrapper">
+                            <div class="plan-icon">
+                                @if($plan->price == 0)
+                                    <i class="fas fa-gift"></i>
+                                @elseif($isRecommended)
+                                    <i class="fas fa-crown"></i>
                                 @else
-                                <span class="price-duration">for a {{ ucfirst($plan->duration) }}</span>
+                                    <i class="fas fa-rocket"></i>
                                 @endif
-                            </div>
-
-                            {{-- Plan Features --}}
-                            <div class="plan-features">
-                                <div class="feature-item">
-                                    <i class="fas fa-users feature-icon"></i>
-                                    <span>{{ $plan->max_users == -1 ? __('Unlimited') : $plan->max_users }} {{ __('Users') }}</span>
-                                </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-user-tie feature-icon"></i>
-                                    <span>{{ $plan->max_employees == -1 ? __('Unlimited') : $plan->max_employees }} {{ __('Employees') }}</span>
-                                </div>
                             </div>
                         </div>
 
-                        {{-- Plan Actions --}}
-                        <div class="plan-actions">
-                            @if(\Auth::user()->type != 'super admin')
-                                @if($isActive)
-                                    <div class="current-plan-badge">
-                                        <i class="fas fa-check-circle"></i>
-                                        {{ __('Current Plan') }}
-                                    </div>
-                                    @if(\Auth::user()->type == 'company' && \Auth::user()->plan_expire_date)
-                                    <div class="plan-expires">
-                                        <i class="fas fa-clock"></i>
-                                        {{ __('Expires: ') }}{{ \Auth::user()->dateFormat(\Auth::user()->plan_expire_date) }}
-                                    </div>
-                                    @endif
-                                @else
-                                    {{-- Purchase/Request Actions --}}
-                                    @if (
-                                        (!empty($admin_payment_setting) &&
-                                            ($admin_payment_setting['is_stripe_enabled'] == 'on' ||
-                                                $admin_payment_setting['is_paypal_enabled'] == 'on' ||
-                                                $admin_payment_setting['is_paystack_enabled'] == 'on' ||
-                                                $admin_payment_setting['is_flutterwave_enabled'] == 'on' ||
-                                                $admin_payment_setting['is_razorpay_enabled'] == 'on' ||
-                                                $admin_payment_setting['is_mercado_enabled'] == 'on' ||
-                                                $admin_payment_setting['is_paytm_enabled'] == 'on' ||
-                                                $admin_payment_setting['is_mollie_enabled'] == 'on' ||
-                                                $admin_payment_setting['is_paypal_enabled'] == 'on' ||
-                                                $admin_payment_setting['is_skrill_enabled'] == 'on' ||
-                                                $admin_payment_setting['is_coingate_enabled'] == 'on')) ||
-                                            (isset($admin_payment_setting['is_paymentwall_enabled']) && $admin_payment_setting['is_paymentwall_enabled'] == 'on'))
-                                        @can('Buy Plan')
-                                            @if($plan->price > 0)
-                                                <a href="{{ route('stripe', \Illuminate\Support\Facades\Crypt::encrypt($plan->id)) }}"
-                                                   class="premium-btn plan-action-btn">
-                                                    <i class="fas fa-credit-card"></i>
-                                                    {{ __('Buy Plan') }}
-                                                </a>
-                                            @else
-                                                <a href="{{ route('stripe', \Illuminate\Support\Facades\Crypt::encrypt($plan->id)) }}"
-                                                   class="premium-btn plan-action-btn plan-free-btn">
-                                                    <i class="fas fa-gift"></i>
-                                                    {{ __('Get Free') }}
-                                                </a>
-                                            @endif
-                                        @endcan
-                                    @endif
+                        {{-- Plan Info --}}
+                        <h5 class="plan-name">{{ $plan->name }}</h5>
+                        <div class="plan-price">
+                            <span class="price-currency">{{ (!empty(env('CURRENCY_SYMBOL')) ? env('CURRENCY_SYMBOL') : '$') }}</span>
+                            <span class="price-amount">{{ $plan->price }}</span>
+                            @if($plan->price > 0)
+                            <span class="price-duration">/ {{ ucfirst($plan->duration) }}</span>
+                            @elseif($plan->duration == '2_weeks')
+                            <span class="price-duration">for 2 Weeks</span>
+                            @else
+                            <span class="price-duration">for a {{ ucfirst($plan->duration) }}</span>
+                            @endif
+                        </div>
 
-                                    {{-- Plan Request --}}
-                                    @if($plan->id != 1)
-                                        @if(\Auth::user()->requested_plan != $plan->id)
-                                            <a href="{{ route('plan_request', \Illuminate\Support\Facades\Crypt::encrypt($plan->id)) }}"
-                                               class="upgrade-link">
-                                                <i class="fas fa-paper-plane"></i>
-                                                {{ __('Request Plan') }}
+                        {{-- Plan Features --}}
+                        <div class="plan-features">
+                            <div class="feature-item">
+                                <i class="fas fa-users feature-icon"></i>
+                                <span class="feature-text">
+                                    <strong>{{ $plan->max_users == -1 ? __('Unlimited') : number_format($plan->max_users) }}</strong> {{ __('Users') }}
+                                </span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-user-tie feature-icon"></i>
+                                <span class="feature-text">
+                                    <strong>{{ $plan->max_employees == -1 ? __('Unlimited') : number_format($plan->max_employees) }}</strong> {{ __('Employees') }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Plan Actions --}}
+                    <div class="plan-actions">
+                        @if(\Auth::user()->type != 'super admin')
+                            @if($isActive)
+                                <div class="current-plan">
+                                    <i class="fas fa-check-circle"></i>
+                                    {{ __('Current Plan') }}
+                                </div>
+                                @if(\Auth::user()->type == 'company' && \Auth::user()->plan_expire_date)
+                                <div class="plan-expires">
+                                    <i class="fas fa-clock"></i>
+                                    {{ __('Expires: ') }}{{ \Auth::user()->dateFormat(\Auth::user()->plan_expire_date) }}
+                                </div>
+                                @endif
+                            @else
+                                {{-- Purchase/Request Actions --}}
+                                @if (
+                                    (!empty($admin_payment_setting) &&
+                                        ($admin_payment_setting['is_stripe_enabled'] == 'on' ||
+                                            $admin_payment_setting['is_paypal_enabled'] == 'on' ||
+                                            $admin_payment_setting['is_paystack_enabled'] == 'on' ||
+                                            $admin_payment_setting['is_flutterwave_enabled'] == 'on' ||
+                                            $admin_payment_setting['is_razorpay_enabled'] == 'on' ||
+                                            $admin_payment_setting['is_mercado_enabled'] == 'on' ||
+                                            $admin_payment_setting['is_paytm_enabled'] == 'on' ||
+                                            $admin_payment_setting['is_mollie_enabled'] == 'on' ||
+                                            $admin_payment_setting['is_paypal_enabled'] == 'on' ||
+                                            $admin_payment_setting['is_skrill_enabled'] == 'on' ||
+                                            $admin_payment_setting['is_coingate_enabled'] == 'on')) ||
+                                        (isset($admin_payment_setting['is_paymentwall_enabled']) && $admin_payment_setting['is_paymentwall_enabled'] == 'on'))
+                                    @can('Buy Plan')
+                                        @if($plan->price > 0)
+                                            <a href="{{ route('stripe', \Illuminate\Support\Facades\Crypt::encrypt($plan->id)) }}"
+                                               class="plan-btn">
+                                                <i class="fas fa-credit-card"></i>
+                                                {{ __('Buy Plan') }}
                                             </a>
                                         @else
-                                            <div class="requested-badge">
-                                                <i class="fas fa-clock"></i>
-                                                {{ __('Request Pending') }}
-                                            </div>
+                                            <a href="{{ route('stripe', \Illuminate\Support\Facades\Crypt::encrypt($plan->id)) }}"
+                                               class="plan-btn free">
+                                                <i class="fas fa-gift"></i>
+                                                {{ __('Get Free') }}
+                                            </a>
                                         @endif
+                                    @endcan
+                                @endif
+
+                                {{-- Plan Request --}}
+                                @if($plan->id != 1)
+                                    @if(\Auth::user()->requested_plan != $plan->id)
+                                        <a href="{{ route('plan_request', \Illuminate\Support\Facades\Crypt::encrypt($plan->id)) }}"
+                                           class="request-link">
+                                            <i class="fas fa-paper-plane"></i>
+                                            {{ __('Request Plan') }}
+                                        </a>
+                                    @else
+                                        <div class="requested-badge">
+                                            <i class="fas fa-clock"></i>
+                                            {{ __('Request Pending') }}
+                                        </div>
                                     @endif
                                 @endif
                             @endif
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
             @endforeach
         </div>
     @else
-        <div class="premium-card fade-in">
-            <div class="premium-card-body">
+        <div class="premium-plan-card fade-in">
+            <div class="premium-plan-card-body">
                 <div class="empty-state">
                     <i class="fas fa-credit-card"></i>
                     <h3>{{ __('No Plans Found') }}</h3>
-                    <p>{{ __('Start by creating your first subscription plan.') }}</p>
+                    <p>{{ __('Start by creating your first subscription plan to get started.') }}</p>
+                    @can('Create Plan')
+                    @if (
+                        !empty($admin_payment_setting) &&
+                            (($admin_payment_setting['is_stripe_enabled'] == 'on' &&
+                                !empty($admin_payment_setting['stripe_key']) &&
+                                !empty($admin_payment_setting['stripe_secret'])) ||
+                                ($admin_payment_setting['is_paypal_enabled'] == 'on' &&
+                                    !empty($admin_payment_setting['paypal_client_id']) &&
+                                    !empty($admin_payment_setting['paypal_secret_key']))))
+                        <a href="#" data-url="{{ route('plans.create') }}" data-ajax-popup="true" 
+                           data-title="{{ __('Create New Plan') }}"
+                           class="premium-btn" style="background: var(--primary); border-color: var(--primary); margin-top: 20px;">
+                            <i class="fa fa-plus"></i> {{ __('Create Your First Plan') }}
+                        </a>
+                    @endif
+                    @endcan
                 </div>
             </div>
         </div>
@@ -324,13 +348,15 @@
         </div>
     </div>
 </div>
+@endsection
 
+@push('script-page')
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     var authUserType = "{{ \Auth::user()->type }}";
     if(authUserType == 'super admin'){
-        document.querySelectorAll('.plan-blur').forEach(function(el) {
-            el.classList.remove('plan-blur');
+        document.querySelectorAll('.blurred').forEach(function(el) {
+            el.classList.remove('blurred');
         });
     }
     
@@ -379,26 +405,63 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Plan card interactions for companies
+    // Enhanced plan card interactions for companies
     if (userType === 'company') {
-        const planCards = document.querySelectorAll('.plan-card');
+        const planCards = document.querySelectorAll('.premium-plan-card');
+        let selectedCard = null;
 
         planCards.forEach(card => {
-            card.addEventListener('click', function() {
-                // Remove blur from all cards and reset recommended state
+            // Add hover effects
+            card.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.transform = 'translateY(-12px) scale(1.02)';
+                }
+            });
+
+            card.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('active') && this !== selectedCard) {
+                    this.style.transform = '';
+                }
+            });
+
+            // Click interactions
+            card.addEventListener('click', function(e) {
+                // Don't trigger if clicking on action buttons
+                if (e.target.closest('.plan-actions') || e.target.closest('.plan-actions-dropdown')) {
+                    return;
+                }
+
+                selectedCard = this;
+                
+                // Animate card selection
                 planCards.forEach(c => {
-                    const container = c.closest('.plan-card-container');
                     if (c !== this) {
-                        container.classList.add('plan-blur');
-                        c.classList.remove('plan-recommended');
+                        c.classList.add('blurred');
+                        c.classList.remove('recommended');
+                        c.style.transform = '';
                     } else {
-                        container.classList.remove('plan-blur');
-                        if (!c.classList.contains('plan-active')) {
-                            c.classList.add('plan-recommended');
+                        c.classList.remove('blurred');
+                        if (!c.classList.contains('active')) {
+                            c.classList.add('recommended');
+                            c.style.transform = 'translateY(-8px) scale(1.05)';
                         }
                     }
                 });
             });
+        });
+
+        // Reset selection on outside click
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.premium-plan-card')) {
+                planCards.forEach(c => {
+                    if (!c.classList.contains('active')) {
+                        c.classList.remove('blurred');
+                        c.classList.remove('recommended');
+                        c.style.transform = '';
+                    }
+                });
+                selectedCard = null;
+            }
         });
     }
 
@@ -422,7 +485,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     cancelButtonText: 'Cancel'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        const card = deleteBtn.closest('.premium-card');
+                        const card = deleteBtn.closest('.premium-plan-card');
                         if (card) {
                             card.classList.add('loading-card');
                         }
@@ -432,7 +495,7 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 const confirmMessage = `Are you sure you want to delete the plan "${planName}"? This action cannot be undone.`;
                 if (confirm(confirmMessage)) {
-                    const card = deleteBtn.closest('.premium-card');
+                    const card = deleteBtn.closest('.premium-plan-card');
                     if (card) {
                         card.classList.add('loading-card');
                     }
@@ -442,7 +505,20 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Dropdown animations (same as users index)
+    // Loading state for AJAX actions
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('[data-ajax-popup]')) {
+            const card = e.target.closest('.premium-plan-card');
+            if (card) {
+                card.classList.add('loading-card');
+                setTimeout(() => {
+                    card.classList.remove('loading-card');
+                }, 3000);
+            }
+        }
+    });
+
+    // Dropdown animations
     const dropdowns = document.querySelectorAll('.dropdown');
     dropdowns.forEach(dropdown => {
         const menu = dropdown.querySelector('.dropdown-menu');
@@ -464,6 +540,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 menu.style.opacity = '0';
             });
         }
+    });
+
+    // Remove loading state when modal is closed
+    document.addEventListener('hidden.bs.modal', function() {
+        document.querySelectorAll('.loading-card').forEach(card => {
+            card.classList.remove('loading-card');
+        });
     });
 
     // Form validation for modal
@@ -495,7 +578,81 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     updateFormValidation();
-});
-</script>
 
-@endsection
+    // Enhanced card animations
+    const cards = document.querySelectorAll('.premium-plan-card');
+
+    cards.forEach(card => {
+        // Enhanced hover effects
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+
+    // Add ripple effect to buttons
+    const buttons = document.querySelectorAll('.premium-btn, .plan-btn, .request-link');
+    buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255, 255, 255, 0.4)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple-animation 0.6s linear';
+            ripple.style.pointerEvents = 'none';
+
+            this.appendChild(ripple);
+
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Observe all fade-in elements
+    document.querySelectorAll('.fade-in').forEach(el => {
+        observer.observe(el);
+    });
+});
+
+// Add CSS for ripple animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes ripple-animation {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+</script>
+@endpush

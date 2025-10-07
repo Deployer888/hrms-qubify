@@ -33,142 +33,7 @@
 @endpush
 
 @push('css-page')
-    <style>
-        #commonModal{
-            padding: 25px!important;
-        }
-
-        /* Coupon Code Badge */
-        .coupon-code {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.1));
-            color: var(--primary);
-            border: 1px solid rgba(37, 99, 235, 0.2);
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            font-family: 'Monaco', 'Menlo', monospace;
-            letter-spacing: 0.5px;
-        }
-
-        .coupon-code i {
-            font-size: 0.75rem;
-        }
-
-        /* Discount Badge */
-        .discount-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.1));
-            color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 16px;
-            font-weight: 600;
-            font-size: 0.8rem;
-        }
-
-        /* Usage Stats */
-        .usage-stats {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .usage-bar {
-            width: 100%;
-            height: 6px;
-            background: #e5e7eb;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .usage-fill {
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 3px;
-            transition: width 0.3s ease;
-        }
-
-        .usage-text {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            text-align: center;
-        }
-
-        /* Coupon Name */
-        .coupon-name {
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
-        .coupon-desc {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin: 2px 0 0 0;
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-            color: var(--text-secondary);
-        }
-
-        .empty-state i {
-            font-size: 4rem;
-            margin-bottom: 24px;
-            opacity: 0.3;
-            color: var(--text-secondary);
-        }
-
-        .empty-state h3 {
-            margin-bottom: 12px;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .empty-state p {
-            margin-bottom: 24px;
-            font-size: 0.9rem;
-        }
-
-        /* Loading State */
-        .loading-row {
-            opacity: 0.6;
-            pointer-events: none;
-            position: relative;
-        }
-
-        .loading-row::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255, 255, 255, 0.8);
-            z-index: 999;
-        }
-
-        .loading-row::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            margin: -10px 0 0 -10px;
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            z-index: 1000;
-        }
-    </style>
+<link rel="stylesheet" href="{{ asset('css/superAdmin/coupon.css') }}">
 @endpush
 
 @section('content')
@@ -181,7 +46,7 @@
                     <i class="fas fa-ticket-alt"></i>
                 </div>
                 <div class="header-text">
-                    <h1>{{ __('Manage Coupons') }}</h1>
+                    <h1 class="text-white">{{ __('Manage Coupons') }}</h1>
                     <p>{{ __('Create and manage discount coupons for your customers') }}</p>
                 </div>
             </div>

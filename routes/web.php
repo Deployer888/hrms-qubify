@@ -69,13 +69,15 @@ Route::get('/', 'HomeController@index')->name('welcome')->middleware(['XSS']);
 Route::get('/home', 'HomeController@index')->name('home')->middleware(
     [
         'auth',
-        'XSS', 'CheckPlan'
+        'XSS', 'CheckPlan'  
     ]
 );
 
 
 
 Route::get('/home/getlanguage', 'HomeController@getlanguvage')->name('home.getlanguvage');
+Route::get('/dashboard/revenue-data', 'HomeController@getRevenueData')->name('dashboard.revenue.data')->middleware(['auth', 'XSS']);
+Route::get('/dashboard/debug-orders', 'HomeController@debugOrders')->name('dashboard.debug.orders')->middleware(['auth', 'XSS']);
 
 Route::group(
     [
@@ -1433,8 +1435,6 @@ Route::group(['middleware' => 'auth'],function(){
     Route::post('/send-web-notification', 'NotificationSendController@sendNotification')->name('send.web-notification');
 });
 
-
-
 Route::group(['middleware' => ['auth', 'XSS']], function () {
     // Office routes
     Route::get('office', 'OfficeController@index')->name('office.index');
@@ -1445,6 +1445,7 @@ Route::group(['middleware' => ['auth', 'XSS']], function () {
     Route::delete('office/{id}', 'OfficeController@destroy')->name('office.destroy');
     Route::get('office/{id}', 'OfficeController@show')->name('office.one.index');
 });
+
 Route::get('/office/employee/{id?}', [App\Http\Controllers\OfficeController::class, 'employee'])->name('office.employee')->middleware(['auth', 'XSS']);
 Route::group(['middleware' => ['auth', 'XSS']], function () {
     // Route for displaying employee details for an office

@@ -8,7 +8,7 @@
 
 @push('script-page')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function() {     
             if ($('.gdpr_fulltime').is(':checked')) {
                 $('.fulltime').show();
             } else {
@@ -119,14 +119,16 @@
             
             .form-group.focused label,
             .premium-form-group.focused label {
-                color: var(--primary);
+                color: var(--primary-setting);
                 transform: translateY(-2px);
             }
         `;
         document.head.appendChild(style);
     </script>
 @endpush
-
+@push('css-page')
+  <link rel="stylesheet" href="{{ asset('css/superAdmin/system.css') }}">
+@endpush
 @php
     $logo = asset(Storage::url('uploads/logo/'));
     $lang = \App\Models\Utility::getValByName('default_language');

@@ -3,7 +3,9 @@
 @section('page-title')
     {{ __('Manage Plan Request') }}
 @endsection
-
+@push('css-page')
+<link rel="stylesheet" href="{{ asset('css/superAdmin/plan_request.css') }}">
+@endpush
 @section('content')
 <div class="container-fluid">
     {{-- Premium Header --}}
@@ -32,7 +34,7 @@
     </div>
 
     {{-- Premium Table Card --}}
-    <div class="premium-table-container fade-in">
+    <div class="premium-table-container">
         <div class="table-header">
             <div>
                 <h2 class="table-title">{{ __('Plan Requests') }}</h2>
