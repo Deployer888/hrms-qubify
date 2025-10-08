@@ -1458,7 +1458,7 @@ Route::group(['middleware' => ['auth', 'XSS']], function () {
     Route::get('office/{office}/live-locations', [OfficeController::class, 'getLiveLocations'])->name('office.live-locations');
 });
     
-
+  
 // HR Attendance Dashboard Routes
 Route::get('/dash', [App\Http\Controllers\DashController::class, 'index'])->name('hr.attendance.dashboard')->middleware(['auth', 'XSS']);
 Route::post('/dash-data', [App\Http\Controllers\DashController::class, 'getFilteredData'])->name('hr.attendance.data')->middleware(['auth', 'XSS']);
