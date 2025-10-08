@@ -4,7 +4,7 @@
 @if (Auth::user()->type == 'super admin')
     {{ __('Companies') }}
 @else
-    {{ __('Users') }}
+    {{ __('Users') }}   
 @endif
 @endsection
 

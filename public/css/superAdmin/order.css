@@ -552,10 +552,6 @@
             flex-wrap: wrap;
         }
         
-        .premium-table-container {
-            overflow-x: auto;
-        }
-        
         .premium-table {
             min-width: 800px;
         }

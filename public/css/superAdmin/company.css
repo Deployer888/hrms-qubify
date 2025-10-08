@@ -59,7 +59,7 @@
         0%, 100% { transform: translateY(0px) rotate(0deg); }
         50% { transform: translateY(-20px) rotate(180deg); }
     }
-
+  
     .header-content {
         display: flex;
         justify-content: space-between;
@@ -1060,3 +1060,5 @@
             break-inside: avoid;
         }
     }
+
+  

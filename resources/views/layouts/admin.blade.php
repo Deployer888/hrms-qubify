@@ -176,7 +176,9 @@ $company_favicon = Utility::getValByName('company_favicon');
             font-weight: bold;
         }
 
-        /* Modal Enhancements */
+         /* Modal Enhancements */
+
+        
         .modal-content {
             border: none;
             border-radius: 16px;
@@ -184,37 +186,11 @@ $company_favicon = Utility::getValByName('company_favicon');
             overflow: hidden;
         }
 
-        .modal-header {
-            border-bottom: none;
-            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-            color: white;
-            padding: 1.5rem 2rem;
+        #exampleModalLabel{
+            display:none;
         }
-
-        .modal-header .modal-title {
-            font-weight: 700;
-            font-size: 1.25rem;
-            margin: 0;
-        }
-
-        .modal-header .close-icon {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1rem;
-            text-decoration: none;
-            padding: 0.5rem;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-
-        .modal-header .close-icon:hover {
-            color: white;
-            background: rgba(255, 255, 255, 0.1);
-            text-decoration: none;
-        }
-
-        .modal-body {
-            padding: 0;
-            background: #f8fafc;
+        .modal-body{
+            padding: 15px;
         }
 
         /* Fix for Select2 in modals */
