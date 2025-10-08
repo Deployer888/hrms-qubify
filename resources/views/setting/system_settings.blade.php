@@ -100,34 +100,301 @@
                 
                 $input.prop('checked', !$input.prop('checked')).trigger('change');
             });
-        });
 
-        // Add ripple animation CSS
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-            
-            .payment-method-card.expanded {
-                transform: translateY(-2px);
-                box-shadow: 0 12px 28px rgba(37, 99, 235, 0.15);
-            }
-            
-            .form-group.focused label,
-            .premium-form-group.focused label {
-                color: var(--primary-setting);
-                transform: translateY(-2px);
-            }
-        `;
-        document.head.appendChild(style);
+            // Bootstrap 5 tabs should work automatically with data-bs-toggle
+            // No custom JavaScript needed if Bootstrap 5 JS is loaded
+        });
     </script>
+    
+
 @endpush
+
 @push('css-page')
   <link rel="stylesheet" href="{{ asset('css/superAdmin/system.css') }}">
+  <style>
+    @keyframes ripple {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+    
+    .payment-method-card.expanded {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 28px rgba(37, 99, 235, 0.15);
+    }
+    
+    .form-group.focused label,
+    .premium-form-group.focused label {
+        color: var(--primary-setting);
+        transform: translateY(-2px);
+    }
+    .form-switch {
+        padding-left: 2.5em;
+    }
+    
+    /* Enhanced Bootstrap 5 nav-tabs styling */
+    .nav-tabs {
+        border-bottom: 2px solid #e9ecef;
+        margin-bottom: 25px;
+        background: #f8f9fa;
+        padding: 5px;
+        border-radius: 8px 8px 0 0;
+    }
+    
+    .nav-tabs .nav-link {
+        border: none;
+        border-radius: 6px;
+        padding: 12px 20px;
+        color: #6c757d;
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-right: 5px;
+        font-weight: 500;
+        position: relative;
+    }
+    
+    .nav-tabs .nav-link:hover {
+        color: #495057;
+        background-color: rgba(255, 255, 255, 0.7);
+        transform: translateY(-1px);
+    }
+    
+    .nav-tabs .nav-link.active {
+        color: #fff !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        border: none !important;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        transform: translateY(-2px);
+    }
+    
+    .nav-tabs .nav-link.active::after {
+        content: '';
+        position: absolute;
+        bottom: -7px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 8px solid #667eea;
+    }
+    
+    .tab-content > .tab-pane {
+        display: none;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+    
+    .tab-content > .tab-pane.active,
+    .tab-content > .tab-pane.show {
+        display: block;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Site Settings Layout Improvements */
+    .settings-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+    
+    .settings-section {
+        background: #fff;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e9ecef;
+        transition: all 0.3s ease;
+    }
+    
+    .settings-section:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+    
+    .settings-section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #e9ecef;
+        display: flex;
+        align-items: center;
+    }
+    
+    .settings-section-title i {
+        margin-right: 10px;
+        color: #667eea;
+    }
+    
+    .logo-upload-area {
+        border: 2px dashed #dee2e6;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+    }
+    
+    .logo-upload-area:hover {
+        border-color: #667eea;
+        background: #f0f4ff;
+    }
+    
+    .logo-preview {
+        max-width: 120px;
+        max-height: 80px;
+        margin-bottom: 15px;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .upload-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .upload-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+    
+    .toggle-switches-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 16px;
+        margin-top: 25px;
+        padding: 24px;
+        background: #f8f9fa;
+        border-radius: 12px;
+        border: 1px solid #e9ecef;
+    }
+    
+    .toggle-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        background: white;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+        transition: all 0.3s ease;
+        min-height: 60px;
+    }
+    
+    .toggle-item:hover {
+        border-color: #667eea;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+    }
+    
+    .form-check {
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+    
+    .form-check-input {
+        margin-right: 0;
+        margin-left: auto;
+        order: 2;
+    }
+    
+    .form-check-label {
+        font-weight: 500;
+        color: #495057;
+        cursor: pointer;
+        margin-bottom: 0;
+        order: 1;
+        flex: 1;
+        display: flex;
+        align-items: center;
+    }
+    
+    .form-check-label i {
+        color: #667eea;
+        width: 16px;
+        margin-right: 8px;
+    }
+    
+    .form-control, .form-select {
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 12px 16px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background-color: #fff;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        background-color: #fff;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+    
+    .text-danger {
+        font-size: 12px;
+        margin-top: 4px;
+    }
+    
+    .settings-section .mb-3:last-of-type {
+        margin-bottom: 0 !important;
+    }
+    
+    /* Enhanced textarea styling */
+    textarea.form-control {
+        resize: vertical;
+        min-height: 100px;
+    }
+    
+    /* Custom select styling */
+    .form-select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 7 7 7-7'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 16px 12px;
+    }
+    
+    /* Input group styling for better organization */
+    .input-group-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+    
+    @media (max-width: 768px) {
+        .input-group-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .toggle-switches-row {
+            grid-template-columns: 1fr;
+        }
+    }
+  </style>
 @endpush
 @php
     $logo = asset(Storage::url('uploads/logo/'));
@@ -149,159 +416,194 @@
         </div>
     </div>
 
+
     <div class="row">
         <div class="col-lg-12">
             <!-- Premium Tab Navigation -->
             <div class="premium-tabs fade-in">
-                <ul class="nav nav-tabs">
-                    <li>
-                        <a data-toggle="tab" href="#site-settings" class="active">
+                <ul class="nav nav-tabs" id="settingsTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="site-settings-tab" data-bs-toggle="tab" data-bs-target="#site-settings" type="button" role="tab" aria-controls="site-settings" aria-selected="true">
                             <i class="fas fa-globe me-2"></i>{{ __('Site Setting') }}
-                        </a>
+                        </button>
                     </li>
-                    <li>
-                        <a data-toggle="tab" href="#email-settings">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="email-settings-tab" data-bs-toggle="tab" data-bs-target="#email-settings" type="button" role="tab" aria-controls="email-settings" aria-selected="false">
                             <i class="fas fa-envelope me-2"></i>{{ __('Email Setting') }}
-                        </a>
+                        </button>
                     </li>
-                    <li>
-                        <a data-toggle="tab" href="#payment-settings">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="payment-settings-tab" data-bs-toggle="tab" data-bs-target="#payment-settings" type="button" role="tab" aria-controls="payment-settings" aria-selected="false">
                             <i class="fas fa-credit-card me-2"></i>{{ __('Payment Setting') }}
-                        </a>
+                        </button>
                     </li>
-                    <li>
-                        <a data-toggle="tab" href="#pusher-settings">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pusher-settings-tab" data-bs-toggle="tab" data-bs-target="#pusher-settings" type="button" role="tab" aria-controls="pusher-settings" aria-selected="false">
                             <i class="fas fa-broadcast-tower me-2"></i>{{ __('Pusher Setting') }}
-                        </a>
+                        </button>
                     </li>
-                    <li>
-                        <a data-toggle="tab" href="#recaptcha-settings">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="recaptcha-settings-tab" data-bs-toggle="tab" data-bs-target="#recaptcha-settings" type="button" role="tab" aria-controls="recaptcha-settings" aria-selected="false">
                             <i class="fas fa-shield-alt me-2"></i>{{ __('ReCaptcha Setting') }}
-                        </a>
+                        </button>
                     </li>
                 </ul>
             </div>
 
-            <div class="tab-content">
+            <div class="tab-content" id="settingsTabContent">
                 <!-- Site Settings Tab -->
-                <div id="site-settings" class="tab-pane in active">
+                <div class="tab-pane fade show active" id="site-settings" role="tabpanel" aria-labelledby="site-settings-tab">
                     <div class="premium-card fade-in" style="animation-delay: 0.1s">
                         <div class="premium-card-body">
                             <form action="{{ url('settings') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                <div class="row">
-                                    <div class="col-lg-3 col-sm-6 col-md-6">
-                                        <h4 class="premium-small-title">{{ __('Logo') }}</h4>
-                                        <div class="premium-logo-box">
-                                            <div class="logo-content">
-                                                <img src="{{ asset(Storage::url($settings['logo'])) }}" class="big-logo" alt="" />
-                                            </div>
-                                            <div class="choose-file mt-4">
-                                                <label for="logo">
-                                                    <i class="fas fa-upload me-2"></i>{{ __('Choose file here') }}
-                                                    <input type="file" class="form-control" name="logo" id="logo" data-filename="edit-logo">
+                                <div class="settings-grid">
+                                    <!-- Logo Section -->
+                                    <div class="settings-section">
+                                        <h5 class="settings-section-title">
+                                            <i class="fas fa-image"></i>{{ __('Logo') }}
+                                        </h5>
+                                        <div class="logo-upload-area">
+                                            <img src="{{ asset(Storage::url($settings['logo'])) }}" class="logo-preview" alt="Logo" />
+                                            <div>
+                                                <label for="logo" class="upload-btn">
+                                                    <i class="fas fa-upload me-2"></i>{{ __('Choose Logo') }}
+                                                    <input type="file" class="d-none" name="logo" id="logo" data-filename="edit-logo">
                                                 </label>
-                                                <p class="edit-logo mt-2 text-muted"></p>
-                                                <p class="mt-3 text-muted small">{{ __('These Logo will appear on Payslip.') }}</p>
+                                                <p class="edit-logo mt-2 text-muted small"></p>
+                                                <p class="mt-2 text-muted small">{{ __('This logo will appear on Payslip') }}</p>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-3 col-sm-6 col-md-6">
-                                        <h4 class="premium-small-title">{{ __('Landing Page Logo') }}</h4>
-                                        <div class="premium-logo-box">
-                                            <div class="logo-content">
-                                                <img src="{{ asset(Storage::url($settings['landing_logo'])) }}" class="landing-logo img-fluid" alt="" />
-                                            </div>
-                                            <div class="choose-file mt-4">
-                                                <label for="landing-logo">
-                                                    <i class="fas fa-upload me-2"></i>{{ __('Choose file here') }}
-                                                    <input type="file" class="form-control" name="landing_logo" id="landing-logo" data-filename="edit-landing-logo">
+                                    <!-- Landing Page Logo Section -->
+                                    <div class="settings-section">
+                                        <h5 class="settings-section-title">
+                                            <i class="fas fa-desktop"></i>{{ __('Landing Page Logo') }}
+                                        </h5>
+                                        <div class="logo-upload-area">
+                                            <img src="{{ asset(Storage::url($settings['landing_logo'])) }}" class="logo-preview" alt="Landing Logo" />
+                                            <div>
+                                                <label for="landing-logo" class="upload-btn">
+                                                    <i class="fas fa-upload me-2"></i>{{ __('Choose Logo') }}
+                                                    <input type="file" class="d-none" name="landing_logo" id="landing-logo" data-filename="edit-landing-logo">
                                                 </label>
-                                                <p class="edit-landing-logo mt-2 text-muted"></p>
+                                                <p class="edit-landing-logo mt-2 text-muted small"></p>
                                             </div>
-                                            <div class="premium-form-group mt-3">
-                                                <label for="display_landing_page">{{ __('Landing Page Display') }}</label>
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input" name="display_landing_page" id="display_landing_page" {{ $settings['display_landing_page'] == 'on' ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="display_landing_page"></label>
-                                                </div>
+                                        </div>
+                                        <div class="mt-3">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" name="display_landing_page" id="display_landing_page" {{ $settings['display_landing_page'] == 'on' ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="display_landing_page">
+                                                    {{ __('Display Landing Page') }}
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-3 col-sm-6 col-md-6">
-                                        <h4 class="premium-small-title">{{ __('Favicon') }}</h4>
-                                        <div class="premium-logo-box">
-                                            <div class="logo-content">
-                                                <img src="{{ asset(Storage::url($settings['favicon'])) }}" class="small-logo" alt="" />
-                                            </div>
-                                            <div class="choose-file mt-4">
-                                                <label for="small-favicon">
-                                                    <i class="fas fa-upload me-2"></i>{{ __('Choose file here') }}
-                                                    <input type="file" class="form-control" name="favicon" id="small-favicon" data-filename="edit-favicon">
+                                    <!-- Favicon Section -->
+                                    <div class="settings-section">
+                                        <h5 class="settings-section-title">
+                                            <i class="fas fa-star"></i>{{ __('Favicon') }}
+                                        </h5>
+                                        <div class="logo-upload-area">
+                                            <img src="{{ asset(Storage::url($settings['favicon'])) }}" class="logo-preview" alt="Favicon" style="max-width: 64px; max-height: 64px;" />
+                                            <div>
+                                                <label for="small-favicon" class="upload-btn">
+                                                    <i class="fas fa-upload me-2"></i>{{ __('Choose Favicon') }}
+                                                    <input type="file" class="d-none" name="favicon" id="small-favicon" data-filename="edit-favicon">
                                                 </label>
-                                                <p class="edit-favicon mt-2 text-muted"></p>
+                                                <p class="edit-favicon mt-2 text-muted small"></p>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-3 col-sm-6 col-md-6">
-                                        <h4 class="premium-small-title">{{ __('Settings') }}</h4>
-                                        <div class="premium-form-group">
-                                            <label for="title_text">{{ __('Title Text') }}</label>
-                                            <input type="text" class="form-control premium-form-control" name="title_text" value="{{ old('title_text', $settings['title_text']) }}" placeholder="{{ __('Title Text') }}">
-                                            @error('title_text')
-                                                <span class="text-danger small">{{ $message }}</span>
-                                            @enderror
+                                    <!-- General Settings Section -->
+                                    <div class="settings-section" style="grid-column: 1 / -1;">
+                                        <h5 class="settings-section-title">
+                                            <i class="fas fa-cog"></i>{{ __('General Settings') }}
+                                        </h5>
+                                        
+                                        <!-- Basic Information -->
+                                        <div class="input-group-container">
+                                            <div>
+                                                <label for="title_text" class="form-label">
+                                                    <i class="fas fa-heading me-2 text-primary"></i>{{ __('Title Text') }}
+                                                </label>
+                                                <input type="text" class="form-control" name="title_text" id="title_text" value="{{ old('title_text', $settings['title_text']) }}" placeholder="{{ __('Enter application title') }}">
+                                                @error('title_text')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <div>
+                                                <label for="footer_text" class="form-label">
+                                                    <i class="fas fa-align-center me-2 text-primary"></i>{{ __('Footer Text') }}
+                                                </label>
+                                                <input type="text" class="form-control" name="footer_text" id="footer_text" value="{{ old('footer_text', $settings['footer_text']) }}" placeholder="{{ __('Enter footer text') }}">
+                                                @error('footer_text')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
                                         </div>
 
-                                        <div class="premium-form-group">
-                                            <label for="footer_text">{{ __('Footer Text') }}</label>
-                                            <input type="text" class="form-control premium-form-control" name="footer_text" value="{{ old('footer_text', $settings['footer_text']) }}" placeholder="{{ __('Footer Text') }}">
-                                            @error('footer_text')
-                                                <span class="text-danger small">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-
-                                        <div class="premium-form-group">
-                                            <label for="default_language">{{ __('Default Language') }}</label>
-                                            <select name="default_language" id="default_language" class="form-control premium-form-control">
+                                        <!-- Language Selection -->
+                                        <div class="mb-4">
+                                            <label for="default_language" class="form-label">
+                                                <i class="fas fa-globe me-2 text-primary"></i>{{ __('Default Language') }}
+                                            </label>
+                                            <select name="default_language" id="default_language" class="form-select">
                                                 @foreach (\App\Models\Utility::languages() as $language)
                                                     <option @if ($lang == $language) selected @endif value="{{ $language }}">{{ Str::upper($language) }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
 
-                                        <!-- Toggle Switches in Single Line -->
-                                        <div class="settings-toggles-row">
-                                            <div class="premium-form-group">
-                                                <label for="SITE_RTL">{{ __('RTL') }}</label>
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input" name="SITE_RTL" id="SITE_RTL" {{ env('SITE_RTL') == 'on' ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="SITE_RTL"></label>
+                                        <!-- System Preferences -->
+                                        <div class="mb-4">
+                                            <h6 class="mb-3" style="color: #495057; font-weight: 600;">
+                                                <i class="fas fa-sliders-h me-2 text-primary"></i>{{ __('System Preferences') }}
+                                            </h6>
+                                            <div class="toggle-switches-row">
+                                                <div class="toggle-item">
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" name="SITE_RTL" id="SITE_RTL" {{ env('SITE_RTL') == 'on' ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="SITE_RTL">
+                                                            <i class="fas fa-align-right me-2"></i>{{ __('RTL Mode') }}
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="premium-form-group">
-                                                <label for="disable_signup_button">{{ __('Signup') }}</label>
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input" name="disable_signup_button" id="disable_signup_button" {{ $settings['disable_signup_button'] == 'on' ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="disable_signup_button"></label>
+                                                <div class="toggle-item">
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" name="disable_signup_button" id="disable_signup_button" {{ $settings['disable_signup_button'] == 'on' ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="disable_signup_button">
+                                                            <i class="fas fa-user-plus me-2"></i>{{ __('Enable Signup') }}
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="premium-form-group">
-                                                <label for="gdpr_cookie">{{ __('GDPR Cookie') }}</label>
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input gdpr_fulltime gdpr_type" name="gdpr_cookie" id="gdpr_cookie" {{ isset($settings['gdpr_cookie']) && $settings['gdpr_cookie'] == 'on' ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="gdpr_cookie"></label>
+                                                <div class="toggle-item">
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input gdpr_fulltime gdpr_type" type="checkbox" name="gdpr_cookie" id="gdpr_cookie" {{ isset($settings['gdpr_cookie']) && $settings['gdpr_cookie'] == 'on' ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="gdpr_cookie">
+                                                            <i class="fas fa-shield-alt me-2"></i>{{ __('GDPR Cookie') }}
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="premium-form-group mt-3">
-                                            <textarea name="cookie_text" class="form-control premium-form-control fulltime" rows="4" placeholder="{{ __('Enter cookie text') }}">{{ old('cookie_text', $settings['cookie_text']) }}</textarea>
+                                        <!-- Cookie Configuration -->
+                                        <div class="cookie-section fulltime" style="display: {{ isset($settings['gdpr_cookie']) && $settings['gdpr_cookie'] == 'on' ? 'block' : 'none' }};">
+                                            <h6 class="mb-3" style="color: #495057; font-weight: 600;">
+                                                <i class="fas fa-cookie-bite me-2 text-primary"></i>{{ __('Cookie Configuration') }}
+                                            </h6>
+                                            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid #e9ecef;">
+                                                <label for="cookie_text" class="form-label">{{ __('Cookie Consent Text') }}</label>
+                                                <textarea name="cookie_text" id="cookie_text" class="form-control fulltime" rows="4" placeholder="{{ __('Enter the text that will be displayed in the cookie consent banner...') }}">{{ old('cookie_text', $settings['cookie_text']) }}</textarea>
+                                                <small class="text-muted mt-2 d-block">{{ __('This text will be shown to users when they first visit your website.') }}</small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -319,7 +621,7 @@
                 </div>
 
                 <!-- Email Settings Tab -->
-                <div id="email-settings" class="tab-pane">
+                <div class="tab-pane fade" id="email-settings" role="tabpanel" aria-labelledby="email-settings-tab">
                     <div class="premium-card fade-in" style="animation-delay: 0.2s">
                         <div class="premium-card-body">
                             <form action="{{ route('email.settings') }}" method="post">
@@ -417,7 +719,7 @@
                 </div>
 
                 <!-- Payment Settings Tab -->
-                <div id="payment-settings" class="tab-pane">
+                <div class="tab-pane fade" id="payment-settings" role="tabpanel" aria-labelledby="payment-settings-tab">
                     <div class="premium-card fade-in" style="animation-delay: 0.3s">
                         <div class="premium-card-body">
                             <form action="{{ route('payment.settings') }}" method="post">
@@ -450,10 +752,12 @@
                                     <div class="payment-method-card">
                                         <div class="payment-method-header" data-toggle="collapse" data-target="#stripe-settings" aria-expanded="false">
                                             <h6><i class="fab fa-stripe"></i>{{ __('Stripe') }}</h6>
-                                            <div class="custom-control custom-switch">
-                                                <input type="hidden" name="is_stripe_enabled" value="off">
-                                                <input type="checkbox" class="custom-control-input" name="is_stripe_enabled" id="is_stripe_enabled" {{ isset($admin_payment_setting['is_stripe_enabled']) && $admin_payment_setting['is_stripe_enabled'] == 'on' ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="is_stripe_enabled"></label>
+                                            <div class="">
+                                                <div class="form-check form-switch">
+                                                    <input type="hidden" name="is_stripe_enabled" value="off">
+                                                    <input type="checkbox" class="custom-control-input" name="is_stripe_enabled" id="is_stripe_enabled" {{ isset($admin_payment_setting['is_stripe_enabled']) && $admin_payment_setting['is_stripe_enabled'] == 'on' ? 'checked' : '' }}>
+                                                    <label class="custom-control-label" for="is_stripe_enabled"></label>
+                                                </div>
                                             </div>
                                         </div>
                                         <div id="stripe-settings" class="collapse" data-parent="#accordion-payment">
@@ -486,10 +790,12 @@
                                     <div class="payment-method-card">
                                         <div class="payment-method-header" data-toggle="collapse" data-target="#paypal-settings" aria-expanded="false">
                                             <h6><i class="fab fa-paypal"></i>{{ __('PayPal') }}</h6>
-                                            <div class="custom-control custom-switch">
-                                                <input type="hidden" name="is_paypal_enabled" value="off">
-                                                <input type="checkbox" class="custom-control-input" name="is_paypal_enabled" id="is_paypal_enabled" {{ isset($admin_payment_setting['is_paypal_enabled']) && $admin_payment_setting['is_paypal_enabled'] == 'on' ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="is_paypal_enabled"></label>
+                                            <div class="">
+                                                <div class="form-check form-switch">
+                                                    <input type="hidden" name="is_paypal_enabled" value="off">
+                                                    <input type="checkbox" class="custom-control-input" name="is_paypal_enabled" id="is_paypal_enabled" {{ isset($admin_payment_setting['is_paypal_enabled']) && $admin_payment_setting['is_paypal_enabled'] == 'on' ? 'checked' : '' }}>
+                                                    <label class="custom-control-label" for="is_paypal_enabled"></label>
+                                                </div>
                                             </div>
                                         </div>
                                         <div id="paypal-settings" class="collapse" data-parent="#accordion-payment">
@@ -535,10 +841,12 @@
                                     <div class="payment-method-card">
                                         <div class="payment-method-header" data-toggle="collapse" data-target="#razorpay-settings" aria-expanded="false">
                                             <h6><i class="fas fa-credit-card"></i>{{ __('Razorpay') }}</h6>
-                                            <div class="custom-control custom-switch">
-                                                <input type="hidden" name="is_razorpay_enabled" value="off">
-                                                <input type="checkbox" class="custom-control-input" name="is_razorpay_enabled" id="is_razorpay_enabled" {{ isset($admin_payment_setting['is_razorpay_enabled']) && $admin_payment_setting['is_razorpay_enabled'] == 'on' ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="is_razorpay_enabled"></label>
+                                            <div class="">
+                                                <div class="form-check form-switch">
+                                                    <input type="hidden" name="is_razorpay_enabled" value="off">
+                                                    <input type="checkbox" class="custom-control-input" name="is_razorpay_enabled" id="is_razorpay_enabled" {{ isset($admin_payment_setting['is_razorpay_enabled']) && $admin_payment_setting['is_razorpay_enabled'] == 'on' ? 'checked' : '' }}>
+                                                    <label class="custom-control-label" for="is_razorpay_enabled"></label>
+                                                </div>
                                             </div>
                                         </div>
                                         <div id="razorpay-settings" class="collapse" data-parent="#accordion-payment">
@@ -584,7 +892,7 @@
                 </div>
 
                 <!-- Pusher Settings Tab -->
-                <div id="pusher-settings" class="tab-pane">
+                <div class="tab-pane fade" id="pusher-settings" role="tabpanel" aria-labelledby="pusher-settings-tab">
                     <div class="premium-card fade-in" style="animation-delay: 0.4s">
                         <div class="premium-card-body">
                             <form action="{{ route('pusher.settings') }}" method="post">
@@ -641,7 +949,7 @@
                 </div>
 
                 <!-- ReCaptcha Settings Tab -->
-                <div id="recaptcha-settings" class="tab-pane">
+                <div class="tab-pane fade" id="recaptcha-settings" role="tabpanel" aria-labelledby="recaptcha-settings-tab">
                     <div class="premium-card fade-in" style="animation-delay: 0.5s">
                         <div class="premium-card-body">
                             <form method="POST" action="{{ route('recaptcha.settings.store') }}" accept-charset="UTF-8">
@@ -649,14 +957,16 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="premium-form-group">
-                                            <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input" name="recaptcha_module" id="recaptcha_module" value="yes" {{ env('RECAPTCHA_MODULE') == 'yes' ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="recaptcha_module">
-                                                    {{ __('Google Recaptcha') }}
-                                                    <a href="https://phppot.com/php/how-to-get-google-recaptcha-site-and-secret-key/" target="_blank" class="text-primary ml-2">
-                                                        <small>({{ __('How to Get Google reCaptcha Site and Secret key') }})</small>
-                                                    </a>
-                                                </label>
+                                            <div class="">
+                                                <div class="form-check form-switch">
+                                                    <input type="checkbox" class="custom-control-input" name="recaptcha_module" id="recaptcha_module" value="yes" {{ env('RECAPTCHA_MODULE') == 'yes' ? 'checked' : '' }}>
+                                                    <label class="custom-control-label" for="recaptcha_module">
+                                                        {{ __('Google Recaptcha') }}
+                                                        <a href="https://phppot.com/php/how-to-get-google-recaptcha-site-and-secret-key/" target="_blank" class="text-primary ml-2">
+                                                            <small>({{ __('How to Get Google reCaptcha Site and Secret key') }})</small>
+                                                        </a>
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
