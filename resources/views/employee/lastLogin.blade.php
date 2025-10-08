@@ -827,6 +827,185 @@
         }
     }
 
+    /* Responsive Table Styles */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 20px;
+    }
+
+    /* Mobile Table Responsive Behavior */
+    @media (max-width: 768px) {
+        .dataTable {
+            font-size: 0.85rem;
+            min-width: 600px; /* Ensure table doesn't get too cramped */
+        }
+
+        .dataTable thead th {
+            padding: 12px 8px !important;
+            font-size: 0.75rem !important;
+            white-space: nowrap;
+        }
+
+        .dataTable tbody td {
+            padding: 12px 8px !important;
+            font-size: 0.8rem !important;
+            vertical-align: middle;
+        }
+
+        /* Make specific columns more compact */
+        .dataTable th:first-child,
+        .dataTable td:first-child {
+            min-width: 80px;
+            width: 15%;
+        }
+
+        .dataTable th:nth-child(2),
+        .dataTable td:nth-child(2) {
+            min-width: 120px;
+            width: 25%;
+        }
+
+        .dataTable th:nth-child(3),
+        .dataTable td:nth-child(3) {
+            min-width: 140px;
+            width: 35%;
+        }
+
+        .dataTable th:nth-child(4),
+        .dataTable td:nth-child(4) {
+            min-width: 100px;
+            width: 25%;
+        }
+
+        /* Compact status indicator for mobile */
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+        }
+
+        /* Compact role badges for mobile */
+        .role-badge {
+            padding: 4px 8px;
+            font-size: 0.7rem;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .role-badge i {
+            font-size: 0.7rem;
+        }
+
+        /* Responsive table scroll indicator */
+        .table-responsive::after {
+            content: '← Scroll to see more →';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(37, 99, 235, 0.9);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Hide scroll indicator when not needed */
+        .table-responsive:not([data-scrollable])::after {
+            display: none;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .dataTable {
+            font-size: 0.8rem;
+            min-width: 500px;
+        }
+
+        .dataTable thead th {
+            padding: 10px 6px !important;
+            font-size: 0.7rem !important;
+        }
+
+        .dataTable tbody td {
+            padding: 10px 6px !important;
+            font-size: 0.75rem !important;
+        }
+
+        /* Even more compact columns for very small screens */
+        .dataTable th:first-child,
+        .dataTable td:first-child {
+            min-width: 60px;
+            width: 12%;
+        }
+
+        .dataTable th:nth-child(2),
+        .dataTable td:nth-child(2) {
+            min-width: 100px;
+            width: 28%;
+        }
+
+        .dataTable th:nth-child(3),
+        .dataTable td:nth-child(3) {
+            min-width: 120px;
+            width: 35%;
+        }
+
+        .dataTable th:nth-child(4),
+        .dataTable td:nth-child(4) {
+            min-width: 80px;
+            width: 25%;
+        }
+
+        .role-badge {
+            padding: 3px 6px;
+            font-size: 0.65rem;
+        }
+
+        .role-badge i {
+            font-size: 0.65rem;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .dataTable {
+            min-width: 450px;
+        }
+
+        .dataTable thead th,
+        .dataTable tbody td {
+            padding: 8px 4px !important;
+        }
+
+        /* Stack login date and time vertically */
+        .dataTable tbody td:nth-child(3) div {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .dataTable tbody td:nth-child(3) small {
+            font-size: 0.65rem !important;
+        }
+    }
+
     /* Ultra Responsive Design */
     @media (max-width: 768px) {
         .container-fluid {
@@ -834,7 +1013,7 @@
         }
 
         .page-header-premium {
-            padding: 24px 28px;
+            padding: 24px 20px;
             border-radius: 20px;
         }
 
@@ -865,14 +1044,76 @@
             justify-content: center;
         }
 
-        .dataTable thead th,
-        .dataTable tbody td {
-            padding: 16px 20px;
-            font-size: 0.85rem;
+        .premium-card-body {
+            padding: 20px;
+        }
+
+        .card-header-premium {
+            padding: 20px;
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+        }
+
+        .header-left {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .header-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+        }
+
+        .header-text h1 {
+            font-size: 1.5rem;
+        }
+
+        .header-text p {
+            font-size: 0.9rem;
+        }
+
+        /* Enhanced table container for mobile */
+        .table-container {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    @media (max-width: 576px) {
+        .page-header-premium {
+            padding: 20px 16px;
+            margin-bottom: 20px;
+        }
+
+        .header-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 1.3rem;
+        }
+
+        .header-text h1 {
+            font-size: 1.3rem;
+        }
+
+        .stat-item {
+            padding: 10px 16px;
+            min-width: 70px;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
         }
 
         .premium-card-body {
-            padding: 24px;
+            padding: 16px;
         }
     }
 
@@ -1225,6 +1466,82 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.transform = '';
         });
     });
+
+    // Initialize responsive table functionality
+    initializeResponsiveTable();
+
+    function initializeResponsiveTable() {
+        const tableResponsive = document.querySelector('.table-responsive');
+        const table = document.getElementById('lastLoginTable');
+        
+        if (tableResponsive && table) {
+            // Check if table needs horizontal scrolling
+            function checkScrollable() {
+                const isScrollable = tableResponsive.scrollWidth > tableResponsive.clientWidth;
+                if (isScrollable) {
+                    tableResponsive.setAttribute('data-scrollable', 'true');
+                } else {
+                    tableResponsive.removeAttribute('data-scrollable');
+                }
+            }
+
+            // Check on load and resize
+            checkScrollable();
+            window.addEventListener('resize', checkScrollable);
+
+            // Add smooth scrolling behavior for mobile
+            let isScrolling = false;
+            tableResponsive.addEventListener('scroll', function() {
+                if (!isScrolling) {
+                    isScrolling = true;
+                    setTimeout(() => {
+                        isScrolling = false;
+                    }, 100);
+                }
+            });
+
+            // Touch-friendly scrolling for mobile
+            let startX = 0;
+            let scrollLeft = 0;
+
+            tableResponsive.addEventListener('touchstart', function(e) {
+                startX = e.touches[0].pageX - tableResponsive.offsetLeft;
+                scrollLeft = tableResponsive.scrollLeft;
+            });
+
+            tableResponsive.addEventListener('touchmove', function(e) {
+                if (!startX) return;
+                e.preventDefault();
+                const x = e.touches[0].pageX - tableResponsive.offsetLeft;
+                const walk = (x - startX) * 2;
+                tableResponsive.scrollLeft = scrollLeft - walk;
+            });
+
+            tableResponsive.addEventListener('touchend', function() {
+                startX = 0;
+            });
+        }
+
+        // Enhanced mobile table interactions
+        if (window.innerWidth <= 768) {
+            const tableRows = document.querySelectorAll('#lastLoginTable tbody tr');
+            
+            tableRows.forEach(row => {
+                // Add touch feedback for mobile
+                row.addEventListener('touchstart', function() {
+                    this.style.backgroundColor = 'rgba(37, 99, 235, 0.1)';
+                    this.style.transform = 'scale(1.01)';
+                });
+
+                row.addEventListener('touchend', function() {
+                    setTimeout(() => {
+                        this.style.backgroundColor = '';
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+        }
+    }
 });
 </script>
 @endsection

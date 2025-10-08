@@ -64,7 +64,7 @@ $company_favicon = Utility::getValByName('company_favicon');
     
     @stack('css-page')
 
-    <style>
+      <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif!important;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)!important;
@@ -176,9 +176,7 @@ $company_favicon = Utility::getValByName('company_favicon');
             font-weight: bold;
         }
 
-         /* Modal Enhancements */
-
-        
+        /* Modal Enhancements */
         .modal-content {
             border: none;
             border-radius: 16px;
@@ -186,11 +184,37 @@ $company_favicon = Utility::getValByName('company_favicon');
             overflow: hidden;
         }
 
-        #exampleModalLabel{
-            display:none;
+        .modal-header {
+            border-bottom: none;
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            color: white;
+            padding: 1.5rem 2rem;
         }
-        .modal-body{
-            padding: 15px;
+
+        .modal-header .modal-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+
+        .modal-header .close-icon {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-header .close-icon:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+        }
+
+        .modal-body {
+            padding: 0;
+            background: #f8fafc;
         }
 
         /* Fix for Select2 in modals */
@@ -242,6 +266,10 @@ $company_favicon = Utility::getValByName('company_favicon');
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
+
+        .dataTables_wrapper .dataTables_filter label:before {
+            display: none !important;
+        } 
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -389,6 +417,30 @@ $company_favicon = Utility::getValByName('company_favicon');
             content: "✓";
             font-size: 0.875rem;
         }
+        /* Desktop only - DataTables filter input width */
+        @media (min-width: 992px) {
+            div.dataTables_wrapper div.dataTables_filter input {
+                width: 31rem;
+            }
+        }
+        @media (min-width: 1200px) {
+            div.dataTables_wrapper div.dataTables_filter input {
+                width: 31rem;
+            }
+           /* iPad Portrait and smaller tablets */
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            div.dataTables_wrapper div.dataTables_filter input {
+                width: 18rem;
+            }
+        }
+
+        /* iPad Landscape and larger tablets */
+        @media (min-width: 992px) and (max-width: 1199.98px) {
+            div.dataTables_wrapper div.dataTables_filter input {
+                width: 24rem;
+            }
+        }
+}
     </style>
 </head>
 
