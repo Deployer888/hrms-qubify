@@ -19,7 +19,7 @@
                         <i class="fas fa-calendar-alt"></i>
                     </div>
                     <div class="header-text">
-                        <h1 class="page-title-compact">Welcome back, {{ Auth::user()->name ?? 'Administrator' }}</h1>
+                        <h1 class="page-title-compact">Welcome back, {{ Auth::user()->name ?? 'Administrator' }} </h1>
                         <p class="page-subtitle-compact">{{ __('Monitor your HRMS platform performance and growth metrics') }}</p>
                     </div>
                 </div>

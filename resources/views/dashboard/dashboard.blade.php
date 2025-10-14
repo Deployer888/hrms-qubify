@@ -10,243 +10,243 @@
 
 @section('style')
 <style>
-/* Dashboard Layout Fixes */
-.container-fluid.container-application {
-    padding: 0;
-    margin: 0;
-    max-width: 100%;
-}
+    /* Dashboard Layout Fixes */
+    .container-fluid.container-application {
+        padding: 0;
+        margin: 0;
+        max-width: 100%;
+    }
 
-.main-content {
-    margin-left: 250px; /* Sidebar width */
-    padding: 20px;
-    background-color: #f8f9fa;
-    min-height: 100vh;
-}
-
-.page-content {
-    padding: 0;
-}
-
-/* Welcome Section */
-.welcome-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 15px;
-    padding: 30px;
-    margin-bottom: 30px;
-    color: white;
-}
-
-.welcome-section h2 {
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-.welcome-section p {
-    font-size: 16px;
-    opacity: 0.9;
-    margin-bottom: 0;
-}
-
-/* Stats Cards */
-.stats-row {
-    margin-bottom: 30px;
-}
-
-.stat-card {
-    background: white;
-    border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    border: 1px solid #e9ecef;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.stat-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 20px;
-    font-size: 24px;
-    color: white;
-}
-
-.stat-icon.present { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-.stat-icon.absent { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
-.stat-icon.late { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
-.stat-icon.leave { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
-
-.stat-content h3 {
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 5px;
-    color: #2d3748;
-}
-
-.stat-content p {
-    font-size: 14px;
-    color: #718096;
-    margin-bottom: 0;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* Dashboard Cards */
-.dashboard-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    border: 1px solid #e9ecef;
-    margin-bottom: 30px;
-    overflow: hidden;
-}
-
-.dashboard-card .card-header {
-    background: white;
-    border-bottom: 1px solid #e9ecef;
-    padding: 20px 25px;
-    font-weight: 600;
-    font-size: 18px;
-    color: #2d3748;
-}
-
-.dashboard-card .card-body {
-    padding: 25px;
-}
-
-/* Table Styling */
-.table {
-    margin-bottom: 0;
-}
-
-.table thead th {
-    background-color: #f8f9fa;
-    border-bottom: 2px solid #dee2e6;
-    font-weight: 600;
-    color: #495057;
-    padding: 15px;
-}
-
-.table tbody td {
-    padding: 15px;
-    vertical-align: middle;
-    border-top: 1px solid #dee2e6;
-}
-
-.table tbody tr:hover {
-    background-color: #f8f9fa;
-}
-
-/* Status Badges */
-.badge {
-    padding: 6px 12px;
-    font-size: 12px;
-    font-weight: 500;
-    border-radius: 20px;
-}
-
-.badge-success {
-    background-color: #10b981;
-    color: white;
-}
-
-.badge-danger {
-    background-color: #ef4444;
-    color: white;
-}
-
-.badge-warning {
-    background-color: #f59e0b;
-    color: white;
-}
-
-/* Charts and Analytics */
-.chart-container {
-    position: relative;
-    height: 300px;
-    margin: 20px 0;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
     .main-content {
-        margin-left: 0;
+        margin-left: 250px; /* Sidebar width */
+        padding: 20px;
+        background-color: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .page-content {
+        padding: 0;
+    }
+
+    /* Welcome Section */
+    .welcome-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        color: white;
+    }
+
+    .welcome-section h2 {
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .welcome-section p {
+        font-size: 16px;
+        opacity: 0.9;
+        margin-bottom: 0;
+    }
+
+    /* Stats Cards */
+    .stats-row {
+        margin-bottom: 30px;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        border: 1px solid #e9ecef;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
+        font-size: 24px;
+        color: white;
+    }
+
+    .stat-icon.present { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+    .stat-icon.absent { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+    .stat-icon.late { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+    .stat-icon.leave { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+
+    .stat-content h3 {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 5px;
+        color: #2d3748;
+    }
+
+    .stat-content p {
+        font-size: 14px;
+        color: #718096;
+        margin-bottom: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Dashboard Cards */
+    .dashboard-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        border: 1px solid #e9ecef;
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .dashboard-card .card-header {
+        background: white;
+        border-bottom: 1px solid #e9ecef;
+        padding: 20px 25px;
+        font-weight: 600;
+        font-size: 18px;
+        color: #2d3748;
+    }
+
+    .dashboard-card .card-body {
+        padding: 25px;
+    }
+
+    /* Table Styling */
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table thead th {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+        font-weight: 600;
+        color: #495057;
         padding: 15px;
     }
-    
-    .stat-card {
+
+    .table tbody td {
+        padding: 15px;
+        vertical-align: middle;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    /* Status Badges */
+    .badge {
+        padding: 6px 12px;
+        font-size: 12px;
+        font-weight: 500;
+        border-radius: 20px;
+    }
+
+    .badge-success {
+        background-color: #10b981;
+        color: white;
+    }
+
+    .badge-danger {
+        background-color: #ef4444;
+        color: white;
+    }
+
+    .badge-warning {
+        background-color: #f59e0b;
+        color: white;
+    }
+
+    /* Charts and Analytics */
+    .chart-container {
+        position: relative;
+        height: 300px;
+        margin: 20px 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .main-content {
+            margin-left: 0;
+            padding: 15px;
+        }
+        
+        .stat-card {
+            height: auto;
+            padding: 20px;
+        }
+        
+        .stat-content h3 {
+            font-size: 24px;
+        }
+        
+        .welcome-section {
+            padding: 20px;
+        }
+        
+        .welcome-section h2 {
+            font-size: 24px;
+        }
+    }
+
+    /* Fix Calendar */
+    .fc-toolbar {
+        margin-bottom: 20px;
+    }
+
+    .fc-event {
+        border-radius: 6px;
+        border: none;
+        padding: 2px 6px;
+    }
+
+    /* Attendance Card Specific */
+    .attendance-card {
         height: auto;
-        padding: 20px;
+        min-height: 500px;
     }
-    
-    .stat-content h3 {
-        font-size: 24px;
+
+    .attendance-table {
+        border-radius: 8px;
+        overflow: hidden;
     }
-    
-    .welcome-section {
-        padding: 20px;
+
+    /* Button Improvements */
+    .btn {
+        border-radius: 8px;
+        font-weight: 500;
+        padding: 8px 16px;
     }
-    
-    .welcome-section h2 {
-        font-size: 24px;
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
     }
-}
 
-/* Fix Calendar */
-.fc-toolbar {
-    margin-bottom: 20px;
-}
+    .btn-success {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        border: none;
+    }
 
-.fc-event {
-    border-radius: 6px;
-    border: none;
-    padding: 2px 6px;
-}
+    .btn-danger {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        border: none;
+    }
 
-/* Attendance Card Specific */
-.attendance-card {
-    height: auto;
-    min-height: 500px;
-}
-
-.attendance-table {
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-/* Button Improvements */
-.btn {
-    border-radius: 8px;
-    font-weight: 500;
-    padding: 8px 16px;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-}
-
-.btn-success {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    border: none;
-}
-
-.btn-danger {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    border: none;
-}
-
-/* Remove conflicting styles */
-.page-title {
-    display: block !important;
-}
+    /* Remove conflicting styles */
+    .page-title {
+        display: block !important;
+    }
 </style>
 @endsection
 

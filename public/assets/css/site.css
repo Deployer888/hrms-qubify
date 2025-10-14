@@ -303,7 +303,10 @@ fieldset {
   margin: 0;
   border: 0;
 }
-
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
 legend {
   display: block;
   width: 100%;
@@ -1918,7 +1921,6 @@ pre code {
 .table-responsive {
   display: block;
   width: 100%;
-  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -2096,7 +2098,6 @@ textarea.form-control {
 .form-check {
   position: relative;
   display: block;
-  padding-left: 1.25rem;
 }
 
 .form-check-input {
@@ -12665,9 +12666,7 @@ button.bg-black:focus {
   fill: #2b6cf1 !important;
 }
 
-.fill-primary-300 {
- : linear-gradient(135deg, #3a8ef6, #6259ca) !important;
-}
+
 
 .fill-primary-400 {
   fill: #0b40ab !important;
@@ -12687,10 +12686,6 @@ button.bg-black:focus {
 
 .stroke-primary-200 {
   stroke: #2b6cf1 !important;
-}
-
-.stroke-primary-300 {
- : linear-gradient(135deg, #3a8ef6, #6259ca) !important;
 }
 
 .stroke-primary-400 {
@@ -18708,7 +18703,7 @@ textarea[resize="horizontal"] {
 }
 
 .list-group-space .list-group-item {
-  mardin-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
   border-radius: 0.25rem;
 }
 
@@ -22543,7 +22538,6 @@ section {
 .table td,
 .table th {
   font-size: 0.8125rem;
-  white-space: nowrap;
 }
 
 .table.align-items-center td,
@@ -23878,11 +23872,7 @@ span.flatpickr-weekday {
   background-color: transparent;
 }
 
-.fc-unthemed td.fc-today span {
- : linear-gradient(135deg, #3a8ef6, #6259ca);
-    padding: 10px;
-    color: white;
-}
+
 .fc-ltr .fc-basic-view .fc-day-top .fc-day-number {
     float: none!important;
 }
@@ -25984,12 +25974,12 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   color: #051C4B;
 }
 
-.select2-container--default .select2-results__option--highlighted[aria-selected],
+/* .select2-container--default .select2-results__option--highlighted[aria-selected],
 .select2-container--default .select2-results__option[aria-selected="true"] {
   background-color: transparent;
  : linear-gradient(135deg, #3a8ef6, #6259ca);
   /*color: #051C4B;*/
-}
+/* } */ 
 
 .select2-container--default .select2-results__option[aria-disabled=true] {
   color: #C0CCDA;
@@ -26305,7 +26295,6 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   padding: 12px 10px 20px 10px !important;
   /* width: 100px !important; */
   width: 140px !important;
-  display: block;
 }
 
 .select2-container .select2-selection--single {
@@ -26320,7 +26309,6 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     margin-left: 0px;
 }
 }
-
 .accordion .card{
   border:1px solid #eee !important;
 }

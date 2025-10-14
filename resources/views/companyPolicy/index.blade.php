@@ -3,14 +3,14 @@
 @section('page-title')
     {{ __('Manage Company Policy') }}
 @endsection
-
+@push('css-page')
+<link rel="stylesheet" href="{{ asset('css/company/policy.css') }}">
+@endpush
 @section('content')
-    <div class="page-header-premium fade-in">
+    <div class="">
         <div class="header-content">
             <div class="header-left">
-                <div class="header-icon">
-                    <i class="fas fa-clock"></i>
-                </div>
+       
                 <div class="header-text">
                     <h1>{{__('Company Policies')}}</h1>
                 </div>
@@ -30,7 +30,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12">  
             <div class="card">
                 <div class="card-body py-0">
                     <div class="table-responsive">
@@ -90,18 +90,18 @@
                                    
 
                                     @can('Delete Company Policy')
-    <a href="javascript:void(0);" 
-       onclick="return confirmDelete({{ $policy->id }});">
-        <i class="fas fa-trash"></i>
-    </a>
+                                        <a href="javascript:void(0);" 
+                                        onclick="return confirmDelete({{ $policy->id }});" class="edit-icon">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
 
-    <form id="delete-form-{{ $policy->id }}" 
-          action="{{ route('company-policy.destroy', $policy->id) }}" 
-          method="POST" style="display: none;">
-        @csrf
-        @method('DELETE')
-    </form>
-@endcan  
+                                        <form id="delete-form-{{ $policy->id }}" 
+                                            action="{{ route('company-policy.destroy', $policy->id) }}" 
+                                            method="POST" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                    @endcan  
 
                                           
                                             </td>

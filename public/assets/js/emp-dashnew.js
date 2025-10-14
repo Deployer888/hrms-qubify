@@ -51,7 +51,7 @@ function initializeAttendanceChart() {
         type: 'doughnut',
         data: {
             labels: ['Present', 'Absent', 'Late'],
-            datasets: [{
+            datasets: [{    
                 data: [actualPresentDays, absentDays, lateDays],
                 backgroundColor: [
                     'rgba(40, 167, 69, 0.8)',  // Green for present

@@ -167,7 +167,6 @@ $(document).ready(function() {
                         time: currentTime
                     },
                     success: function(response) {
-                        //console.log(response);
                         if(response == 'success'){
                             toastr.success('Clocked out successfully at ' + currentTime);
                             $('#clock_out').attr('disabled');
@@ -178,12 +177,12 @@ $(document).ready(function() {
                         }
                         else{
                             console.log(response.message);
-                            toastr.error('ERROR !!');
+                            // toastr.error('ERROR !!');
                         }
                     },
                     error: function(response) {
                         alert('Error clocking out.');
-                        location.reload();
+                        // location.reload();
                     }
                 });
             });

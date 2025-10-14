@@ -725,6 +725,7 @@ class AttendanceEmployeeController extends Controller
 
     public function update(Request $request, $id)
     {
+       
         if (!$request->ajax())
         {
               $clockOut = $request->input('clock_out');
@@ -756,9 +757,10 @@ class AttendanceEmployeeController extends Controller
 
         $startTime = Utility::getValByName('company_start_time');
         $endTime   = Utility::getValByName('company_end_time');
-
-        if(Auth::user()->type == 'employee') {
+        $rolesArray = Auth::user()->getRoleNames()->toArray();
+        if(in_array('employee',$rolesArray)) {
             $employeeId      = !empty(\Auth::user()->employee) ? \Auth::user()->employee->id : 0;
+
             $todayAttendance = AttendanceEmployee::where('employee_id', '=', $employeeId)->where('date', date('Y-m-d'))->OrderBy('clock_in', 'DESC')->limit(1)->first();
             if($todayAttendance && $todayAttendance->clock_out == '00:00:00')
             {

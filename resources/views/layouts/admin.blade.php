@@ -473,8 +473,8 @@ $company_favicon = Utility::getValByName('company_favicon');
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div>
-                    <h4 class="h4 font-weight-400 float-left modal-title" id="exampleModalLabel"></h4>
-                    <a href="#" class="more-text widget-text float-right close-icon" data-bs-dismiss="modal" aria-label="Close">{{ __('Close') }}</a>
+                    <h4 class="h4 font-weight-400 float-left modal-title d-none" id="exampleModalLabel"></h4>
+                    <a href="#" class="more-text widget-text float-right close-icon pb-2" data-bs-dismiss="modal" aria-label="Close">{{ __('Close') }}</a>
                 </div>
                 <div class="modal-body"></div>
             </div>

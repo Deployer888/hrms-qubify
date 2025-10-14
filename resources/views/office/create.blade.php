@@ -1,96 +1,159 @@
-<form action="{{ url('office') }}" method="POST">
-    @csrf
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="name">{{ __('Name') }} <span class="text-danger">*</span></label>
-                <input type="text" name="name" class="form-control" required>
-            </div>
+<!-- Modal Header -->
+<div class="modal-header-custom">
+    <div class="modal-header-content">
+        <div class="modal-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+            </svg>
         </div>
-
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="location">{{ __('Location') }} <span class="text-danger">*</span></label>
-                <input type="text" name="location" class="form-control" required>
-            </div>
-        </div>
-        
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="latitude">{{ __('Latitude') }}</label>
-                <input type="text" name="latitude" class="form-control" placeholder="e.g. 19.0760">
-                <small class="form-text text-muted">{{ __('Decimal format (e.g. 19.0760)') }}</small>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="longitude">{{ __('Longitude') }}</label>
-                <input type="text" name="longitude" class="form-control" placeholder="e.g. 72.8777">
-                <small class="form-text text-muted">{{ __('Decimal format (e.g. 72.8777)') }}</small>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="radius">{{ __('Radius (meters)') }}</label>
-                <input type="number" name="radius" class="form-control" placeholder="e.g. 100">
-                <small class="form-text text-muted">{{ __('Used for geofencing attendance') }}</small>
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="address">{{ __('Address') }}</label>
-                <textarea name="address" rows="3" class="form-control"></textarea>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="city">{{ __('City') }} <span class="text-danger">*</span></label>
-                <input type="text" name="city" class="form-control" required>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="state">{{ __('State') }}</label>
-                <input type="text" name="state" class="form-control">
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="country">{{ __('Country') }} <span class="text-danger">*</span></label>
-                <input type="text" name="country" class="form-control" required>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="zip_code">{{ __('Zip Code') }}</label>
-                <input type="text" name="zip_code" class="form-control">
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="phone">{{ __('Phone') }} <span class="text-danger">*</span></label>
-                <input type="text" name="phone" class="form-control" required>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="email">{{ __('Email') }}</label>
-                <input type="email" name="email" class="form-control">
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <input type="submit" value="{{ __('Create') }}" class="btn-create badge-blue">
-            <input type="button" value="{{ __('Cancel') }}" class="btn-create bg-gray" data-dismiss="modal">
+        <div class="modal-title-section">
+            <h3 class="modal-title">{{ __('Create New Office') }}</h3>
+            <p class="modal-subtitle">{{ __('Add a new office location to your system with the required information') }}</p>
         </div>
     </div>
-</form>
+    <button type="button" class="modal-close-btn" data-dismiss="modal">
+        <span>{{ __('Close') }}</span>
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+    </button>
+</div>
+
+<!-- Modal Body -->
+<div class="modal-body-custom">
+    <form action="{{ url('office') }}" method="POST">
+        @csrf
+        <div class="form-row">
+            <!-- Name Field -->
+            <div class="form-group-custom full-width">
+                <label class="form-label-custom">
+                    <svg class="label-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                    </svg>
+                    {{ __('Name') }} <span class="required">*</span>
+                </label>
+                <input type="text" name="name" class="form-input-custom" placeholder="{{ __('Enter office name') }}" required>
+            </div>
+
+            <!-- Location Field -->
+            <div class="form-group-custom full-width">
+                <label class="form-label-custom">
+                    <svg class="label-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                    {{ __('Location') }} <span class="required">*</span>
+                </label>
+                <input type="text" name="location" class="form-input-custom" placeholder="{{ __('Enter office location') }}" required>
+            </div>
+        </div>
+
+        <div class="form-row three-columns">
+            <!-- Latitude Field -->
+            <div class="form-group-custom">
+                <label class="form-label-custom">{{ __('Latitude') }}</label>
+                <input type="text" name="latitude" class="form-input-custom" placeholder="e.g. 19.0760">
+                <small class="form-help-text">{{ __('Decimal format (e.g. 19.0760)') }}</small>
+            </div>
+
+            <!-- Longitude Field -->
+            <div class="form-group-custom">
+                <label class="form-label-custom">{{ __('Longitude') }}</label>
+                <input type="text" name="longitude" class="form-input-custom" placeholder="e.g. 72.8777">
+                <small class="form-help-text">{{ __('Decimal format (e.g. 72.8777)') }}</small>
+            </div>
+
+            <!-- Radius Field -->
+            <div class="form-group-custom">
+                <label class="form-label-custom">{{ __('Radius (meters)') }}</label>
+                <input type="number" name="radius" class="form-input-custom" placeholder="e.g. 100">
+                <small class="form-help-text">{{ __('Used for geofencing attendance') }}</small>
+            </div>
+        </div>
+
+        <!-- Address Field -->
+        <div class="form-row">
+            <div class="form-group-custom full-width">
+                <label class="form-label-custom">{{ __('Address') }}</label>
+                <textarea name="address" rows="3" class="form-input-custom" placeholder="{{ __('Enter full address (optional)') }}"></textarea>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <!-- City Field -->
+            <div class="form-group-custom half-width">
+                <label class="form-label-custom">
+                    <svg class="label-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M15 11V5l-3-3-3 3v2H3v14h18V11h-6zm-8 8H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm6 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2zm0-4h-2V5h2v2zm6 12h-2v-2h2v2zm0-4h-2v-2h2v2z"/>
+                    </svg>
+                    {{ __('City') }} <span class="required">*</span>
+                </label>
+                <input type="text" name="city" class="form-input-custom" placeholder="{{ __('Enter city name') }}" required>
+            </div>
+
+            <!-- State Field -->
+            <div class="form-group-custom half-width">
+                <label class="form-label-custom">{{ __('State') }}</label>
+                <input type="text" name="state" class="form-input-custom" placeholder="{{ __('Enter state name') }}">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <!-- Country Field -->
+            <div class="form-group-custom half-width">
+                <label class="form-label-custom">
+                    <svg class="label-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    {{ __('Country') }} <span class="required">*</span>
+                </label>
+                <input type="text" name="country" class="form-input-custom" placeholder="{{ __('Enter country name') }}" required>
+            </div>
+
+            <!-- Zip Code Field -->
+            <div class="form-group-custom half-width">
+                <label class="form-label-custom">{{ __('Zip Code') }}</label>
+                <input type="text" name="zip_code" class="form-input-custom" placeholder="{{ __('Enter zip code') }}">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <!-- Phone Field -->
+            <div class="form-group-custom half-width">
+                <label class="form-label-custom">
+                    <svg class="label-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                    </svg>
+                    {{ __('Phone') }} <span class="required">*</span>
+                </label>
+                <input type="text" name="phone" class="form-input-custom" placeholder="{{ __('Enter phone number') }}" required>
+            </div>
+
+            <!-- Email Field -->
+            <div class="form-group-custom half-width">
+                <label class="form-label-custom">
+                    <svg class="label-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                    {{ __('Email') }}
+                </label>
+                <input type="email" name="email" class="form-input-custom" placeholder="{{ __('Enter email address') }}">
+            </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer-custom">
+            <button type="button" class="btn-cancel" data-dismiss="modal">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+                {{ __('Cancel') }}
+            </button>
+            <button type="submit" class="btn-create-office">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                </svg>
+                {{ __('Create Office') }}
+            </button>
+        </div>
+    </form>
+</div>

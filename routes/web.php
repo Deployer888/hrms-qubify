@@ -1477,3 +1477,5 @@ Route::get('/attendance/dashboard/get-filtered-data', [App\Http\Controllers\Dash
 Route::get('/attendance/dashboard/refresh-data', [App\Http\Controllers\DashController::class, 'getFilteredData'])
     ->name('attendance.dashboard.refresh')
     ->middleware(['auth', 'verified']);
+
+Route::get('/hr-dash', [App\Http\Controllers\HomeController::class, 'hrDash'])->name('hr.dashboard');

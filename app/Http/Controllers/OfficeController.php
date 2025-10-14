@@ -11,6 +11,7 @@ use App\Models\Leave;
 use App\Models\LeaveType;
 use App\Models\AttendanceEmployee;
 use App\Models\EmployeeDocument;
+use App\Models\EmployeeLocation;
 use App\Models\Department;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -21,43 +22,64 @@ use DB;
 
 class OfficeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        if (\Auth::user()->can('Manage Office')) {
-            $offices = Office::where('created_by', '=', \Auth::user()->creatorId())->get();
-
-            // Count employees and departments efficiently
-            $employeeCounts = Employee::where('created_by', \Auth::user()->creatorId())
-                ->where('is_active', 1)
-                ->select('office_id', DB::raw('count(*) as count'))
-                ->groupBy('office_id')
-                ->pluck('count', 'office_id')
-                ->toArray();
-
-            // Get total metrics
-            $totalEmployees = array_sum($employeeCounts);
-            $totalDepartments = Department::where('created_by', \Auth::user()->creatorId())->count();
-            $totalCities = $offices->pluck('city')->unique()->count();
-
-            // Calculate average office attendance from AttendanceEmployee records for today
-            $today = Carbon::today()->format('Y-m-d');
-            $presentEmployees = AttendanceEmployee::whereDate('date', $today)
-                ->whereIn('employee_id', function($query) {
-                    $query->select('id')
-                        ->from('employees')
-                        ->where('created_by', \Auth::user()->creatorId())
-                        ->where('is_active', 1);
-                })
-                ->distinct('employee_id')
-                ->count();
-
-            $attendancePercentage = $totalEmployees > 0 ? round(($presentEmployees / $totalEmployees) * 100) : 0;
-
-            return view('office.index', compact('offices', 'totalEmployees', 'totalDepartments', 'totalCities', 'attendancePercentage'));
-        } else {
+        if (!\Auth::user()->can('Manage Office')) {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
+
+        $officeQuery = Office::where('created_by', \Auth::user()->creatorId());
+
+        // Apply search if query is present
+        if ($request->has('query') && $request->query != '') {
+            $search = $request->input('query');
+            $officeQuery->where(function($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                ->orWhere('city', 'LIKE', "%{$search}%")
+                ->orWhere('country', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $offices = $officeQuery->get();
+
+        // If AJAX, return only office cards HTML
+        if ($request->ajax()) {
+            $html = '';
+            foreach ($offices as $office) {
+                $html .= view('office.office_cards', compact('office'))->render();
+            }
+            return response()->json(['html' => $html]);
+        }
+
+        // Metrics
+        $employeeCounts = Employee::where('created_by', \Auth::user()->creatorId())
+            ->where('is_active', 1)
+            ->select('office_id', DB::raw('count(*) as count'))
+            ->groupBy('office_id')
+            ->pluck('count', 'office_id')
+            ->toArray();
+
+        $totalEmployees = array_sum($employeeCounts);
+        $totalDepartments = Department::where('created_by', \Auth::user()->creatorId())->count();
+        $totalCities = $offices->pluck('city')->unique()->count();
+
+        $today = Carbon::today()->format('Y-m-d');
+        $presentEmployees = AttendanceEmployee::whereDate('date', $today)
+            ->whereIn('employee_id', function($query) {
+                $query->select('id')
+                    ->from('employees')
+                    ->where('created_by', \Auth::user()->creatorId())
+                    ->where('is_active', 1);
+            })
+            ->distinct('employee_id')
+            ->count();
+
+        $attendancePercentage = $totalEmployees > 0 ? round(($presentEmployees / $totalEmployees) * 100) : 0;
+
+        return view('office.index', compact('offices', 'totalEmployees', 'totalDepartments', 'totalCities', 'attendancePercentage'));
     }
+
+
 
     public function create()
     {
@@ -496,15 +518,12 @@ class OfficeController extends Controller
 
     public function employee($employeeID)
     {
+       
         // try {
             // Get employee data with eager loading to reduce queries
             $employee = Employee::with(['department', 'designation'])
                 ->where('id', $employeeID)
                 ->first();
-                
-// echo "<pre>";
-// print_r($employee->department->name);
-// die;
                 
             $department = $employee->department;
 
@@ -635,7 +654,7 @@ class OfficeController extends Controller
             $recentAttendances = AttendanceEmployee::where('employee_id', $employeeID)
                 ->orderBy('date', 'desc')
                 ->orderBy('clock_in', 'desc')
-                ->limit(7)
+                ->limit(7)    
                 ->get();
 
             // Get employee documents
@@ -667,9 +686,17 @@ class OfficeController extends Controller
                 ];
             }
 
+            // Get monthly attendance data for charts
+            $monthlyAttendanceData = $this->getMonthlyAttendanceData($employeeID);
+            $weeklyCheckinData = $this->getWeeklyCheckinData($employeeID);
+
             // Empty placeholders for inactive features
-            $locationHistory = [];
+            $locationHistory = $this->getLocation($employeeID);
+            $latestLocation = $locationHistory->sortByDesc('created_at')->first();
             $activities = [];
+
+            // Prepare chart data
+       
 
             return view('office.employee', compact(
                 'employee',
@@ -688,7 +715,10 @@ class OfficeController extends Controller
                 'lateDays',
                 'absentDays',
                 'leaveDays',
-                'workingDaysCount'
+                'workingDaysCount',
+                'monthlyAttendanceData',
+                'weeklyCheckinData',
+                'latestLocation'
             ));
         // } catch (\Exception $e) {
         //     return redirect()->back()->with('error', __('Something went wrong.'));
@@ -988,5 +1018,183 @@ class OfficeController extends Controller
         $distance = $earthRadius * $c;
         
         return $distance <= $radius;
+    }
+
+    /**
+     * Get monthly attendance data for charts
+     */
+    private function getMonthlyAttendanceData($employeeId)
+    {
+        $defaultData = [
+            'present' => array_fill(0, 12, 0),
+            'absent' => array_fill(0, 12, 0),
+            'late' => array_fill(0, 12, 0)
+        ];
+        
+        if (!$employeeId) {
+            return $defaultData;
+        }
+        
+        $currentYear = date('Y');
+        $monthlyData = $defaultData;
+        
+        try {
+            // Get attendance data for the current year
+            $attendanceData = DB::table('attendance_employees')
+                ->select(
+                    DB::raw('MONTH(date) as month'),
+                    'status',
+                    DB::raw('COUNT(DISTINCT date) as count')
+                )
+                ->where('employee_id', $employeeId)
+                ->whereYear('date', $currentYear)
+                ->whereIn('status', ['present', 'absent', 'late'])
+                ->groupBy(DB::raw('MONTH(date)'), 'status')
+                ->get();
+            
+            // Populate the monthly data array
+            foreach ($attendanceData as $record) {
+                $monthIndex = $record->month - 1;
+                $status = strtolower($record->status);
+                
+                if (isset($monthlyData[$status]) && $monthIndex >= 0 && $monthIndex < 12) {
+                    $monthlyData[$status][$monthIndex] = (int)$record->count;
+                }
+            }
+            
+            return $monthlyData;
+        } catch (\Exception $e) {
+            // Return default data structure if query fails
+            return $defaultData;
+        }
+    }
+
+    /**
+     * Get weekly check-in time data for charts
+     */
+ 
+
+    private function getWeeklyCheckinData($employeeId)
+        {
+            $defaultData = [
+                'data' => array_fill(0, 7, '09:00 AM'),
+                'labels' => $this->generateWeekLabels()
+            ];
+
+            if (!$employeeId) {
+                return $defaultData;
+            }
+
+            try {
+                // Step 1: get first clock-in per day with actual date
+                $dailyFirstClockIns = DB::table('attendance_employees')
+                    ->select(
+                        'date',
+                        DB::raw('MIN(clock_in) as first_clock_in')
+                    )
+                    ->where('employee_id', $employeeId)
+                    ->whereNotNull('clock_in')
+                    ->where('clock_in', '!=', '00:00:00')
+                    ->groupBy('date');
+
+                // Step 2: take those daily first-ins, and average by week
+                $avgCheckinTime = DB::table(DB::raw("({$dailyFirstClockIns->toSql()}) as t"))
+                    ->mergeBindings($dailyFirstClockIns)
+                    ->select(
+                        DB::raw('YEARWEEK(date, 1) as week_number'),
+                        DB::raw('MIN(date) as week_start_date'),
+                        DB::raw('SEC_TO_TIME(AVG(TIME_TO_SEC(first_clock_in))) as avg_clock_in')
+                    )
+                    ->groupBy(DB::raw('YEARWEEK(date, 1)'))
+                    ->orderBy('week_number', 'desc')
+                    ->limit(7) // only last 7 weeks
+                    ->get()
+                    ->reverse() // oldest → newest
+                    ->values();
+
+                // Step 3: format times and generate labels
+                $weeklyData = [];
+                $weekLabels = [];
+                
+                foreach ($avgCheckinTime as $row) {
+                    // Format time
+                    if (!empty($row->avg_clock_in)) {
+                        $timeString = $row->avg_clock_in; // "09:36:49"
+                        $formattedTime = date("h:i A", strtotime($timeString));
+                        $weeklyData[] = $formattedTime;
+                    } else {
+                        $weeklyData[] = '09:00 AM'; // fallback
+                    }
+                    
+                    // Generate week label from week start date
+                    if (!empty($row->week_start_date)) {
+                        $weekStart = Carbon::parse($row->week_start_date)->startOfWeek();
+                        $weekEnd = $weekStart->copy()->endOfWeek();
+                        $weekLabels[] = $this->generateWeekLabel($weekStart, $weekEnd);
+                    } else {
+                        $weekLabels[] = 'Week';
+                    }
+                }
+
+                // Step 4: ensure exactly 7 weeks (fill missing with defaults)
+                $weeklyData = array_pad($weeklyData, 7, '09:00 AM');
+                $weekLabels = array_pad($weekLabels, 7, 'Week');
+                
+                // If we have fewer than 7 weeks of data, generate missing week labels
+                if (count($weekLabels) < 7) {
+                    $missingWeeks = 7 - count($weekLabels);
+                    $defaultLabels = $this->generateWeekLabels();
+                    $weekLabels = array_merge(array_slice($defaultLabels, 0, $missingWeeks), $weekLabels);
+                }
+
+                return [
+                    'data' => $weeklyData,
+                    'labels' => $weekLabels
+                ];
+
+            } catch (\Exception $e) {
+                return $defaultData;
+            }
+        }
+
+    /**
+     * Generate week labels for the last 7 weeks
+     */
+    private function generateWeekLabels()
+    {
+        $weekLabels = [];
+        $currentDate = Carbon::now();
+        
+        for ($i = 6; $i >= 0; $i--) {
+            $weekStart = $currentDate->copy()->subWeeks($i)->startOfWeek();
+            $weekEnd = $weekStart->copy()->endOfWeek();
+            $weekLabels[] = $this->generateWeekLabel($weekStart, $weekEnd);
+        }
+        
+        return $weekLabels;
+    }
+
+    /**
+     * Generate a single week label
+     */
+    private function generateWeekLabel($weekStart, $weekEnd)
+    {
+        $startMonth = $weekStart->format('M');
+        $endMonth = $weekEnd->format('M');
+        $startDay = $weekStart->format('j');
+        $endDay = $weekEnd->format('j');
+        
+        if ($startMonth === $endMonth) {
+            // Same month: "Jan 1-7"
+            return $startMonth . ' ' . $startDay . '-' . $endDay;
+        } else {
+            // Different months: "Jan 29-Feb 4"
+            return $startMonth . ' ' . $startDay . '-' . $endMonth . ' ' . $endDay;
+        }
+    }
+
+
+    private function getLocation($employeeId){
+       return EmployeeLocation::where('employee_id',$employeeId)->get();
     }
 }

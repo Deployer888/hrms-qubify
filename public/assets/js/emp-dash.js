@@ -138,12 +138,13 @@ $(document).ready(function() {
                     alert(response.responseJSON[0]);
                 } else {
                     alert('Error clocking in');
-                }
+                }   
             }
         });
     });
 
     $('#clock_out').click(function() {
+     
         let currentTime = new Date().toLocaleTimeString('en-GB', { hour12: false });
         let attendanceId = document.getElementById('att_id').value;
         stopTimer();

@@ -262,6 +262,7 @@
             box-shadow: var(--shadow-md);
             border: 1px solid var(--border);
             overflow: hidden;
+            overflow-x: auto;
         }
 
         .table-header {
@@ -294,6 +295,7 @@
             border-collapse: separate;
             border-spacing: 0;
             margin: 0;
+            min-width: 800px;
         }
 
         .premium-table thead th {
@@ -537,22 +539,36 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
+        @media (max-width: 1200px) {
             .page-header-compact {
-                padding: 20px;
+                padding: 24px 20px;
+            }
+            
+            .header-content {
+                flex-direction: column !important;
+                text-align: center;
+            }
+            
+            .header-content .col-md-6 {
+                width: 100% !important;
+                justify-content: center !important;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .page-header-compact {
+                padding: 20px 16px;
+                margin-bottom: 24px;
             }
 
             .page-title-compact {
-                font-size: 1.5rem;
-            }
-
-            .stat-card-compact {
-                padding: 16px;
-                margin-bottom: 12px;
-            }
-
-            .stat-number-compact {
                 font-size: 1.75rem;
+            }
+
+            .header-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
             }
 
             .premium-table thead th,
@@ -560,14 +576,207 @@
                 padding: 12px 16px;
                 font-size: 0.8rem;
             }
+        }
 
-            .tag-stack {
-                gap: 2px;
+        @media (max-width: 768px) {
+            .page-header-compact {
+                padding: 16px 12px;
+                margin-bottom: 20px;
+                border-radius: 16px;
+            }
+
+            .page-title-compact {
+                font-size: 1.5rem;
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+            }
+
+            .page-subtitle-compact {
+                font-size: 0.9rem;
+                text-align: center;
+            }
+
+            .header-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.25rem;
+                margin-bottom: 12px;
+            }
+
+            .header-content .col-md-6 {
+                flex-direction: column !important;
+                align-items: center !important;
+            }
+
+            .header-content .ml-3 {
+                margin-left: 0 !important;
+                margin-top: 12px;
+            }
+
+            .table-container {
+                border-radius: 12px;
+                margin: 0 -15px;
+                box-shadow: none;
+                border: none;
+            }
+
+            .table-header {
+                padding: 16px 12px;
+            }
+
+            .table-title {
+                font-size: 1.1rem;
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+            }
+
+            .table-count {
+                align-self: center;
+            }
+
+            .no-data-compact {
+                padding: 40px 20px;
+            }
+
+            .no-data-icon-compact {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .no-data-text-compact {
+                font-size: 1.1rem;
+            }
+
+            .no-data-subtitle-compact {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .premium-table {
+                min-width: 600px;
+                font-size: 0.8rem;
+            }
+
+            .premium-table thead th,
+            .premium-table tbody td {
+                padding: 8px 6px;
+                font-size: 0.75rem;
+                white-space: nowrap;
+            }
+
+            .employee-details {
+                min-width: 120px;
+            }
+
+            .employee-name {
+                font-size: 0.8rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100px;
+            }
+
+            .employee-email {
+                font-size: 0.7rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100px;
+            }
+
+            .employee-email::before {
+                display: none;
+            }
+
+            .employee-id-badge {
+                padding: 4px 8px;
+                font-size: 0.65rem;
+                white-space: nowrap;
             }
 
             .info-tag-compact {
-                padding: 2px 8px;
+                padding: 3px 6px;
                 font-size: 0.6rem;
+                white-space: nowrap;
+            }
+
+            .exit-date-badge,
+            .date-badge {
+                padding: 4px 6px;
+                font-size: 0.65rem;
+                white-space: nowrap;
+            }
+
+            .action-btn {
+                padding: 6px 8px;
+                font-size: 0.7rem;
+            }
+
+            .action-btn i {
+                margin: 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-header-compact {
+                padding: 12px 8px;
+                margin: 0 -15px 16px -15px;
+                border-radius: 0;
+            }
+
+            .table-container {
+                margin: 0 -15px;
+                border-radius: 0;
+            }
+
+            .table-header {
+                padding: 12px 8px;
+            }
+
+            .premium-table {
+                min-width: 500px;
+                font-size: 0.7rem;
+            }
+
+            .premium-table thead th,
+            .premium-table tbody td {
+                padding: 6px 4px;
+                font-size: 0.65rem;
+            }
+
+            .employee-name {
+                max-width: 80px;
+                font-size: 0.7rem;
+            }
+
+            .employee-email {
+                max-width: 80px;
+                font-size: 0.65rem;
+            }
+
+            .employee-id-badge {
+                padding: 3px 6px;
+                font-size: 0.6rem;
+            }
+
+            .info-tag-compact {
+                padding: 2px 4px;
+                font-size: 0.55rem;
+            }
+
+            .exit-date-badge,
+            .date-badge {
+                padding: 3px 5px;
+                font-size: 0.6rem;
+            }
+
+            .action-btn {
+                padding: 4px 6px;
+                font-size: 0.65rem;
             }
         }
 
@@ -594,6 +803,8 @@
             animation: fadeInUp 0.6s ease forwards;
         }
 
+
+
         /* Focus States */
         .action-btn:focus,
         .employee-id-badge:focus,
@@ -606,8 +817,7 @@
     <!-- Compact Page Header -->
     <div class="page-header-compact">
         <div class="header-content d-flex justify-content-between align-items-center">
-            
-            <div class="col-md-6 d-flex">
+            <div class="col-md-6 d-flex align-items-center justify-content-center justify-content-md-start w-100">
                 <div class="header-icon">
                     <i class="fas fa-user-times"></i>
                 </div>
@@ -751,7 +961,9 @@
                                             </div>
                                         </td>
                                         <td>
+                                            <span class="date-badge">
                                                 {{ \Auth::user()->dateFormat($employee->company_doj) }}
+                                            </span>
                                         </td>
                                         <td>
                                             @if($employee->date_of_exit)
@@ -797,12 +1009,12 @@
         // Initialize tooltips
         $('[data-toggle="tooltip"]').tooltip();
         
-        // Initialize DataTable if not already done
+        // Initialize DataTable
         if ($('.premium-table').length && !$('.premium-table').hasClass('dataTable')) {
             $('.premium-table').DataTable({
                 responsive: true,
                 pageLength: 25,
-                order: [[4, 'desc']], // Sort by exit date
+                order: [[6, 'desc']], // Sort by exit date column
                 columnDefs: [
                     { orderable: false, targets: -1 } // Disable sorting on action column
                 ],
@@ -812,7 +1024,9 @@
                     info: "Showing _START_ to _END_ of _TOTAL_ employees",
                     infoEmpty: "No employees found",
                     zeroRecords: "No matching employees found"
-                }
+                },
+                scrollX: true,
+                autoWidth: false
             });
         }
         
@@ -825,4 +1039,50 @@
         });
     });
 </script>
+
+<style>
+    /* Responsive table scrollbar */
+    .table-responsive {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .table-responsive::-webkit-scrollbar {
+        height: 6px;
+    }
+    
+    .table-responsive::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+    }
+    
+    .table-responsive::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: 3px;
+    }
+    
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-dark);
+    }
+
+    /* DataTables responsive adjustments */
+    @media (max-width: 768px) {
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_filter {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .dataTables_wrapper .dataTables_info,
+        .dataTables_wrapper .dataTables_paginate {
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0.25rem 0.5rem;
+            margin: 0 2px;
+            font-size: 0.75rem;
+        }
+    }
+</style>
 @endpush

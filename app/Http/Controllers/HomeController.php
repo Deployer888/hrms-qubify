@@ -300,6 +300,91 @@ class HomeController extends Controller
         }
     }
 
+
+       public function hrDash(){
+         if(Auth::check())
+        {
+            $user = Auth::user();
+
+            if($user->type == 'hr')
+            {
+                // **Send Notification**
+                $notificationData = [
+                    'title' => 'Welcome to Qubify HRMS',
+                    'body' => "Employee Dashboard",
+                    'fcm_token' => $user->fcm_token,
+                ];
+                try {
+                    Helper::sendNotification($notificationData); // Call the helper function
+                } catch (\Exception $e) {
+                    \Log::error("Notification Error: " . $e->getMessage());
+                }
+
+                $emp = Employee::where('user_id', '=', $user->id)->first();
+
+
+                $employees = Employee::get();
+             
+                
+                $events = Event::where('start_date', '>=', now()->format('Y-m-d'))
+                                    ->orderBy('start_date', 'asc')
+                                    ->limit(5)
+                                    ->get();
+
+                $allEvents = Event::where('start_date', '>=', now()->format('Y-m-d'))
+                                    ->orderBy('start_date', 'asc')
+                                    ->get();
+
+                $allEvents = Event::all();
+                $arrEvents = [];
+                foreach ($allEvents as $event) {
+                    $arr['id']    = $event['id'];
+                    $arr['title'] = $event['title'];
+                    $arr['description'] = $event['description'];
+                    $arr['start'] = $event['start_date'];
+                    $arr['end']   = $event['end_date'];
+                    //                $arr['allDay']    = !0;
+                    //                $arr['className'] = 'bg-danger';
+                    $arr['backgroundColor'] = $event['color'];
+                    $arr['borderColor']     = "#fff";
+                    $arr['textColor']       = "white";
+                    $arr['url']             = route('event.edit', $event['id']);
+
+                    $arrEvents[] = $arr;
+                }
+                $arrEvents = str_replace('"[', '[', str_replace(']"', ']', json_encode($arrEvents)));
+
+                $date = date("Y-m-d");
+                $time = date("H:i:s");
+                
+                $employeeAttendance = AttendanceEmployee::orderBy('clock_in', 'desc')
+                    ->where('employee_id', '=', !empty(\Auth::user()->employee) ? \Auth::user()->employee->id : 0)
+                    ->where('date', '=', $date)
+                    ->first();
+                    
+                $currentDate = Carbon::now()->toDateString();
+
+                $employeeAttendanceList = Employee::with(['attendance' => function ($query) use ($currentDate) {
+                            $query->whereDate('date', $currentDate)->orderBy('clock_in', 'ASC');
+                        }])
+                        ->where('is_active', 1)
+                        ->where('id', !empty(\Auth::user()->employee) ? \Auth::user()->employee->id : 0)
+                        ->get();
+
+                $offices = Office::all();
+                $departments = Department::all();
+
+                $attendanceMetrics = $this->calculateAttendanceMetrics($emp->id);
+                // $currentMonth = date('Y-m');
+                // $attendanceMetrics = $this->calculateAttendanceMetrics($emp->id, $currentMonth);
+
+                $officeTime['startTime'] = Utility::getValByName('company_start_time');
+                $officeTime['endTime']   = Utility::getValByName('company_end_time');
+                return view('dashboard.hrDash', compact('attendanceMetrics', 'events', 'arrEvents', 'employees', 'employeeAttendance', 'officeTime', 'offices', 'employeeAttendanceList', 'departments'));
+            }
+        }
+      
+    }
     /**
      * Calculate all attendance metrics for an employee
      * 

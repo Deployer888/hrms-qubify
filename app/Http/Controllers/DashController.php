@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Models\Employee;
 use App\Models\Office;
+use App\Models\Event;
 use App\Models\Department;
 use App\Models\AttendanceEmployee;
 use App\Models\Leave;
@@ -346,6 +347,10 @@ class DashController extends Controller
             return back();
         }
     }
+
+ 
+
+ 
 
     private function getAttendanceDataForDate($employees, $date)
     {

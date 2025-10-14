@@ -121,6 +121,9 @@
                                  id="navbar-my-team">
                                 <ul class="nav flex-column submenu-ul">
                         
+                                    <li class="nav-item {{ (Request::route()->getName() == 'hr.dashboard') ||  (Request::route()->getName() == 'employee.create') ||  (Request::route()->getName() == 'employee.edit') ||  (Request::route()->getName() == 'employee.show') ? 'active' : '' }}">
+                                        <a href="{{ route('hr.dashboard') }}" class="nav-link">{{ __('HR Dashboard') }}</a>
+                                    </li>
                                     <li class="nav-item {{ (Request::route()->getName() == 'employee.index') ||  (Request::route()->getName() == 'employee.create') ||  (Request::route()->getName() == 'employee.edit') ||  (Request::route()->getName() == 'employee.show') ? 'active' : '' }}">
                                         <a href="{{ route('employee.index') }}" class="nav-link">{{ __('Active Employee') }}</a>
                                     </li>
