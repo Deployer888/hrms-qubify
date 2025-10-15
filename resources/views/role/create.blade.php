@@ -40,68 +40,68 @@
     .premium-form-container::before {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: var(--primary-gradient);
-        z-index: 1;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(255, 255, 255, 0.1) 60deg, transparent 120deg, rgba(255, 255, 255, 0.05) 180deg, transparent 240deg, rgba(255, 255, 255, 0.1) 300deg, transparent 360deg);
+        animation: rotateBg 25s 
+    linear infinite;
+        pointer-events: none;
     }
 
-    /* Form Header */
-    .form-header {
-        background: var(--primary-gradient);
-        padding: 25px 30px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+    /* Form Header - Matching User Create Style */
+    .modal-header-premium {
+        background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+        padding: 24px 30px;
+        color: white;
         position: relative;
         overflow: hidden;
     }
 
-    .form-header::before {
+    .modal-header-premium::before {
         content: '';
         position: absolute;
         top: -50%;
-        right: -50%;
+        left: -50%;
         width: 200%;
         height: 200%;
-        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-        animation: float 6s ease-in-out infinite;
+        background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(255, 255, 255, 0.1) 60deg, transparent 120deg, rgba(255, 255, 255, 0.05) 180deg, transparent 240deg, rgba(255, 255, 255, 0.1) 300deg, transparent 360deg);
+        animation: rotateBg 25s 
+    linear infinite;
         pointer-events: none;
     }
+    @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
 
-    .form-header h4 {
-        color: white;
-        font-weight: 800;
-        font-size: 20px;
-        margin: 0;
+    .form-title {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0 0 8px 0;
         display: flex;
         align-items: center;
         gap: 12px;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        position: relative;
+        z-index: 2;
     }
 
-    .form-header h4 i {
-        font-size: 22px;
-        opacity: 0.9;
-    }
-
-    .btn-close {
-        background: rgba(255, 255, 255, 0.2) !important;
-        border: 1px solid rgba(255,255,255,0.3) !important;
-        border-radius: 8px !important;
-        padding: 8px 12px !important;
-        color: white !important;
-        font-size: 1.2rem !important;
-        cursor: pointer !important;
-        transition: var(--transition) !important;
+    .form-title i {
+        font-size: 28px;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 8px;
+        border-radius: 10px;
         backdrop-filter: blur(10px);
     }
 
-    .btn-close:hover {
-        background: rgba(255, 255, 255, 0.3) !important;
-        transform: scale(1.1) rotate(90deg);
+    .form-subtitle {
+        margin: 0;
+        opacity: 0.9;
+        font-size: 16px;
+        font-weight: 400;
+        position: relative;
+        z-index: 2;
     }
 
     /* Form Body */
@@ -521,30 +521,28 @@
         transition: left 0.6s ease-in-out;
     }
 
-    .btn-cancel {
-        background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
-        color: white;
-        box-shadow: 0 4px 15px rgba(107, 114, 128, 0.3);
+    .btn-secondary {
+        background: #f3f4f6;
+        color: #6b7280;
+        border-color: #d1d5db;
     }
 
-    .btn-cancel:hover {
-        transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 8px 25px rgba(107, 114, 128, 0.4);
-        color: white;
-        text-decoration: none;
+    .btn-secondary:hover {
+        background: #e5e7eb;
+        color: #374151;
+        transform: translateY(-1px);
     }
 
-    .btn-create {
-        background: var(--primary-gradient);
+    .btn-primary {
+        background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
         color: white;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        border-color: #2563eb;
     }
 
-    .btn-create:hover {
-        transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-        color: white;
-        text-decoration: none;
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
     }
 
     /* Error Styling */
@@ -553,6 +551,11 @@
     }
 
     /* Animations */
+    @keyframes rotateBg {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
     @keyframes float {
         0%, 100% { transform: translateY(0px) rotate(0deg); }
         50% { transform: translateY(-10px) rotate(180deg); }
@@ -601,15 +604,12 @@
             margin: 15px;
         }
 
-        .form-header {
+        .modal-header-premium {
             padding: 20px;
-            flex-direction: column;
-            gap: 15px;
-            text-align: center;
         }
 
-        .form-header h4 {
-            font-size: 18px;
+        .form-title {
+            font-size: 20px;
         }
 
         .role-info-card,
@@ -642,6 +642,14 @@
     }
 
     @media (max-width: 576px) {
+        .modal-header-premium {
+            padding: 16px;
+        }
+        
+        .form-title {
+            font-size: 18px;
+        }
+
         .permission-item {
             padding: 10px 12px;
         }
@@ -661,14 +669,12 @@
 
     <div class="premium-form-container">
         <!-- Form Header -->
-        <div class="form-header">
-            <h4>
-                <i class="fas fa-plus-circle"></i>
+        <div class="modal-header-premium fade-in">
+            <h3 class="form-title text-white">
+                <i class="fas fa-user-shield"></i>
                 {{ __('Create New Role') }}
-            </h4>
-            <button type="button" class="btn-close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
-                <i class="fas fa-times"></i>
-            </button>
+            </h3>
+            <p class="form-subtitle">{{ __('Create a new role and assign permissions to control user access') }}</p>
         </div>
 
         <form action="{{ route('roles.store') }}" method="POST">
@@ -863,11 +869,11 @@
 
             <!-- Form Actions -->
             <div class="form-actions">
-                <button type="button" class="premium-btn btn-cancel" data-dismiss="modal" data-bs-dismiss="modal">
+                <button type="button" class="premium-btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal">
                     <i class="fas fa-times"></i>
                     {{ __('Cancel') }}
                 </button>
-                <button type="submit" class="premium-btn btn-create">
+                <button type="submit" class="premium-btn btn-primary">
                     <i class="fas fa-plus"></i>
                     {{ __('Create Role') }}
                 </button>

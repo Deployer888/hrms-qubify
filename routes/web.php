@@ -205,9 +205,15 @@ Route::post('employee/get-team-leader', 'EmployeeController@getTeamLeader')->mid
 Route::get('get-exit-employee', 'EmployeeController@getExitEmployee')->middleware(
     [
         'auth',
-        'XSS', 'CheckPlan'
+        'XSS', 'CheckPlan'   
     ]
 )->name('employee.exit-employee');
+Route::get('active-employees', 'EmployeeController@activeEmployee')->middleware(
+    [
+        'auth',
+        'XSS', 'CheckPlan'   
+    ]
+)->name('employee.active-employee');
 Route::get('get-my-team', 'EmployeeController@getMyTeam')->middleware(
     [
         'auth',

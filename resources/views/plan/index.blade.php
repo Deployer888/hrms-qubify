@@ -68,7 +68,7 @@
                     $isRecommended = true;
                 }
             @endphp
-            <div class="fade-in premium-plan-card {{ $isRecommended ? 'recommended' : '' }} {{ $isActive ? 'active' : '' }} {{ $isRecommended || $isActive || \Auth::user()->type == 'super admin' ? '' : 'blurred' }}" 
+            <div class="fade-in premium-plan-card {{ $isRecommended ? 'recommended' : '' }} {{ $isActive ? 'active' : '' }} {{ $isRecommended || $isActive || \Auth::user()->type == 'super admin' ? '' : '' }}" 
                  style="animation-delay: {{ $loop->index * 0.1 }}s">
                 
                 {{-- Plan Status Badge --}}

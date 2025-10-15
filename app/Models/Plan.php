@@ -22,7 +22,7 @@ class Plan extends Model
         'unlimited' => 'Unlimited',
         'month' => 'Per Month',
         'year' => 'Per Year',
-        'week' => 'A Week',
+        'week' => 'Free',
         '2_weeks' => '2 Weeks',
     ];
 

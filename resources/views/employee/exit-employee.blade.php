@@ -121,6 +121,30 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+        .premium-btn{
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 12px 24px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
 
         .page-title-compact {
             font-size: 2rem;
@@ -547,9 +571,10 @@
             .header-content {
                 flex-direction: column !important;
                 text-align: center;
+                gap: 20px;
             }
             
-            .header-content .col-md-6 {
+            .header-content > div {
                 width: 100% !important;
                 justify-content: center !important;
             }
@@ -604,7 +629,7 @@
                 margin-bottom: 12px;
             }
 
-            .header-content .col-md-6 {
+            .header-content > div:first-child {
                 flex-direction: column !important;
                 align-items: center !important;
             }
@@ -817,7 +842,7 @@
     <!-- Compact Page Header -->
     <div class="page-header-compact">
         <div class="header-content d-flex justify-content-between align-items-center">
-            <div class="col-md-6 d-flex align-items-center justify-content-center justify-content-md-start w-100">
+            <div class="d-flex align-items-center">
                 <div class="header-icon">
                     <i class="fas fa-user-times"></i>
                 </div>
@@ -827,6 +852,11 @@
                     </h1>
                     <p class="page-subtitle-compact">{{ __('Manage and track employees who have left the organization') }}</p>
                 </div>
+            </div>
+            <div>
+                <a href="{{route('employee.active-employee')}}" data-ajax-popup="true" data-size="xl" data-title="Create New User" class="premium-btn premium-btn-primary">
+                Active Employees
+                </a>
             </div>
         </div>
     </div>

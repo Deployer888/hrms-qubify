@@ -112,18 +112,21 @@
                         @endif
                     @else
                         <li class="nav-item">
+                           
                             <a class="nav-link my-team {{ (Request::route()->getName() == 'employee.exit-employee') || (Request::route()->getName() == 'employee.index') ||  (Request::route()->getName() == 'employee.create') ||  (Request::route()->getName() == 'employee.edit') ||  (Request::route()->getName() == 'employee.show') ? 'active' : 'collapsed' }}"
                                href="#navbar-my-team" data-toggle="collapse" role="button" aria-expanded="{{ (Request::route()->getName() == 'employee.index') ||  (Request::route()->getName() == 'employee.create') ||  (Request::route()->getName() == 'employee.edit') ||  (Request::route()->getName() == 'employee.show') ? 'true' : 'false' }}" aria-controls="navbar-my-team">
                                 <i class="fas fa-users "></i>{{ __('Employees') }}
                                 <i class="fas fa-sort-up"></i>
                             </a>
+                         
                             <div class="collapse my-team {{ (Request::route()->getName() == 'employee.exit-employee') || (Request::route()->getName() == 'employee.index') ||  (Request::route()->getName() == 'employee.create') ||  (Request::route()->getName() == 'employee.edit') ||  (Request::route()->getName() == 'employee.show') ? 'show' : '' }}"
                                  id="navbar-my-team">
                                 <ul class="nav flex-column submenu-ul">
-                        
+                                   @if(\Auth::user()->type == 'hr')
                                     <li class="nav-item {{ (Request::route()->getName() == 'hr.dashboard') ||  (Request::route()->getName() == 'employee.create') ||  (Request::route()->getName() == 'employee.edit') ||  (Request::route()->getName() == 'employee.show') ? 'active' : '' }}">
                                         <a href="{{ route('hr.dashboard') }}" class="nav-link">{{ __('HR Dashboard') }}</a>
                                     </li>
+                                       @endif
                                     <li class="nav-item {{ (Request::route()->getName() == 'employee.index') ||  (Request::route()->getName() == 'employee.create') ||  (Request::route()->getName() == 'employee.edit') ||  (Request::route()->getName() == 'employee.show') ? 'active' : '' }}">
                                         <a href="{{ route('employee.index') }}" class="nav-link">{{ __('Active Employee') }}</a>
                                     </li>

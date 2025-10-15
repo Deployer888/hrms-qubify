@@ -20,7 +20,7 @@ use DB;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Crypt;    
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -1040,11 +1040,19 @@ class EmployeeController extends Controller
         return view('leave.index', compact('leaves', 'selfLeaves'));
 
     }
-
+  
     public function getExitEmployee()
     {
         $employees = Employee::select('*')->with('attendanceEmployees')->where('is_active', 0)->where('created_by', \Auth::user()->creatorId())->get();
         return view('employee.exit-employee', compact('employees'));
+    }
+
+    public function activeEmployee(){
+         Employee::where('is_active', 0)
+                  ->whereNull('date_of_exit')
+                  ->update(['is_active' => 1]);
+
+        return redirect()->back()->with('success', 'Employees successfully activated.');
     }
 
     /**
