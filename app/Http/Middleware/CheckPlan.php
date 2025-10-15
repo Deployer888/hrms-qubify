@@ -19,7 +19,18 @@ class CheckPlan
     {
         $user = Auth::user();
 
-        if (!$user || ($user->plan <= 0 && $user->type == 'company' && $user->type != 'super admin')) {
+        // if (!$user || ($user->plan <= 0 && $user->type == 'company' && $user->type != 'super admin')) {
+        //     return redirect()->route('plans.index')->with('error', 'Please purchase the plan to get full access!!');
+        // }
+
+        // return $next($request);
+        // Skip plan check for non-authenticated users or super admin
+        if (!$user || $user->type == 'super admin') {
+            return $next($request);
+        }
+
+        // Only check plan for company users
+        if ($user->type == 'company' && $user->plan <= 0) {
             return redirect()->route('plans.index')->with('error', 'Please purchase the plan to get full access!!');
         }
 

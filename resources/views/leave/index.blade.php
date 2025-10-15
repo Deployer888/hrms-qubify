@@ -690,22 +690,105 @@
     }
 
     /* Responsive Design */
-    @media (max-width: 768px) {
+    @media (max-width: 1200px) {
         .page-header-compact {
-            padding: 2rem 1.5rem;
+            padding: 28px 32px;
+        }
+        
+        .header-icon {
+            width: 64px;
+            height: 64px;
+            font-size: 1.6rem;
         }
         
         .page-title-compact {
-            font-size: 1.75rem;
+            font-size: 1.8rem;
+        }
+        
+        .premium-table thead th,
+        .premium-table tbody td {
+            padding: 1rem 0.8rem;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .page-header-compact {
+            padding: 24px 28px;
+        }
+        
+        .header-content {
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+        }
+        
+        .header-content .col-md-6 {
+            width: 100%;
+        }
+        
+        .header-content .d-flex {
+            justify-content: center;
+        }
+        
+        .premium-actions {
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .stat-card-compact {
+            margin-bottom: 16px;
+        }
+        
+        .premium-table-container {
+            max-height: 550px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .page-header-compact {
+            padding: 20px 24px;
+            margin-bottom: 24px;
+        }
+        
+        .header-icon {
+            width: 56px;
+            height: 56px;
+            font-size: 1.4rem;
+            margin: auto;
+        }
+        
+        .page-title-compact {
+            font-size: 1.6rem;
+        }
+        
+        .page-subtitle-compact {
+            font-size: 0.9rem;
         }
         
         .premium-actions {
             flex-direction: column;
             align-items: stretch;
+            gap: 0.8rem;
         }
         
         .premium-btn {
             justify-content: center;
+            padding: 0.6rem 1.2rem;
+        }
+        
+        .stat-card-compact {
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .stat-number-compact {
+            font-size: 1.8rem;
+        }
+        
+        .stat-icon-compact {
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
         }
         
         .premium-table-container {
@@ -714,12 +797,13 @@
         }
         
         .premium-table {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            min-width: 800px;
         }
         
         .premium-table thead th,
         .premium-table tbody td {
-            padding: 1rem 0.5rem;
+            padding: 0.8rem 0.5rem;
         }
 
         .employee-header-row td {
@@ -733,33 +817,353 @@
             align-items: flex-start;
         }
 
+        .employee-info {
+            gap: 0.8rem;
+        }
+
+        .employee-avatar {
+            width: 36px;
+            height: 36px;
+            font-size: 1rem;
+        }
+
+        .employee-controls {
+            gap: 0.8rem;
+        }
+
+        .leave-counter {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        .view-more-btn {
+            padding: 0.3rem 0.8rem;
+            font-size: 0.75rem;
+        }
+
+        .action-buttons {
+            flex-direction: row;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            font-size: 0.8rem;
+        }
+
+        .employee-id-tag {
+            font-size: 0.7rem;
+            padding: 6px 12px;
+        }
+        
+        .leave-type-tag {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .status-badge {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.7rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .page-header-compact {
+            padding: 16px 20px;
+            margin-bottom: 20px;
+        }
+        
+        .header-content .d-flex {
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            font-size: 1.2rem;
+            margin: auto;
+        }
+        
+        .page-title-compact {
+            font-size: 1.4rem;
+        }
+        
+        .page-subtitle-compact {
+            font-size: 0.85rem;
+        }
+        
+        .premium-btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .stat-card-compact {
+            padding: 12px;
+        }
+        
+        .stat-content {
+            flex-direction: column;
+            text-align: center;
+            gap: 8px;
+        }
+        
+        .stat-number-compact {
+            font-size: 1.6rem;
+        }
+        
+        .stat-label-compact {
+            font-size: 0.7rem;
+        }
+        
+        .stat-icon-compact {
+            width: 36px;
+            height: 36px;
+            font-size: 1rem;
+            margin: 0 auto;
+        }
+        
+        .premium-table {
+            font-size: 0.75rem;
+            min-width: 700px;
+        }
+
+        .premium-actions{
+            display: contents;
+        }
+        
+        .premium-table thead th,
+        .premium-table tbody td {
+            padding: 0.6rem 0.3rem;
+        }
+
+        .employee-header-row td {
+            padding: 0.8rem !important;
+            font-size: 0.9rem !important;
+        }
+
+        .employee-avatar {
+            width: 32px;
+            height: 32px;
+            font-size: 0.9rem;
+        }
+
+        .leave-counter {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.75rem;
+        }
+
+        .view-more-btn {
+            padding: 0.25rem 0.6rem;
+            font-size: 0.7rem;
+        }
+
         .action-buttons {
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
         }
         
         .action-btn {
             width: 32px;
             height: 32px;
-            font-size: 12px;
+            font-size: 0.7rem;
         }
-    }
 
-    @media (max-width: 576px) {
-        .premium-table th,
-        .premium-table td {
-            padding: 6px 8px;
-            font-size: 12px;
-        }
-        
         .employee-id-tag {
-            font-size: 10px;
-            padding: 2px 6px;
+            font-size: 0.65rem;
+            padding: 4px 8px;
         }
         
         .leave-type-tag {
-            font-size: 10px;
-            padding: 2px 6px;
+            font-size: 0.65rem;
+            padding: 0.2rem 0.6rem;
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.65rem;
+        }
+
+        /* Hide less important columns on small screens */
+        .premium-table th:nth-child(3),
+        .premium-table td:nth-child(3),
+        .premium-table th:nth-child(7),
+        .premium-table td:nth-child(7) {
+            display: none;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-header-compact {
+            padding: 12px 16px;
+        }
+        
+        .page-title-compact {
+            font-size: 1.2rem;
+        }
+        
+        .page-subtitle-compact {
+            font-size: 0.8rem;
+        }
+        
+        .premium-table {
+            min-width: 600px;
+        }
+        
+        .premium-table thead th,
+        .premium-table tbody td {
+            padding: 0.5rem 0.2rem;
+            font-size: 0.7rem;
+        }
+
+        .employee-header-row td {
+            padding: 0.6rem !important;
+            font-size: 0.8rem !important;
+        }
+
+        .employee-name-section {
+            gap: 0.5rem;
+        }
+
+        .employee-controls {
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: flex-start;
+        }
+
+        /* Hide more columns on very small screens */
+        .premium-table th:nth-child(4),
+        .premium-table td:nth-child(4),
+        .premium-table th:nth-child(5),
+        .premium-table td:nth-child(5) {
+            display: none;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .premium-table {
+            min-width: 500px;
+        }
+        
+        /* Convert to card layout for very small screens */
+        .premium-table-container {
+            max-height: none;
+        }
+        
+        .premium-table thead {
+            display: none;
+        }
+        
+        .premium-table,
+        .premium-table tbody,
+        .premium-table tr,
+        .premium-table td {
+            display: block;
+            width: 100%;
+        }
+        
+        .premium-table tr {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: white;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .premium-table tr.employee-header-row {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.95) 0%, rgba(59, 130, 246, 0.95) 100%);
+            color: white;
+            margin-bottom: 8px;
+        }
+        
+        .premium-table td {
+            border: none !important;
+            padding: 8px 0 !important;
+            text-align: left !important;
+            position: relative;
+            padding-left: 120px !important;
+        }
+        
+        .premium-table td:before {
+            content: attr(data-label) ": ";
+            position: absolute;
+            left: 0;
+            width: 110px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+        
+        .premium-table td:last-child {
+            text-align: center !important;
+            padding-left: 0 !important;
+            padding-top: 12px !important;
+        }
+        
+        .premium-table td:last-child:before {
+            display: none;
+        }
+        
+        .employee-header-row td:before {
+            display: none;
+        }
+        
+        .collapsible-rows {
+            display: block !important;
+        }
+        
+        .collapsible-rows.show {
+            display: block !important;
+        }
+    }
+
+    /* Touch device optimizations */
+    @media (hover: none) and (pointer: coarse) {
+        .stat-card-compact:hover {
+            transform: none;
+            box-shadow: var(--shadow);
+        }
+        
+        .premium-table tbody tr:hover {
+            background: inherit;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .action-btn:hover {
+            transform: none;
+        }
+        
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .premium-btn:hover {
+            transform: none;
+        }
+        
+        .premium-btn:active {
+            transform: scale(0.98);
+        }
+    }
+
+    /* Improve touch targets */
+    @media (max-width: 768px) {
+        .action-btn,
+        .premium-btn,
+        .view-more-btn {
+            min-height: 44px;
+            min-width: 44px;
+        }
+        
+        .status-badge {
+            min-height: 32px;
+            display: inline-flex;
+            align-items: center;
         }
     }
 </style>
@@ -893,15 +1297,15 @@
                                 @if(\Auth::user()->type == 'employee' && $selfLeaves == 'true')
                                     @foreach ($leaves as $key => $leave)
                                         <tr id="leave-row-{{ $leave->id }}">
-                                            <td><span class="employee-id-tag">{{ ++$i }}</span></td>
-                                            <td><span class="leave-type-tag">{{ !empty(\Auth::user()->getLeaveType($leave->leave_type_id)) ? \Auth::user()->getLeaveType($leave->leave_type_id)->title : '' }}</span></td>
-                                            <td>{{ \Auth::user()->dateFormat($leave->applied_on) }}</td>
-                                            <td>{{ \Auth::user()->dateFormat($leave->start_date) }} @if($leave->leavetype == 'short') <br><small>{{ $leave->formatted_start_time }}</small> @endif</td>
-                                            <td>{{ \Auth::user()->dateFormat($leave->end_date) }} @if($leave->leavetype == 'short') <br><small>{{ $leave->formatted_end_time }}</small> @endif</td>
-                                            <td><strong>{{ $leave->total_leave_days }}</strong></td>
-                                            <td>{{ ucwords($leave->leavetype) }} @if($leave->day_segment) <br><small>({{ ucwords($leave->day_segment) }})</small> @endif</td>
-                                            <td>{{ \Illuminate\Support\Str::limit($leave->leave_reason, 25) }}</td>
-                                            <td>
+                                            <td data-label="{{ __('ID') }}"><span class="employee-id-tag">{{ ++$i }}</span></td>
+                                            <td data-label="{{ __('Leave Type') }}"><span class="leave-type-tag">{{ !empty(\Auth::user()->getLeaveType($leave->leave_type_id)) ? \Auth::user()->getLeaveType($leave->leave_type_id)->title : '' }}</span></td>
+                                            <td data-label="{{ __('Applied On') }}">{{ \Auth::user()->dateFormat($leave->applied_on) }}</td>
+                                            <td data-label="{{ __('Start Date') }}">{{ \Auth::user()->dateFormat($leave->start_date) }} @if($leave->leavetype == 'short') <br><small>{{ $leave->formatted_start_time }}</small> @endif</td>
+                                            <td data-label="{{ __('End Date') }}">{{ \Auth::user()->dateFormat($leave->end_date) }} @if($leave->leavetype == 'short') <br><small>{{ $leave->formatted_end_time }}</small> @endif</td>
+                                            <td data-label="{{ __('Total Days') }}"><strong>{{ $leave->total_leave_days }}</strong></td>
+                                            <td data-label="{{ __('Half/Full Day') }}">{{ ucwords($leave->leavetype) }} @if($leave->day_segment) <br><small>({{ ucwords($leave->day_segment) }})</small> @endif</td>
+                                            <td data-label="{{ __('Leave Reason') }}">{{ \Illuminate\Support\Str::limit($leave->leave_reason, 25) }}</td>
+                                            <td data-label="{{ __('Status') }}">
                                                 @if ($leave->status == 'Pending')
                                                     <span class="status-badge pending">
                                                         <i class="fas fa-clock"></i> Pending
@@ -918,7 +1322,7 @@
                                                     </a>
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td data-label="{{ __('Actions') }}">
                                                 <div class="action-buttons">
                                                     @if (\Auth::user()->type == 'employee' && (\Auth::user()->employee->is_team_leader == 0 ||  \Auth::user()->employee->id == $leave->employee_id))
                                                         @if ($leave->status == 'Pending')
@@ -1001,15 +1405,15 @@
                                     
                                         @foreach ($employeeLeaves as $index => $leave)
                                             <tr class="{{ $index >= 5 ? 'collapsible-rows employee-' . $employee->id : '' }}" id="leave-row-{{ $leave->id }}">
-                                                <td><span class="employee-id-tag">{{ ++$i }}</span></td>
-                                                <td><span class="leave-type-tag">{{ !empty(\Auth::user()->getLeaveType($leave->leave_type_id)) ? \Auth::user()->getLeaveType($leave->leave_type_id)->title : '' }}</span></td>
-                                                <td>{{ \Auth::user()->dateFormat($leave->applied_on) }}</td>
-                                                <td>{{ \Auth::user()->dateFormat($leave->start_date) }} @if($leave->leavetype == 'short') <br><small>{{ $leave->formatted_start_time }}</small> @endif</td>
-                                                <td>{{ \Auth::user()->dateFormat($leave->end_date) }} @if($leave->leavetype == 'short') <br><small>{{ $leave->formatted_end_time }}</small> @endif</td>
-                                                <td><strong>{{ $leave->total_leave_days }}</strong></td>
-                                                <td>{{ ucwords($leave->leavetype) }} @if($leave->day_segment) <br><small>({{ ucwords($leave->day_segment) }})</small> @endif</td>
-                                                <td>{{ \Illuminate\Support\Str::limit($leave->leave_reason, 25) }}</td>
-                                                <td>
+                                                <td data-label="{{ __('ID') }}"><span class="employee-id-tag">{{ ++$i }}</span></td>
+                                                <td data-label="{{ __('Leave Type') }}"><span class="leave-type-tag">{{ !empty(\Auth::user()->getLeaveType($leave->leave_type_id)) ? \Auth::user()->getLeaveType($leave->leave_type_id)->title : '' }}</span></td>
+                                                <td data-label="{{ __('Applied On') }}">{{ \Auth::user()->dateFormat($leave->applied_on) }}</td>
+                                                <td data-label="{{ __('Start Date') }}">{{ \Auth::user()->dateFormat($leave->start_date) }} @if($leave->leavetype == 'short') <br><small>{{ $leave->formatted_start_time }}</small> @endif</td>
+                                                <td data-label="{{ __('End Date') }}">{{ \Auth::user()->dateFormat($leave->end_date) }} @if($leave->leavetype == 'short') <br><small>{{ $leave->formatted_end_time }}</small> @endif</td>
+                                                <td data-label="{{ __('Total Days') }}"><strong>{{ $leave->total_leave_days }}</strong></td>
+                                                <td data-label="{{ __('Half/Full Day') }}">{{ ucwords($leave->leavetype) }} @if($leave->day_segment) <br><small>({{ ucwords($leave->day_segment) }})</small> @endif</td>
+                                                <td data-label="{{ __('Leave Reason') }}">{{ \Illuminate\Support\Str::limit($leave->leave_reason, 25) }}</td>
+                                                <td data-label="{{ __('Status') }}">
                                                     @if ($leave->status == 'Pending')
                                                         <span class="status-badge pending">
                                                             <i class="fas fa-clock"></i> Pending
@@ -1026,7 +1430,7 @@
                                                         </a>
                                                     @endif
                                                 </td>
-                                                <td>
+                                                <td data-label="{{ __('Actions') }}">
                                                     <div class="action-buttons">
                                                         @if (\Auth::user()->type == 'employee' && (\Auth::user()->employee->is_team_leader == 0 || \Auth::user()->employee->id == $leave->employee_id))
                                                             @if ($leave->status == 'Pending')
@@ -1357,6 +1761,27 @@
             });
         };
 
+        // Handle window resize for responsive behavior
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                // Reinitialize tooltips after resize
+                $('[data-toggle="tooltip"]').tooltip('dispose');
+                setTimeout(function() {
+                    $('[data-toggle="tooltip"]').tooltip();
+                }, 100);
+            }, 250);
+        });
+
+        // Touch device optimizations
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        
+        if (isTouchDevice) {
+            // Disable hover effects on touch devices
+            $('.action-btn, .premium-btn, .stat-card-compact').addClass('touch-device');
+        }
+
         // Enhanced hover effects for action buttons
         $('.action-btn').hover(
             function() {
@@ -1497,6 +1922,49 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        /* Touch device specific styles */
+        .touch-device:hover {
+            transform: none !important;
+        }
+
+        .touch-device:active {
+            transform: scale(0.98) !important;
+        }
+
+        /* Responsive table scroll indicators */
+        .premium-table-container {
+            position: relative;
+        }
+
+        .premium-table-container::before,
+        .premium-table-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+            pointer-events: none;
+            z-index: 10;
+            transition: opacity 0.3s ease;
+        }
+
+        .premium-table-container::before {
+            left: 0;
+            background: linear-gradient(to right, rgba(255,255,255,0.8), transparent);
+        }
+
+        .premium-table-container::after {
+            right: 0;
+            background: linear-gradient(to left, rgba(255,255,255,0.8), transparent);
+        }
+
+        @media (max-width: 768px) {
+            .premium-table-container::before,
+            .premium-table-container::after {
+                display: block;
+            }
         }
     `;
     document.head.appendChild(style);

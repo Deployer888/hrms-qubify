@@ -40,21 +40,25 @@
 
     /* Premium Header */
     .page-header-premium {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        border-radius: var(--border-radius);
-        padding: 24px 32px;
-        margin-bottom: 32px;
-        box-shadow: var(--shadow-lg);
+         background: linear-gradient(135deg, rgba(37, 99, 235, 0.95) 0%, rgba(59, 130, 246, 0.95) 50%, rgba(96, 165, 250, 0.95) 100%);
+        border-radius: 20px;
+        padding: 30px 40px;
+        margin-bottom: 30px;
+        color: white;
+        box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
         position: relative;
         overflow: hidden;
     }
     .page-header-premium::before {
-        content: '';
+      content: "";
         position: absolute;
-        top: -50%; left: -50%;
-        width: 200%; height: 200%;
-        background: radial-gradient(circle at center, rgba(255,255,255,0.15), transparent 70%);
-        animation: rotateBg 20s linear infinite;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        pointer-events: none;
+        background: conic-gradient(transparent 0deg, rgba(255, 255, 255, 0.1) 60deg, transparent 120deg, rgba(255, 255, 255, 0.05) 180deg, transparent 240deg, rgba(255, 255, 255, 0.1) 300deg, transparent 360deg);
+        animation: 25s linear 0s infinite normal none running rotateBg;
     }
     @keyframes rotateBg {
         from { transform: rotate(0deg); }

@@ -598,7 +598,33 @@
     }
 
     /* Responsive Design */
-    @media (max-width: 768px) {
+    @media (max-width: 1200px) {
+        .container-fluid {
+            padding: 0 12px;
+        }
+        
+        .page-header-premium {
+            padding: 25px 30px;
+        }
+        
+        .header-text h1 {
+            font-size: 1.8rem;
+        }
+        
+        .stat-item {
+            padding: 14px 18px;
+        }
+        
+        .stat-number {
+            font-size: 1.6rem;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .page-header-premium {
+            padding: 20px 25px;
+        }
+        
         .header-content {
             flex-direction: column;
             gap: 20px;
@@ -610,34 +636,390 @@
             flex-wrap: wrap;
             gap: 16px;
         }
+        
+        .stat-item {
+            min-width: 120px;
+        }
+        
+        .premium-stat-card {
+            margin-bottom: 20px;
+        }
+        
+        .stat-card-content {
+            gap: 16px;
+        }
+        
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            font-size: 1.4rem;
+        }
+        
+        .stat-details h3 {
+            font-size: 2rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .container-fluid {
+            padding: 0 8px;
+        }
+        
+        .page-header-premium {
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .header-icon {
+            width: 56px;
+            height: 56px;
+            font-size: 1.6rem;
+        }
+        
+        .header-text h1 {
+            font-size: 1.6rem;
+        }
+        
+        .header-text p {
+            font-size: 1rem;
+        }
+        
+        .header-stats {
+            gap: 12px;
+        }
+        
+        .stat-item {
+            padding: 12px 16px;
+            min-width: 100px;
+        }
+        
+        .stat-number {
+            font-size: 1.4rem;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+        }
+
+        .premium-stat-card {
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .stat-card-content {
+            flex-direction: column;
+            text-align: center;
+            gap: 12px;
+        }
+        
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            font-size: 1.2rem;
+            margin: 0 auto;
+        }
+        
+        .stat-details h3 {
+            font-size: 1.8rem;
+        }
 
         .controls-container {
-            padding: 20px;
+            padding: 16px;
         }
 
         .controls-container .row {
             flex-direction: column;
             gap: 16px;
         }
+        
+        .controls-container .col-md-6 {
+            width: 100%;
+        }
+        
+        .d-flex.justify-content-end {
+            justify-content: center !important;
+        }
 
         .search-input-container {
             max-width: 100%;
         }
+        
+        .search-input {
+            padding: 10px 16px 10px 40px;
+        }
 
+        .premium-table-container {
+            margin-bottom: 16px;
+        }
+        
+        .table-header-premium {
+            padding: 20px;
+        }
+        
+        .table-title-premium {
+            font-size: 1.2rem;
+            flex-direction: column;
+            gap: 8px;
+            text-align: center;
+        }
+        
+        .employee-count-badge {
+            margin-left: 0;
+        }
+
+        .premium-table {
+            font-size: 0.85rem;
+        }
+        
         .premium-table thead th,
         .premium-table tbody td {
-            padding: 16px 12px;
-            font-size: 0.85rem;
+            padding: 12px 8px;
+        }
+        
+        .premium-table thead th {
+            font-size: 0.75rem;
         }
 
         .employee-info {
-            gap: 12px;
+            gap: 10px;
         }
 
         .employee-avatar {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
+            font-size: 0.8rem;
+        }
+        
+        .employee-details h6 {
             font-size: 0.9rem;
+        }
+        
+        .employee-details small {
+            font-size: 0.75rem;
+        }
+        
+        .employee-id-badge {
+            padding: 6px 12px;
+            font-size: 0.75rem;
+        }
+        
+        .payroll-type-badge {
+            padding: 6px 12px;
+            font-size: 0.75rem;
+        }
+        
+        .salary-amount {
+            font-size: 1rem;
+        }
+        
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .page-header-premium {
+            padding: 16px;
+        }
+        
+        .header-left {
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            font-size: 1.4rem;
+        }
+        
+        .header-text h1 {
+            font-size: 1.4rem;
+        }
+        
+        .header-text p {
+            font-size: 0.9rem;
+        }
+        
+        .stat-item {
+            padding: 10px 12px;
+            min-width: 90px;
+        }
+        
+        .stat-number {
+            font-size: 1.2rem;
+        }
+
+        .premium-stat-card {
+            padding: 16px;
+        }
+        
+        .stat-details h3 {
+            font-size: 1.6rem;
+        }
+        
+        .stat-title {
+            font-size: 0.9rem;
+        }
+
+        .controls-container {
+            padding: 12px;
+        }
+        
+        .records-select {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+
+        .table-header-premium {
+            padding: 16px;
+        }
+        
+        .table-title-premium {
+            font-size: 1.1rem;
+        }
+
+        /* Hide less important columns on very small screens */
+        .premium-table th:nth-child(3),
+        .premium-table td:nth-child(3) {
+            display: none;
+        }
+        
+        .premium-table thead th,
+        .premium-table tbody td {
+            padding: 10px 6px;
+        }
+        
+        .employee-info {
+            flex-direction: column;
+            text-align: center;
+            gap: 8px;
+        }
+        
+        .employee-avatar {
+            width: 32px;
+            height: 32px;
+            font-size: 0.75rem;
+            margin: 0 auto;
+        }
+        
+        .employee-details h6 {
+            font-size: 0.85rem;
+            margin-bottom: 2px;
+        }
+        
+        .employee-details small {
+            font-size: 0.7rem;
+        }
+        
+        .salary-amount {
+            font-size: 0.9rem;
+        }
+        
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            font-size: 0.8rem;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .container-fluid {
+            padding: 0 4px;
+        }
+        
+        .page-header-premium {
+            padding: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .header-text h1 {
+            font-size: 1.2rem;
+        }
+        
+        .header-text p {
+            font-size: 0.8rem;
+        }
+        
+        .stat-item {
+            padding: 8px 10px;
+            min-width: 80px;
+        }
+        
+        .stat-number {
+            font-size: 1.1rem;
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+        }
+
+        .premium-stat-card {
+            padding: 12px;
+        }
+        
+        .stat-details h3 {
+            font-size: 1.4rem;
+        }
+
+        .table-title-premium {
+            font-size: 1rem;
+        }
+        
+        .employee-count-badge {
+            padding: 6px 10px;
+            font-size: 0.7rem;
+        }
+
+        /* Stack table cells vertically on very small screens */
+        .premium-table,
+        .premium-table thead,
+        .premium-table tbody,
+        .premium-table th,
+        .premium-table td,
+        .premium-table tr {
+            display: block;
+        }
+        
+        .premium-table thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+        
+        .premium-table tr {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: #fff;
+        }
+        
+        .premium-table td {
+            border: none !important;
+            position: relative;
+            padding: 8px 0 !important;
+            text-align: left !important;
+        }
+        
+        .premium-table td:before {
+            content: attr(data-label) ": ";
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: inline-block;
+            width: 100px;
+            font-size: 0.8rem;
+        }
+        
+        .premium-table td:last-child {
+            text-align: center !important;
+            padding-top: 12px !important;
+        }
+        
+        .premium-table td:last-child:before {
+            display: none;
         }
     }
 
@@ -684,6 +1066,55 @@
     @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
+    }
+
+    /* Touch device optimizations */
+    @media (hover: none) and (pointer: coarse) {
+        .premium-stat-card:hover {
+            transform: none;
+            box-shadow: var(--shadow);
+        }
+        
+        .premium-table tbody tr:hover {
+            background: inherit;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .action-btn:hover,
+        .employee-id-badge:hover {
+            transform: none;
+        }
+        
+        .action-btn:active,
+        .employee-id-badge:active {
+            transform: scale(0.95);
+        }
+        
+        .stat-item:hover {
+            transform: none;
+        }
+        
+        .stat-item:active {
+            transform: scale(0.98);
+        }
+    }
+
+    /* Improve touch targets */
+    @media (max-width: 768px) {
+        .action-btn,
+        .employee-id-badge {
+            min-height: 44px;
+            min-width: 44px;
+        }
+        
+        .search-input {
+            min-height: 44px;
+        }
+        
+        .records-select {
+            min-height: 44px;
+        }
     }
 </style>
 @endpush
@@ -834,12 +1265,12 @@
                 <tbody>
                     @foreach ($employees as $employee)
                     <tr class="slide-in" style="animation-delay: {{ $loop->index * 0.05 }}s">
-                        <td>
+                        <td data-label="{{ __('ID') }}">
                             <a href="{{ route('setsalary.show', $employee->id) }}" class="employee-id-badge" data-bs-toggle="tooltip" title="{{ __('View Details') }}">
                                 {{ \Auth::user()->employeeIdFormat($employee->employee_id) }}
                             </a>
                         </td>
-                        <td>
+                        <td data-label="{{ __('Employee') }}">
                             <div class="employee-info">
                                 <div class="employee-avatar">
                                     {{ strtoupper(substr($employee->name, 0, 2)) }}
@@ -850,22 +1281,22 @@
                                 </div>
                             </div>
                         </td>
-                        <td>
+                        <td data-label="{{ __('Payroll Type') }}">
                             <span class="payroll-type-badge">
                                 {{ $employee->salary_type() }}
                             </span>
                         </td>
-                        <td>
+                        <td data-label="{{ __('Salary') }}">
                             <span class="salary-amount">
                                 {{ \Auth::user()->priceFormat($employee->salary) }}
                             </span>
                         </td>
-                        <td>
+                        <td data-label="{{ __('Net Salary') }}">
                             <span class="salary-amount">
                                 {{ !empty($employee->get_net_salary()) ? \Auth::user()->priceFormat($employee->get_net_salary()) : __('N/A') }}
                             </span>
                         </td>
-                        <td>
+                        <td data-label="{{ __('Action') }}">
                             <a href="{{ route('setsalary.show', $employee->id) }}" class="action-btn" data-bs-toggle="tooltip" title="{{ __('View Salary Details') }}">
                                 <i class="fas fa-eye"></i>
                             </a>
@@ -898,7 +1329,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     "searching": true,
                     "ordering": true,
                     "info": true,
-                    "responsive": true,
+                    "responsive": {
+                        "details": {
+                            "type": 'column',
+                            "target": 'tr'
+                        }
+                    },
                     "autoWidth": false,
                     "pageLength": 10,
                     "destroy": true,
@@ -1034,18 +1470,38 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Enhanced table row animations
+    // Enhanced table row animations (only on non-touch devices)
     const tableRows = document.querySelectorAll('#salaryTable tbody tr');
-    tableRows.forEach((row, index) => {
-        row.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateX(4px) scale(1.01)';
-            this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.1)';
-        });
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    if (!isTouchDevice) {
+        tableRows.forEach((row, index) => {
+            row.addEventListener('mouseenter', function() {
+                if (window.innerWidth > 400) {
+                    this.style.transform = 'translateX(4px) scale(1.01)';
+                    this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.1)';
+                }
+            });
 
-        row.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateX(0) scale(1)';
-            this.style.boxShadow = '';
+            row.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0) scale(1)';
+                this.style.boxShadow = '';
+            });
         });
+    }
+
+    // Handle window resize for responsive behavior
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            if (table && typeof table.columns !== 'undefined') {
+                table.columns.adjust().responsive.recalc();
+            }
+            
+            // Reinitialize tooltips after resize
+            setTimeout(initializeTooltips, 100);
+        }, 250);
     });
 
     // Add ripple effect to buttons

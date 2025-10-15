@@ -78,7 +78,8 @@ class AuthenticatedSessionController extends Controller
             $free_plan = Plan::where('price', '=', '0.0')->first();
             $plan      = Plan::find($user->plan);
 
-            if($user->plan > 0 && $user->plan != $free_plan->id)
+            // Only check expiration if user has a plan, plan exists, has expiration date, and is not unlimited
+            if($user->plan > 0 && $user->plan != $free_plan->id && $plan && $user->plan_expire_date)
             {
                 if(date('Y-m-d') > $user->plan_expire_date && $plan->duration != 'Unlimited')
                 {
@@ -86,37 +87,35 @@ class AuthenticatedSessionController extends Controller
                     $user->plan_expire_date = null;
                     $user->save();
 
-                    $users     = User::where('created_by', '=', \Auth::user()->creatorId())->get();
-                    $employees = Employee::where('created_by', '=', \Auth::user()->creatorId())->get();
+                    $users     = User::where('created_by', '=', $user->creatorId())->get();
+                    $employees = Employee::where('created_by', '=', $user->creatorId())->get();
 
                     if($free_plan->max_users == -1)
                     {
-                        foreach($users as $user)
+                        foreach($users as $relatedUser)
                         {
-                            $user->is_active = 1;
-                            $user->save();
+                            $relatedUser->is_active = 1;
+                            $relatedUser->save();
                         }
                     }
                     else
                     {
                         $userCount = 0;
-                        foreach($users as $user)
+                        foreach($users as $relatedUser)
                         {
                             $userCount++;
                             if($userCount <= $free_plan->max_users)
                             {
-                                $user->is_active = 1;
-                                $user->save();
+                                $relatedUser->is_active = 1;
+                                $relatedUser->save();
                             }
                             else
                             {
-                                $user->is_active = 0;
-                                $user->save();
+                                $relatedUser->is_active = 0;
+                                $relatedUser->save();
                             }
                         }
-
                     }
-
 
                     if($free_plan->max_employees == -1)
                     {
@@ -132,7 +131,7 @@ class AuthenticatedSessionController extends Controller
                         foreach($employees as $employee)
                         {
                             $employeeCount++;
-                            if($employeeCount <= $free_plan->max_customers)
+                            if($employeeCount <= $free_plan->max_employees)
                             {
                                 $employee->is_active = 1;
                                 $employee->save();
@@ -148,7 +147,6 @@ class AuthenticatedSessionController extends Controller
                     return redirect()->route('home')->with('error', 'Your plan expired limit is over, please upgrade your plan');
                 }
             }
-
         }
 
         $user->last_login = date('Y-m-d H:i:s');
